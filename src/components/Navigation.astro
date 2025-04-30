@@ -1,0 +1,713 @@
+---
+import { loadTranslations, languageNames, languages, normalizeLanguageCode, getLanguagePath } from '../i18n/i18n.js';
+
+const { lang = 'es' } = Astro.props;
+// Normalizar el código de idioma
+const normalizedLang = normalizeLanguageCode(lang);
+
+// Cargar traducciones de navegación con manejo de errores
+let navTranslations;
+try {
+  navTranslations = await loadTranslations(normalizedLang, 'nav');
+} catch (error) {
+  // Fallback translations if loading fails
+  navTranslations = {
+    about: 'About',
+    services: 'Services',
+    faq: 'FAQ',
+    contact: 'Contact'
+  };
+}
+---
+
+<nav class="fixed top-0 left-0 w-full z-[8000] backdrop-blur-lg bg-transparent">
+  <div class="mx-auto px-4 md:px-6 py-1 xs:py-2">
+    <div class="flex justify-between items-center">
+      <a href="#home" class="text-[32px] xs:text-[38px] font-bold font-display tracking-wider">AGAZZI STUDIO</a>
+      
+      <!-- Menú de navegación principal -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#about" class="nav-link text-[16px] transition-colors text-gray-400 hover:text-white" data-section="about">{navTranslations.about}</a>
+        <a href="#services" class="nav-link text-[16px] transition-colors text-gray-400 hover:text-white" data-section="services">{navTranslations.services}</a>
+        <a href="#faq" class="nav-link text-[16px] transition-colors text-gray-400 hover:text-white" data-section="faq">{navTranslations.faq}</a>
+        <a href="#contact" class="nav-link text-[16px] transition-colors text-gray-400 hover:text-white" data-section="contact">{navTranslations.contact}</a>
+        
+        <!-- Selector de idioma -->
+        <div class="relative language-selector">
+          <button 
+            class="flex items-center gap-2 text-sm text-white"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <span class="uppercase">{normalizedLang}</span>
+            <svg 
+              class="w-4 h-4 transform transition-transform duration-300" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                stroke-width="2" 
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+          
+          <!-- Desktop language selector dropdown - FIXED: removed mobile selector from here -->
+          <div class="absolute right-0 mt-2 py-2 w-24 bg-[#1a1a1a] rounded-lg opacity-0 invisible transform translate-y-2 transition-all duration-300">
+            {Object.keys(languages).filter(code => code !== 'defaultLang').map((code) => {
+              const normalizedCode = normalizeLanguageCode(code);
+              return (
+                <a
+                  href={getLanguagePath(normalizedCode)}
+                  class={`block px-4 py-2 text-[16px] lg:text-[18px] uppercase ${
+                    normalizedLang === normalizedCode ? 'text-white bg-white/10' : 'text-gray-400'
+                  } hover:text-white hover:bg-white/5 transition-colors`}
+                >
+                  {normalizedCode}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+        
+        <!-- Theme Switcher -->
+        <button id="themeToggle" class="theme-toggle flex items-center justify-center" aria-label="Toggle theme">
+          <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="theme-icon">
+            <path class="sun" fill-rule="evenodd" d="M12 17.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1.5a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm12-7a.8.8 0 0 1-.8.8h-2.4a.8.8 0 0 1 0-1.6h2.4a.8.8 0 0 1 .8.8zM4 12a.8.8 0 0 1-.8.8H.8a.8.8 0 0 1 0-1.6h2.5a.8.8 0 0 1 .8.8zm16.5-8.5a.8.8 0 0 1 0 1l-1.8 1.8a.8.8 0 0 1-1-1l1.7-1.8a.8.8 0 0 1 1 0zM6.3 17.7a.8.8 0 0 1 0 1l-1.7 1.8a.8.8 0 1 1-1-1l1.7-1.8a.8.8 0 0 1 1 0zM12 0a.8.8 0 0 1 .8.8v2.5a.8.8 0 0 1-1.6 0V.8A.8.8 0 0 1 12 0zm0 20a.8.8 0 0 1 .8.8v2.4a.8.8 0 0 1-1.6 0v-2.4a.8.8 0 0 1 .8-.8zM3.5 3.5a.8.8 0 0 1 1 0l1.8 1.8a.8.8 0 1 1-1 1L3.5 4.6a.8.8 0 0 1 0-1zm14.2 14.2a.8.8 0 0 1 1 0l1.8 1.7a.8.8 0 0 1-1 1l-1.8-1.7a.8.8 0 0 1 0-1z"/>
+            <path class="moon" fill-rule="evenodd" d="M16.5 6A10.5 10.5 0 0 1 4.7 16.4 8.5 8.5 0 1 0 16.4 4.7l.1 1.3zm-1.7-2a9 9 0 0 1 .2 2 9 9 0 0 1-11 8.8 9.4 9.4 0 0 1-.8-.3c-.4 0-.8.3-.7.7a10 10 0 0 0 .3.8 10 10 0 0 0 9.2 6 10 10 0 0 0 4-19.2 9.7 9.7 0 0 0-.9-.3c-.3-.1-.7.3-.6.7a9 9 0 0 1 .3.8z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Menú hamburguesa -->
+      <button class="menu-toggle flex md:hidden flex-col justify-center items-center w-10 h-10 z-50">
+        <span class="block w-6 h-0.5 bg-white mb-1.5 transition-all"></span>
+        <span class="block w-6 h-0.5 bg-white mb-1.5 transition-all"></span>
+        <span class="block w-6 h-0.5 bg-white transition-all"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menú móvil -->
+  <div class="mobile-menu fixed inset-0 z-[7999] flex items-center justify-center transform translate-x-full transition-transform duration-300 md:hidden pt-20">
+    <nav class="w-full">
+      <ul class="flex flex-col space-y-6 text-center text-[20px] lg:text-[22px]">
+        <li><a href="#about" class="nav-link hover:text-accent" data-section="about">{navTranslations.about}</a></li>
+        <li><a href="#services" class="nav-link hover:text-accent" data-section="services">{navTranslations.services}</a></li>
+        <li><a href="#faq" class="nav-link hover:text-accent" data-section="faq">{navTranslations.faq}</a></li>
+        <li><a href="#contact" class="nav-link hover:text-accent" data-section="contact">{navTranslations.contact}</a></li>
+        
+        <!-- Mobile language selector - FIXED: properly placed in mobile menu -->
+        <li class="flex justify-center space-x-3 mt-6">
+          <a href={getLanguagePath('en')} class={`transition-colors ${normalizedLang === 'en' ? 'font-bold text-white' : 'text-gray-400'}`}>En</a>
+          <span class="separator transition-colors text-[18px] md:text-[20px] font-thin dark:text-purple text-gray">/</span>
+          <a href={getLanguagePath('es')} class={`transition-colors ${normalizedLang === 'es' ? 'font-bold text-white' : 'text-gray-400'}`}>Es</a>
+          <span class="separator transition-colors text-[18px] md:text-[20px] font-thin dark:text-purple text-gray">/</span>
+          <a href={getLanguagePath('ca')} class={`transition-colors ${normalizedLang === 'ca' ? 'font-bold text-white' : 'text-gray-400'}`}>Ca</a>
+        </li>
+        
+        <li class="flex justify-center mt-6">
+          <button id="mobileThemeToggle" class="theme-toggle" aria-label="Toggle theme">
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="theme-icon">
+              <path class="sun" fill-rule="evenodd" d="M12 17.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1.5a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm12-7a.8.8 0 0 1-.8.8h-2.4a.8.8 0 0 1 0-1.6h2.4a.8.8 0 0 1 .8.8zM4 12a.8.8 0 0 1-.8.8H.8a.8.8 0 0 1 0-1.6h2.5a.8.8 0 0 1 .8.8zm16.5-8.5a.8.8 0 0 1 0 1l-1.8 1.8a.8.8 0 0 1-1-1l1.7-1.8a.8.8 0 0 1 1 0zM6.3 17.7a.8.8 0 0 1 0 1l-1.7 1.8a.8.8 0 1 1-1-1l1.7-1.8a.8.8 0 0 1 1 0zM12 0a.8.8 0 0 1 .8.8v2.5a.8.8 0 0 1-1.6 0V.8A.8.8 0 0 1 12 0zm0 20a.8.8 0 0 1 .8.8v2.4a.8.8 0 0 1-1.6 0v-2.4a.8.8 0 0 1 .8-.8zM3.5 3.5a.8.8 0 0 1 1 0l1.8 1.8a.8.8 0 1 1-1 1L3.5 4.6a.8.8 0 0 1 0-1zm14.2 14.2a.8.8 0 0 1 1 0l1.8 1.7a.8.8 0 0 1-1 1l-1.8-1.7a.8.8 0 0 1 0-1z"/>
+              <path class="moon" fill-rule="evenodd" d="M16.5 6A10.5 10.5 0 0 1 4.7 16.4 8.5 8.5 0 1 0 16.4 4.7l.1 1.3zm-1.7-2a9 9 0 0 1 .2 2 9 9 0 0 1-11 8.8 9.4 9.4 0 0 1-.8-.3c-.4 0-.8.3-.7.7a10 10 0 0 0 .3.8 10 10 0 0 0 9.2 6 10 10 0 0 0 4-19.2 9.7 9.7 0 0 0-.9-.3c-.3-.1-.7.3-.6.7a9 9 0 0 1 .3.8z"/>
+            </svg>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</nav>
+
+<style>
+  .language-selector .absolute {
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .language-selector.active .absolute {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .language-selector.active svg {
+    transform: rotate(180deg);
+  }
+
+  .mobile-menu {
+    transform: translateX(100%);
+    height: 100vh;
+    overflow-y: auto;
+    backdrop-filter: blur(10px);
+  }
+
+  .mobile-menu.active {
+    transform: translateX(0);
+  }
+  
+  /* Dark theme mobile menu */
+  :root.dark .mobile-menu {
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+  
+  /* Light theme mobile menu */
+  :root:not(.dark) .mobile-menu {
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+  
+  .menu-toggle {
+    position: relative;
+    z-index: 8001;
+    cursor: pointer;
+    background-color: transparent;
+  }
+  
+  .menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  :root:not(.dark) .menu-toggle span {
+    background-color: #5b6875!important; /* Gray for light theme */
+  }
+  
+  :root.dark .menu-toggle span {
+    background-color: #7943f6!important; /* Purple for dark theme */
+  }
+
+  :root:not(.dark) .separator {
+    color: #5b6875!important; /* Gray for light theme */
+  }
+  
+  :root.dark .separator {
+    color: #7943f6!important; /* Purple for dark theme */
+  }
+  
+  .menu-toggle span:last-child {
+    margin-bottom: 0;
+  }
+  
+  .menu-toggle.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .menu-toggle.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+  
+  /* Theme Toggle Styles */
+  .theme-toggle {
+    border: 0;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .theme-toggle:hover {
+    transform: scale(1.1);
+  }
+
+  .theme-icon .sun { 
+    fill: transparent; 
+  }
+  
+  .theme-icon .moon { 
+    fill: white; 
+  }
+
+  :global(.dark) .theme-icon .sun { 
+    fill: white; 
+  }
+  
+  :global(.dark) .theme-icon .moon { 
+    fill: transparent; 
+  }
+  
+  /* Estilos para el modo claro */
+  :global(html:not(.dark)) {
+    --color-background: #ffffff;
+    --color-text: #000;
+  }
+  
+  /* Estilos para el modo oscuro */
+  :global(html.dark) {
+    --color-background: #000;
+    --color-text: #ffffff;
+  }
+  
+  :global(html:not(.dark)) body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+  
+  :global(html:not(.dark)) nav {
+    background-color: rgba(255, 255, 255, 0); /* Changed from 0.8 to 0 for transparency */
+  }
+  
+  :global(html:not(.dark)) nav a,
+  :global(html:not(.dark)) .language-selector button {
+    color: #141414;
+  }
+  
+  :global(html:not(.dark)) nav a.text-gray-400 {
+    color: rgba(20, 20, 20, 0.6);
+  }
+  
+  :global(html:not(.dark)) nav a.text-gray-400:hover {
+    color: #141414;
+  }
+  
+  :global(html:not(.dark)) .theme-icon .moon {
+    fill: #141414;
+  }
+  
+  :global(html:not(.dark)) .menu-toggle span {
+    background-color: #141414;
+  }
+  
+  :global(html:not(.dark)) .mobile-menu {
+    background-color: rgba(255, 255, 255, 0.95); /* Keep this with some opacity for readability */
+    backdrop-filter: blur(10px); /* Add blur effect to match dark mode */
+  }
+  
+  :global(html:not(.dark)) .mobile-menu a {
+    color: #141414;
+  }
+  
+  :global(html:not(.dark)) .language-selector .absolute {
+    background-color: rgba(240, 240, 240, 0.9);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const languageSelector = document.querySelector('.language-selector');
+    const button = languageSelector ? languageSelector.querySelector('button') : null;
+    const dropdown = languageSelector ? languageSelector.querySelector('.absolute') : null;
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    // Manejar el selector de idioma
+    if (languageSelector && button && dropdown) {
+      button.addEventListener('click', () => {
+        languageSelector.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (e.target instanceof Element && !languageSelector.contains(e.target)) {
+          languageSelector.classList.remove('active');
+        }
+      });
+    }
+
+    // Manejar el menú móvil
+    if (menuToggle && mobileMenu) {
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+        document.body.classList.toggle('overflow-hidden');
+      });
+      
+      // Cerrar el menú móvil al hacer clic en un enlace
+      const mobileLinks = mobileMenu.querySelectorAll('a');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('active');
+          menuToggle.classList.remove('active');
+          document.body.classList.remove('overflow-hidden');
+        });
+      });
+      
+      // Cerrar el menú móvil al hacer clic en el botón de cambio de tema
+      const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+      if (mobileThemeToggle) {
+        mobileThemeToggle.addEventListener('click', () => {
+          mobileMenu.classList.remove('active');
+          menuToggle.classList.remove('active');
+          document.body.classList.remove('overflow-hidden');
+        });
+      }
+      
+      // Add event listener to ensure body scroll is restored
+      document.addEventListener('click', (e) => {
+        if (mobileMenu.classList.contains('active') && 
+            !mobileMenu.contains(e.target) && 
+            !menuToggle.contains(e.target)) {
+          mobileMenu.classList.remove('active');
+          menuToggle.classList.remove('active');
+          document.body.classList.remove('overflow-hidden');
+        }
+      });
+    }
+    
+    // Add a safety check to ensure overflow-hidden is removed when page loads
+    window.addEventListener('load', () => {
+      document.body.classList.remove('overflow-hidden');
+    });
+
+    // Función para alternar entre temas
+    function toggleTheme() {
+      // Obtener el tema actual desde el elemento HTML
+      const isDarkMode = document.documentElement.classList.contains('dark');
+      // Cambiar al tema opuesto
+      const newTheme = isDarkMode ? 'light' : 'dark';
+      
+      // Guardar preferencia en localStorage
+      localStorage.setItem('theme', newTheme);
+      
+      // Alternar clase en el elemento html
+      document.documentElement.classList.toggle('dark', newTheme === 'dark');
+      
+      // Cerrar el menú móvil si está abierto
+      const mobileMenu = document.querySelector('.mobile-menu');
+      const menuToggle = document.querySelector('.menu-toggle');
+      if (mobileMenu && mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+        if (menuToggle) menuToggle.classList.remove('active');
+        document.body.classList.remove('overflow-hidden');
+      }
+      
+      // Aplicar cambios específicos según el tema
+      if (newTheme === 'dark') {
+        // Cambios para tema oscuro
+        document.querySelectorAll('.menu-toggle span').forEach(span => {
+          span.style.backgroundColor = '#7943f6'; // Púrpura para tema oscuro
+        });
+        document.body.style.backgroundColor = '#000';
+        document.body.style.color = '#ffffff';
+        
+        // Actualizar enlaces de navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+          if (link.classList.contains('active')) {
+            link.style.color = 'rgba(121, 67, 246, 1)'; // Púrpura sólido para enlaces activos
+          } else {
+            link.style.color = 'rgba(121, 67, 246, 0.7)'; // Púrpura con opacidad para enlaces inactivos
+          }
+        });
+        
+        // Actualizar selector de idioma
+        const langButton = document.querySelector('.language-selector button');
+        if (langButton) langButton.style.color = 'rgba(121, 67, 246, 0.7)';
+        
+      } else {
+        // Cambios para tema claro
+        document.querySelectorAll('.menu-toggle span').forEach(span => {
+          span.style.backgroundColor = '#5b6875'; // Gris para tema claro
+        });
+        document.body.style.backgroundColor = '#ffffff';
+        document.body.style.color = '#141414';
+        
+        // Actualizar enlaces de navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+          if (link.classList.contains('active')) {
+            link.style.color = 'rgba(91, 104, 117, 1)'; // Gris sólido para enlaces activos
+          } else {
+            link.style.color = 'rgba(91, 104, 117, 0.7)'; // Gris con opacidad para enlaces inactivos
+          }
+        });
+        
+        // Actualizar selector de idioma
+        const langButton = document.querySelector('.language-selector button');
+        if (langButton) langButton.style.color = '#141414';
+      }
+      
+      // Forzar actualización de enlaces activos
+      updateActiveLink();
+      
+      // Disparar evento personalizado
+      document.dispatchEvent(new CustomEvent('themeChanged', { 
+        detail: { theme: newTheme } 
+      }));
+    }
+    
+    // Agregar event listeners a los botones de tema
+    const themeToggle = document.getElementById('themeToggle');
+    const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+    
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
+    
+    // Aplicar tema inicial
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    
+    // Actualizar navegación activa al desplazarse
+    const sections = document.querySelectorAll('section[id], #contact');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    function updateActiveLink() {
+      let currentSection = '';
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // Detectar si estamos cerca del final de la página
+      const isNearBottom = scrollPosition + windowHeight >= documentHeight - 100;
+      
+      // Si estamos cerca del final, activar la sección de contacto
+      if (isNearBottom) {
+        currentSection = 'contact';
+      } else {
+        // Comportamiento normal para otras secciones
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 100;
+          const sectionHeight = section.offsetHeight;
+          
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSection = section.getAttribute('id');
+          }
+        });
+      }
+      
+      navLinks.forEach(link => {
+        const section = link.getAttribute('data-section');
+        const isDark = document.documentElement.classList.contains('dark');
+        
+        if (section === currentSection) {
+          link.classList.remove('text-gray-400');
+          link.classList.add('active'); // Añadir clase active para CSS
+          
+          // Apply the correct active color based on theme
+          if (isDark) {
+            link.classList.add('text-white', 'font-medium');
+          } else {
+            link.style.color = '#5b6875';
+            link.classList.add('font-medium');
+          }
+        } else {
+          link.classList.remove('active'); // Remover clase active
+          
+          if (isDark) {
+            link.classList.remove('text-white', 'font-medium');
+            link.classList.add('text-gray-400');
+          } else {
+            link.style.color = 'rgba(91, 104, 117, 0.7)'; // #5b6875 with opacity
+            link.classList.remove('font-medium');
+          }
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', updateActiveLink);
+    updateActiveLink();
+    
+    // Desplazamiento suave al hacer clic en enlaces
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          // Ensure overflow-hidden is removed before scrolling
+          document.body.classList.remove('overflow-hidden');
+          
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          
+          history.pushState(null, null, targetId);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .nav-link {
+    color: rgba(91, 104, 117, 0.7); /* Gray with opacity for inactive links */
+    transition: color 0.3s ease;
+  }
+
+  :root:not(.dark) .nav-link:hover,
+  :root:not(.dark) .nav-link.active {
+    color: rgba(91, 104, 117, 1); /* Solid gray for active/hover links */
+  }
+
+  /* Dark theme styles */
+  :root.dark .nav-link {
+    color: rgba(121, 67, 246, 0.7); /* Purple with opacity for inactive links - changed from pink */
+    transition: color 0.3s ease;
+  }
+
+  :root.dark .nav-link:hover,
+  :root.dark .nav-link.active {
+    color: rgba(121, 67, 246, 1); /* Solid purple for active/hover links - changed from pink */
+  }
+  
+  /* Language selector styling based on theme */
+  :root.dark .language-selector button {
+    color: rgba(121, 67, 246, 0.7); /* Purple with opacity - changed from pink */
+  }
+  
+  :root.dark .language-selector button:hover {
+    color: rgba(121, 67, 246, 1); /* Solid purple - changed from pink */
+  }
+  
+  /* Theme switcher icon styling based on theme */
+  :root.dark .theme-icon .sun {
+    fill: rgba(121, 67, 246, 0.7); /* Purple with opacity - changed from pink */
+  }
+  
+  :root.dark .theme-toggle:hover .theme-icon .sun {
+    fill: rgba(121, 67, 246, 1); /* Solid purple - changed from pink */
+  }
+  
+  /* Language dropdown items */
+  :root.dark .language-selector .absolute a {
+    color: rgba(121, 67, 246, 0.7); /* Purple with opacity - changed from pink */
+  }
+  
+  :root.dark .language-selector .absolute a:hover,
+  :root.dark .language-selector .absolute a.active {
+    color: rgba(121, 67, 246, 1); /* Solid purple - changed from pink */
+  }
+  
+  /* Mobile menu language selector */
+  :root.dark .mobile-menu a {
+    color: rgba(121, 67, 246, 0.7); /* Purple with opacity - changed from pink */
+  }
+  
+  :root.dark .mobile-menu a:hover,
+  :root.dark .mobile-menu a.active {
+    color: rgba(121, 67, 246, 1); /* Solid purple - changed from pink */
+  }
+  
+  /* Mobile theme toggle */
+  :root.dark #mobileThemeToggle .theme-icon .sun {
+    fill: rgba(121, 67, 246, 0.7); /* Purple with opacity - changed from pink */
+  }
+  
+  :root.dark #mobileThemeToggle:hover .theme-icon .sun {
+    fill: rgba(121, 67, 246, 1); /* Solid purple - changed from pink */
+  }
+  
+  /* Hero dots */
+  :root.dark .hero-dot {
+    background-color: rgba(121, 67, 246, 0.5); /* Purple with opacity - changed from pink */
+  }
+  
+  :root.dark .hero-dot.active {
+    background-color: rgba(121, 67, 246, 1); /* Solid purple - changed from pink */
+  }
+</style>
+
+<style>
+  /* Logo styling based on theme */
+  :root:not(.dark) a.font-display {
+    color: rgba(91, 104, 117, 1); /* Solid gray for logo in light theme */
+  }
+  
+  :root.dark a.font-display {
+    color: rgba(121, 67, 246, 1); /* Solid purple for logo in dark theme - changed from pink */
+  }
+  
+  /* Language selector styling based on theme */
+  :root:not(.dark) .language-selector button {
+    color: rgba(91, 104, 117, 0.7); /* Gray with opacity for language selector in light theme */
+  }
+  
+  :root:not(.dark) .language-selector button:hover {
+    color: rgba(91, 104, 117, 1); /* Solid gray for language selector hover in light theme */
+  }
+  
+  :root.dark .language-selector button {
+    color: rgba(238, 123, 179, 0.7); /* Pink with opacity for language selector in dark theme */
+  }
+  
+  :root.dark .language-selector button:hover {
+    color: rgba(238, 123, 179, 1); /* Solid pink for language selector hover in dark theme */
+  }
+  
+  /* Theme switcher icon styling based on theme */
+  :root:not(.dark) .theme-icon .moon {
+    fill: rgba(91, 104, 117, 0.7); /* Gray with opacity for moon icon in light theme */
+  }
+  
+  :root:not(.dark) .theme-toggle:hover .theme-icon .moon {
+    fill: rgba(91, 104, 117, 1); /* Solid gray for moon icon hover in light theme */
+  }
+  
+  :root.dark .theme-icon .sun {
+    fill: rgba(238, 123, 179, 0.7); /* Pink with opacity for sun icon in dark theme */
+  }
+  
+  :root.dark .theme-toggle:hover .theme-icon .sun {
+    fill: rgba(238, 123, 179, 1); /* Solid pink for sun icon hover in dark theme */
+  }
+  
+  /* Language dropdown items */
+  :root:not(.dark) .language-selector .absolute a {
+    color: rgba(91, 104, 117, 0.7); /* Gray with opacity for language items in light theme */
+  }
+  
+  :root:not(.dark) .language-selector .absolute a:hover,
+  :root:not(.dark) .language-selector .absolute a.active {
+    color: rgba(91, 104, 117, 1); /* Solid gray for active/hover language items in light theme */
+  }
+  
+  :root.dark .language-selector .absolute a {
+    color: rgba(238, 123, 179, 0.7); /* Pink with opacity for language items in dark theme */
+  }
+  
+  :root.dark .language-selector .absolute a:hover,
+  :root.dark .language-selector .absolute a.active {
+    color: rgba(238, 123, 179, 1); /* Solid pink for active/hover language items in dark theme */
+  }
+</style>
+
+<style>
+  /* Mobile menu language selector */
+  :root:not(.dark) .mobile-menu a {
+    color: rgba(91, 104, 117, 0.7); /* Gray with opacity for mobile links in light theme */
+  }
+  
+  :root:not(.dark) .mobile-menu a:hover,
+  :root:not(.dark) .mobile-menu a.active {
+    color: rgba(91, 104, 117, 1); /* Solid gray for active/hover mobile links in light theme */
+  }
+  
+  :root.dark .mobile-menu a {
+    color: rgba(238, 123, 179, 0.7); /* Pink with opacity for mobile links in dark theme */
+  }
+  
+  :root.dark .mobile-menu a:hover,
+  :root.dark .mobile-menu a.active {
+    color: rgba(238, 123, 179, 1); /* Solid pink for active/hover mobile links in dark theme */
+  }
+  
+  /* Mobile theme toggle */
+  :root:not(.dark) #mobileThemeToggle .theme-icon .moon {
+    fill: rgba(91, 104, 117, 0.7); /* Gray with opacity for mobile moon icon in light theme */
+  }
+  
+  :root:not(.dark) #mobileThemeToggle:hover .theme-icon .moon {
+    fill: rgba(91, 104, 117, 1); /* Solid gray for mobile moon icon hover in light theme */
+  }
+  
+  :root.dark #mobileThemeToggle .theme-icon .sun {
+    fill: rgba(238, 123, 179, 0.7); /* Pink with opacity for mobile sun icon in dark theme */
+  }
+  
+  :root.dark #mobileThemeToggle:hover .theme-icon .sun {
+    fill: rgba(238, 123, 179, 1); /* Solid pink for mobile sun icon hover in dark theme */
+  }
+</style>

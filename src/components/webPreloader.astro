@@ -1,0 +1,337 @@
+---
+import BubbleBackgroundPreload from '../components/bgComponents/BubbleBackgroundPreload.astro';
+// Componente Astro: carga con Tailwind + GSAP + Splitting.js (CSS breathe y desaparición)
+const bars = Array.from({ length: 10 });
+
+// Definimos los textos en diferentes idiomas
+const subtitles = {
+  es: "Contenido, tecnología y diseño para liderar el mañana.",
+  en: "Content, technology and design to lead tomorrow.",
+  ca: "Contingut, tecnologia i disseny per liderar el demà."
+};
+---
+
+<!-- Splitting CSS -->
+<link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css" />
+
+<!-- Overlay con barras y título -->
+<div id="overlay" class="fixed inset-0 overflow-hidden z-[15000]">
+   
+    <!-- BubbleBackground encima del fondo blanco -->
+    <div class="fixed inset-0 w-full h-full overflow-hidden z-[14000]">
+        <BubbleBackgroundPreload 
+          opacity="1" 
+          zIndex="13000" 
+          primaryColor="#ff72a6" 
+          secondaryColor="#d6d6d6c6" 
+          bubbleCount="50"
+          height="100vh"
+        />
+    </div>
+    <!-- Título y barras -->
+    <!-- Título con palabras separadas -->
+    <div class="max-w-[90%] w-full h-full flex flex-col justify-center items-center gap-[15px] md:gap-[20px] lg:gap-[25px] xl:gap-[30px] mx-auto">
+      <h1 data-splitting class="inset-0 flex items-center justify-center text-purple z-[14500]">
+        <span class="word">Agazzi</span>
+        <span class="word-space">&nbsp;</span>
+        <span class="word">Studio</span>
+      </h1>
+      <!-- Subtítulo multilingüe - se rellenará con JavaScript -->
+      <h2 data-splitting class="w-full flex items-center justify-center text-gray font-thin z-[14500] text-center mx-auto" id="subtitle-container">
+        <!-- El contenido se generará dinámicamente según el idioma -->
+      </h2>
+    </div>
+    </div>
+    {bars.map((_, i) => (
+      <div key={i}
+        class="bar absolute top-0 bottom-0 z-[13500]"
+        style={{
+          width: '10.1vw',
+          left: `${i * 10}vw`,
+          background: 'rgba(255, 255, 255, 1)',
+          transformOrigin: '100% 100%',
+          transform: 'scaleX(1)'
+        }}
+      />
+
+    ))}
+</div>
+
+<script src="https://unpkg.com/splitting/dist/splitting.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+<script is:client define:vars={{ subtitles }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Detectar el idioma del navegador
+    const userLang = navigator.language || navigator.userLanguage;
+    const langCode = userLang.split('-')[0]; // Obtener solo el código de idioma principal (es, en, ca)
+    
+    // Seleccionar el texto según el idioma o usar español por defecto
+    const subtitleText = subtitles[langCode] || subtitles.es;
+    
+    // Generar el HTML para el subtítulo con el texto del idioma correspondiente
+    const subtitleContainer = document.getElementById('subtitle-container');
+    subtitleContainer.innerHTML = ''; // Limpiar el contenedor
+    
+    // Crear un contenedor para el texto del subtítulo que permita saltos de línea
+    const textContainer = document.createElement('div');
+    textContainer.className = 'subtitle-text-container';
+    textContainer.style.width = '100%';
+    textContainer.style.display = 'flex';
+    textContainer.style.flexWrap = 'wrap';
+    textContainer.style.justifyContent = 'center';
+    subtitleContainer.appendChild(textContainer);
+    
+    // Dividir el texto en palabras
+    const words = subtitleText.split(' ');
+    
+    // Para cada palabra, crear un span contenedor
+    words.forEach((word, wordIndex) => {
+      // Crear un contenedor para la palabra
+      const wordContainer = document.createElement('span');
+      wordContainer.className = 'word-container';
+      wordContainer.style.display = 'inline-block';
+      wordContainer.style.marginRight = '0.4em';
+      wordContainer.style.marginBottom = '0.2em'; // Espacio entre líneas
+      
+      // Dividir la palabra en caracteres
+      const chars = word.split('');
+      
+      // Crear un span para cada carácter dentro de la palabra
+      chars.forEach(char => {
+        const charSpan = document.createElement('span');
+        charSpan.className = 'char';
+        charSpan.textContent = char;
+        wordContainer.appendChild(charSpan);
+      });
+      
+      // Añadir la palabra al contenedor
+      textContainer.appendChild(wordContainer);
+    });
+    
+    // Inicializamos Splitting solo para el h1
+    Splitting({
+      target: '#overlay h1'
+    });
+    
+    // Ocultamos inicialmente todos los caracteres
+    gsap.set('#overlay h1 .char', { opacity: 0, animation: 'none' });
+    gsap.set('#overlay h2 .char', { opacity: 0, animation: 'none' });
+    
+    // Timeline para la aparición de los textos
+    const tlEntrada = gsap.timeline();
+    
+    // Efecto de mecanografiado para el h1 - más lento y suave
+    tlEntrada.to('#overlay h1 .char', {
+      opacity: 1,
+      stagger: 0.15,
+      duration: 0.3,
+      ease: "power2.out",
+      onComplete: function() {
+        // Activamos la animación de respiración para el h1
+        document.querySelectorAll('#overlay h1 .char').forEach((char, index) => {
+          char.style.animation = `breathe 1.8s ease-in-out infinite both`;
+          char.style.animationDelay = `${index * 200}ms`;
+        });
+        
+        // Esperamos un poco antes de comenzar con el h2
+        setTimeout(() => {
+          // Ahora comenzamos con el h2 usando el mismo efecto stagger que el h1
+          tlEntrada.to('#overlay h2 .char', {
+            opacity: 1,
+            stagger: 0.04, // Más rápido que el título para que no tarde tanto
+            duration: 0.15,
+            ease: "power2.out"
+          });
+        }, 200);
+      }
+    });
+    
+    // Timeline para la desaparición después de un tiempo
+    setTimeout(() => {
+      // Creamos una nueva timeline para la desaparición con mejor control
+      const tlSalida = gsap.timeline({
+        onComplete: () => {
+          // Transición suave final para evitar saltos
+          gsap.to('#overlay', {
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.inOut',
+            onComplete: () => {
+              document.getElementById('overlay')?.remove();
+            }
+          });
+        }
+      });
+      
+      // En lugar de desactivar las animaciones, congelamos su estado actual
+      document.querySelectorAll('#overlay h1 .char').forEach(char => {
+        // Capturamos el estado actual de la animación
+        const computedStyle = window.getComputedStyle(char);
+        const currentTransform = computedStyle.transform;
+        const currentFontSettings = computedStyle.fontVariationSettings;
+        
+        // Aplicamos el estado actual como estilos estáticos
+        gsap.set(char, {
+          transform: currentTransform,
+          fontVariationSettings: currentFontSettings,
+          animation: 'none'
+        });
+      });
+      
+      // Sin pausa, comenzamos inmediatamente la desaparición
+      
+      // Primero desaparecen TODOS los caracteres de h2 juntos
+      tlSalida.to('#overlay h2', {
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.inOut'
+      }, 0);
+      
+      // Luego desaparece el h1 completo
+      tlSalida.to('#overlay h1', {
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.inOut'
+      }, 0.1);
+      
+      // Finalmente, las barras y el fondo desaparecen
+      tlSalida.to('.bar', { 
+        scaleX: 0,
+        stagger: 0.03,
+        duration: 0.6,
+        ease: 'power2.inOut'
+      }, 0.3);
+      
+      tlSalida.to('#overlay > .fixed', { 
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.inOut',
+        onComplete: function() {
+          // Disparar un evento personalizado cuando el preloader termine
+          document.dispatchEvent(new CustomEvent('preloaderComplete'));
+        }
+      }, 0.3);
+      
+    }, 5000); // Mantenemos en 4.5 segundos para pruebas
+  });
+</script>
+
+<style is:global>
+  /* Fuente variable IBM Plex Sans */
+  @font-face {
+    font-family: "IBM Plex Sans Roman";
+    src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/85648/IBMPlexSansVar-Roman.ttf");
+  }
+
+  #overlay h1[data-splitting] {
+    font-family: "IBM Plex Sans Roman", sans-serif;
+    font-size: 15vw;
+    line-height: 15vw;
+    font-variation-settings: 'wght' 100, 'wdth' 85;
+  }
+  
+  #overlay h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5vw;
+    line-height: 1.4;
+    font-variation-settings: 'wght' 300, 'wdth' 100;
+    letter-spacing: 0.02em;
+    word-wrap: break-word;
+    max-width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  /* Estilo para los caracteres del subtítulo */
+  #overlay h2 .char {
+    display: inline-block;
+    opacity: 0;
+  }
+  
+  /* Contenedor de texto del subtítulo */
+  .subtitle-text-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  /* Contenedor de palabras */
+  .word-container {
+    display: inline-flex;
+    margin-right: 0.4em;
+    margin-bottom: 0.2em;
+  }
+  
+  /* Media queries para ajustar tamaños en diferentes pantallas */
+  @media (max-width: 767px) {
+    #overlay h1[data-splitting] {
+      font-size: 12vw;
+      line-height: 12vw;
+    }
+    
+    #overlay h2 {
+      font-size: 5vw;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      font-variation-settings: 'wght' 300, 'wdth' 100;
+      margin-top: 1rem;
+      max-width: 90%;
+    }
+    
+    .word-container {
+      margin-right: 0.3em;
+      margin-bottom: 0.3em;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    #overlay h1[data-splitting] {
+      font-size: 10vw;
+      line-height: 10vw;
+    }
+    
+    #overlay h2 {
+      font-size: 2vw;
+      line-height: 1.4;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    h1[data-splitting] {
+      font-size: 9vw; /* Tamaño para pantallas XL */
+      line-height: 9vw;
+    }
+    
+    #overlay h2 {
+      font-size: 1.8vw; /* Tamaño para pantallas XL */
+      line-height: 1.4;
+    }
+  }
+  
+  /* Espacio entre palabras */
+  .word-space {
+    width: 0.5em;
+    display: inline-block;
+  }
+  
+  /* Breathe CSS animation para cada char del h1 */
+  h1[data-splitting] .char {
+    display: inline-block;
+    animation: breathe 3s ease-in-out infinite both;
+    animation-delay: calc((var(--char-index) + 1) * 400ms);
+    opacity: 0; /* Comienza invisible */
+  }
+
+  @keyframes breathe {
+    0%, 100% {
+      font-variation-settings: 'wght' 100, 'wdth' 85;
+      transform: scale(1);
+    }
+    60% {
+      font-variation-settings: 'wght' 700, 'wdth' 100;
+      transform: scale(1.1);
+    }
+  }
+</style>

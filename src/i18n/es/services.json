@@ -1,0 +1,46 @@
+{
+  "title": "Nuestros Servicios",
+  "subtitle": "Servicios expertos que definen nuestra excelencia",
+  "description": "Desde diseño creativo hasta soluciones técnicas, nuestros servicios definen la excelencia en la industria.",
+  "services": {
+    "category": "Nuestros servicios"
+  },
+  "servicesList": [
+    {
+      "title": "Media Manager",
+      "description": "Planificación y optimización de campañas en medios digitales para maximizar tu visibilidad y retorno de inversión.",
+      "icon": "lightning",
+      "image": "/assets/lottie/media-manager.json"
+    },
+    {
+      "title": "Web Content Manager",
+      "description": "Administración y actualización de tu sitio web y perfiles sociales para mantener tu presencia online siempre activa y coherente.",
+      "icon": "lightning",
+      "image": "/assets/lottie/cms.json"
+    },
+    {
+      "title": "Desarrollos web & Apps",
+      "description": "Creamos o modificamos tus apps y sitios web responsivos, con tecnologías de ultima generacion.",
+      "icon": "diamond",
+      "image": "/assets/lottie/coding.json"
+    },
+    {
+      "title": "Ecommerce para tu negocio",
+      "description": "Soluciones de comercio electrónico integrales para gestionar productos, pagos y envíos de forma eficiente.",
+      "icon": "diamond",
+      "image": "/assets/lottie/ecommerce.json"
+    },
+    {
+      "title": "SEO",
+      "description": "Optimización para buscadores, mejor indexacion y posicionamiento en los resultados de búsqueda.",
+      "icon": "search",
+      "image": "/assets/lottie/seo.json"
+    },
+    {
+      "title": "Diseño gráfico",
+      "description": "Creación de elementos visuales (logotipos, banners, material impreso) que refuerzan la identidad y el impacto de tu marca.",
+      "icon": "screen",
+      "image": "/assets/lottie/graphic-design.json"
+    }
+  ]
+}

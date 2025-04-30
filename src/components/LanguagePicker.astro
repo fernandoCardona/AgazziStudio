@@ -1,0 +1,36 @@
+---
+import { languages } from '../i18n/utils';
+
+const { currentLang } = Astro.props;
+
+// Obtener la ruta actual sin el prefijo del idioma
+const currentPath = Astro.url.pathname;
+const pathSegments = currentPath.split('/').filter(Boolean);
+const pathWithoutLang = pathSegments.length > 0 && languages.includes(pathSegments[0]) 
+  ? '/' + pathSegments.slice(1).join('/')
+  : currentPath;
+
+// Función para obtener la ruta con el idioma correcto
+function getPathWithLang(lang) {
+  if (lang === 'es') {
+    return pathWithoutLang === '/' ? '/' : pathWithoutLang;
+  } else {
+    return `/${lang}${pathWithoutLang === '/' ? '' : pathWithoutLang}`;
+  }
+}
+---
+
+<div class="language-picker">
+  <ul class="flex space-x-2">
+    {languages.map(lang => (
+      <li>
+        <a 
+          href={getPathWithLang(lang)} 
+          class={`px-2 py-1 rounded ${currentLang === lang ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+        >
+          {lang.toUpperCase()}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>

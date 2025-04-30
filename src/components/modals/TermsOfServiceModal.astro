@@ -1,0 +1,338 @@
+---
+import { loadTranslations, normalizeLanguageCode } from '../../i18n/i18n.js';
+
+const { lang = 'es' } = Astro.props;
+const normalizedLang = normalizeLanguageCode(lang);
+const termsTranslations = await loadTranslations(normalizedLang, 'terms');
+---
+
+<!-- Modal de Términos y Condiciones -->
+<div id="terms-of-service-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+    <div class="bg-white dark:bg-gray-800 dark:bg-opacity-30 rounded-xl shadow-xl max-w-4xl w-[90vw] max-h-[90vh] flex flex-col pb-4">
+        <div class="w-full flex justify-end p-4">
+            <button
+                id="close-terms-modal"
+                class="text-gray-500 hover:text-gray-700"
+                >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-10 w-10 transition-transform duration-500 ease-in-out hover:rotate-[90deg]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="#5b6875"
+                >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <div class="overflow-y-auto flex-1 px-6 pb-8 mx-4">
+            <div class="w-full flex flex-col items-center justify-start mb-6">
+                <div class="w-full flex items-center justify-center mb-6 bg-gray p-2">
+                    <h2 class="text-3xl md:text-6xl tracking-wide font-display font-bold text-white">
+                    {termsTranslations.title || 'Términos y Condiciones de Servicio'}
+                    </h2>
+                </div>
+            </div>
+
+            <div class="prose prose-lg max-w-none text-gray-600 dark:text-gray-300">
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.parties?.title || '1. Partes y Objeto'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.parties?.content || 'Este documento regula los términos y condiciones (en adelante, «Términos») aplicables a los servicios de publicidad y marketing digital prestados por Agazzi Studio, con domicilio en Barcelona y C.I.F. B-XXXXXXXX (en adelante, «la Agencia»), a las personas físicas o jurídicas (en adelante, «el Cliente») que contraten sus servicios.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.scope?.title || '2. Alcance de los Servicios'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.scope?.content1 || '2.1. La Agencia prestará al Cliente servicios de diseño, planificación, ejecución y gestión de campañas publicitarias, Social Media Management, creación de contenidos, email marketing, SEO/SEM y demás servicios acordados en el presupuesto.'}
+                </p>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2">
+                    {termsTranslations.sections?.scope?.content2 || '2.2. Las especificaciones, plazos de entrega y entregables concretos se detallarán en el presupuesto o propuesta de proyecto firmado por ambas partes.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.budget?.title || '3. Presupuestos y Contratación'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.budget?.content1 || '3.1. Todo servicio se formalizará mediante la aceptación escrita de un presupuesto que recogerá precio, scope de trabajo, plazos y condiciones.'}
+                </p>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2">
+                    {termsTranslations.sections?.budget?.content2 || '3.2. La validez del presupuesto será de 30 días naturales desde su emisión, salvo pacto expreso en contrario.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.payment?.title || '4. Términos de Pago'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.payment?.content1 || '4.1. El Cliente abonará a la Agencia un 50% de anticipo al aceptar el presupuesto y antes de iniciar cualquier trabajo.'}
+                </p>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2">
+                    {termsTranslations.sections?.payment?.content2 || '4.2. El 50% restante deberá abonarse en la fecha de entrega de los trabajos o según hitos intermedios definidos en el presupuesto.'}
+                </p>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2">
+                    {termsTranslations.sections?.payment?.content3 || '4.3. Los pagos se realizarán mediante transferencia bancaria a la cuenta indicada en la factura.'}
+                </p>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2">
+                    {termsTranslations.sections?.payment?.content4 || '4.4. En caso de retraso en el pago, se devengarán intereses de demora conforme al tipo legal vigente más un 2% adicional.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.modifications?.title || '5. Modificaciones y Revisión de Alcance'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.modifications?.content1 || '5.1. Cualquier cambio o solicitud adicional no contemplada en el presupuesto original se considerará un servicio extra sujeto a nuevo presupuesto.'}
+                </p>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2">
+                    {termsTranslations.sections?.modifications?.content2 || '5.2. La Agencia informará al Cliente de posibles ajustes en plazos y costes antes de iniciar los trabajos adicionales.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.intellectual?.title || '6. Propiedad Intelectual'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.intellectual?.content1 || '6.1. Todos los derechos de propiedad intelectual de los materiales originales creados por la Agencia (diseños, textos, vídeos, etc.) permanecerán en favor de la Agencia hasta el pago íntegro de los servicios.'}
+                </p>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2">
+                    {termsTranslations.sections?.intellectual?.content2 || '6.2. Una vez abonada la totalidad del precio, la Agencia cede al Cliente los derechos de uso y explotación del entregable según lo acordado, sin perjuicio de citar siempre la autoría de la Agencia.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.confidentiality?.title || '7. Confidencialidad'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.confidentiality?.content || 'Ambas partes se comprometen a mantener la confidencialidad de toda la información técnica, comercial o estratégica intercambiada durante la ejecución del contrato.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.liability?.title || '8. Responsabilidad y Garantías'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.liability?.content1 || '8.1. La Agencia garantiza la realización de los servicios conforme a las buenas prácticas del sector, pero no se hace responsable de los resultados comerciales o de audiencia que puedan derivarse.'}
+                </p>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2">
+                    {termsTranslations.sections?.liability?.content2 || '8.2. La responsabilidad máxima de la Agencia ante cualquier reclamación no podrá exceder el importe total pagado por el Cliente en el proyecto.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.delivery?.title || '9. Plazos de Entrega y Retrasos'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.delivery?.content1 || '9.1. La Agencia se compromete a respetar los plazos acordados, siempre que el Cliente facilite a tiempo la información y materiales necesarios.'}
+                </p>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2">
+                    {termsTranslations.sections?.delivery?.content2 || '9.2. En caso de retrasos imputables al Cliente, los plazos se prorrogarán en idéntico periodo.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.duration?.title || '10. Duración y Resolución'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.duration?.content1 || '10.1. El contrato tendrá la duración necesaria para completar los servicios encargados.'}
+                </p>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2">
+                    {termsTranslations.sections?.duration?.content2 || '10.2. Cualquiera de las partes podrá resolver anticipadamente el contrato si la otra incurre en un incumplimiento grave que no subsane en un plazo de 15 días tras notificación escrita.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.force?.title || '11. Fuerza Mayor'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.force?.content || 'Ninguna de las partes será responsable de retrasos o incumplimientos derivados de causas de fuerza mayor.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.data?.title || '12. Protección de Datos'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.data?.content || 'La Agencia no gestionará datos personales sensibles ni realizará tratamientos que requieran inscripción en el Registro de la AEPD, dado que el servicio consiste en difusión y no recoge datos del usuario final.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.law?.title || '13. Ley Aplicable y Jurisdicción'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.law?.content || 'Estos Términos se regirán por la legislación española. Para cualquier conflicto, las partes se someten a los Juzgados y Tribunales de Barcelona, con renuncia expresa a cualquier otro fuero.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.update?.title || 'Fecha de última actualización'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {termsTranslations.sections?.update?.content || '01/06/2023'}
+                </p>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <button id="close-terms-button" class="w-full bg-[#ee7bb3] hover:bg-gray text-white px-6 py-2 rounded transition-colors duration-300">
+                Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  // Función para abrir el modal
+  function openTermsModal() {
+    const modal = document.getElementById('terms-of-service-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      // Prevenir scroll en el body
+      document.body.style.overflow = 'hidden';
+      
+      // Añadir animación de entrada
+      const modalContent = modal.querySelector('div');
+      if (modalContent) {
+        modalContent.classList.add('animate-fade-in');
+      }
+    }
+  }
+  
+  // Función para cerrar el modal
+  function closeTermsModal() {
+    const modal = document.getElementById('terms-of-service-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      // Restaurar scroll en el body
+      document.body.style.overflow = '';
+    }
+  }
+  
+  // Configurar event listeners cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', () => {
+    // Botón de cerrar dentro del modal
+    const closeButton = document.getElementById('close-terms-modal');
+    if (closeButton) {
+      closeButton.addEventListener('click', closeTermsModal);
+    }
+    
+    // Botón de cerrar en la parte inferior
+    const closeButtonBottom = document.getElementById('close-terms-button');
+    if (closeButtonBottom) {
+      closeButtonBottom.addEventListener('click', closeTermsModal);
+    }
+    
+    // Cerrar al hacer clic fuera del contenido del modal
+    const modal = document.getElementById('terms-of-service-modal');
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeTermsModal();
+        }
+      });
+    }
+    
+    // Escuchar eventos personalizados para abrir el modal
+    document.addEventListener('openTermsModal', openTermsModal);
+    
+    // Configurar todos los enlaces a los términos y condiciones
+    document.querySelectorAll('a[href="#terms-of-service"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        openTermsModal();
+      });
+    });
+  });
+  
+  // Asegurarse de que el modal respete el tema actual
+  function applyThemeToTermsModal() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const modal = document.getElementById('terms-of-service-modal');
+    
+    if (modal) {
+      const modalContent = modal.querySelector('div');
+      if (modalContent) {
+        if (isDark) {
+          modalContent.classList.add('dark-theme');
+        } else {
+          modalContent.classList.remove('dark-theme');
+        }
+      }
+    }
+  }
+  
+  // Aplicar tema cuando cambia
+  document.addEventListener('themeChanged', applyThemeToTermsModal);
+  
+  // También aplicar al cargar
+  window.addEventListener('load', applyThemeToTermsModal);
+</script>
+
+<style>
+  /* Animaciones para el modal */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  /* Estilos para el tema oscuro */
+  .dark-theme {
+    background-color: #1f2937;
+    color: white;
+  }
+  
+  /* Estilos para el scrollbar en el modal */
+  #terms-of-service-modal div::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  #terms-of-service-modal div::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  #terms-of-service-modal div::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  #terms-of-service-modal div::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  /* Versión para tema oscuro */
+  .dark #terms-of-service-modal div::-webkit-scrollbar-track {
+    background: #374151;
+  }
+  
+  .dark #terms-of-service-modal div::-webkit-scrollbar-thumb {
+    background: #6b7280;
+  }
+  
+  .dark #terms-of-service-modal div::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+</style>

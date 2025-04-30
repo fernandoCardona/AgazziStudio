@@ -1,0 +1,64 @@
+{
+  "title": "Termes i Condicions de Servei",
+  "sections": {
+    "parties": {
+      "title": "1. Parts i Objecte",
+      "content": "Aquest document regula els termes i condicions (d'ara endavant, «Termes») aplicables als serveis de publicitat i màrqueting digital prestats per Agazzi Studio, amb domicili a Barcelona i CIF B-XXXXXXXX (d'ara endavant, «l'Agència»), a les persones físiques o jurídiques (d'ara endavant, «el Client») que contractin els seus serveis."
+    },
+    "scope": {
+      "title": "2. Abast dels Serveis",
+      "content": "2.1. L'Agència prestarà al Client serveis de disseny, planificació, execució i gestió de campanyes publicitàries, Social Media Management, creació de continguts, email marketing, SEO/SEM i altres serveis acordats en el pressupost.\n\n2.2. Les especificacions, terminis de lliurament i entregables concrets es detallaran en el pressupost o proposta de projecte signat per ambdues parts."
+    },
+    "budgets": {
+      "title": "3. Pressupostos i Contractació",
+      "content": "3.1. Tot servei es formalitzarà mitjançant l'acceptació escrita d'un pressupost que recollirà preu, abast de treball, terminis i condicions.\n\n3.2. La validesa del pressupost serà de 30 dies naturals des de la seva emissió, excepte pacte exprés en contrari."
+    },
+    "payment": {
+      "title": "4. Termes de Pagament",
+      "content": "4.1. El Client abonarà a l'Agència un 50% de bestreta en acceptar el pressupost i abans d'iniciar qualsevol treball.\n\n4.2. El 50% restant s'haurà d'abonar en la data de lliurament dels treballs o segons fites intermèdies definides en el pressupost.\n\n4.3. Els pagaments es realitzaran mitjançant transferència bancària al compte indicat a la factura.\n\n4.4. En cas de retard en el pagament, es reportaran interessos de demora conforme al tipus legal vigent més un 2% addicional."
+    },
+    "modifications": {
+      "title": "5. Modificacions i Revisió d'Abast",
+      "content": "5.1. Qualsevol canvi o sol·licitud addicional no contemplada en el pressupost original es considerarà un servei extra subjecte a nou pressupost.\n\n5.2. L'Agència informarà al Client de possibles ajustos en terminis i costos abans d'iniciar els treballs addicionals."
+    },
+    "intellectual": {
+      "title": "6. Propietat Intel·lectual",
+      "content": "6.1. Tots els drets de propietat intel·lectual dels materials originals creats per l'Agència (dissenys, textos, vídeos, etc.) romandran a favor de l'Agència fins al pagament íntegre dels serveis.\n\n6.2. Un cop abonada la totalitat del preu, l'Agència cedeix al Client els drets d'ús i explotació del lliurable segons l'acordat, sense perjudici de citar sempre l'autoria de l'Agència."
+    },
+    "confidentiality": {
+      "title": "7. Confidencialitat",
+      "content": "Ambdues parts es comprometen a mantenir la confidencialitat de tota la informació tècnica, comercial o estratègica intercanviada durant l'execució del contracte."
+    },
+    "liability": {
+      "title": "8. Responsabilitat i Garanties",
+      "content": "8.1. L'Agència garanteix la realització dels serveis conforme a les bones pràctiques del sector, però no es fa responsable dels resultats comercials o d'audiència que puguin derivar-se.\n\n8.2. La responsabilitat màxima de l'Agència davant qualsevol reclamació no podrà excedir l'import total pagat pel Client en el projecte."
+    },
+    "deadlines": {
+      "title": "9. Terminis de Lliurament i Retards",
+      "content": "9.1. L'Agència es compromet a respectar els terminis acordats, sempre que el Client faciliti a temps la informació i materials necessaris.\n\n9.2. En cas de retards imputables al Client, els terminis es prorrogaran en idèntic període."
+    },
+    "duration": {
+      "title": "10. Durada i Resolució",
+      "content": "10.1. El contracte tindrà la durada necessària per completar els serveis encarregats.\n\n10.2. Qualsevol de les parts podrà resoldre anticipadament el contracte si l'altra incorre en un incompliment greu que no esmeni en un termini de 15 dies després de notificació escrita."
+    },
+    "force": {
+      "title": "11. Força Major",
+      "content": "Cap de les parts serà responsable de retards o incompliments derivats de causes de força major."
+    },
+    "data": {
+      "title": "12. Protecció de Dades",
+      "content": "L'Agència no gestionarà dades personals sensibles ni realitzarà tractaments que requereixin inscripció en el Registre de l'AEPD, atès que el servei consisteix en difusió i no recull dades de l'usuari final."
+    },
+    "law": {
+      "title": "13. Llei Aplicable i Jurisdicció",
+      "content": "Aquests Termes es regiran per la legislació espanyola. Per a qualsevol conflicte, les parts se sotmeten als Jutjats i Tribunals de Barcelona, amb renúncia expressa a qualsevol altre fur."
+    },
+    "contact": {
+      "title": "Contacte",
+      "content": "Si té alguna pregunta sobre aquests Termes i Condicions, pot contactar-nos a:"
+    }
+  },
+  "lastUpdate": "Última actualització: 1 de juny de 2023",
+  "contactEmail": "hello@agazzistudio.com",
+  "closeButton": "Tancar"
+}

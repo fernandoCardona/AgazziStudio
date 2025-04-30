@@ -1,0 +1,115 @@
+---
+import { loadTranslations, normalizeLanguageCode } from '../../i18n/i18n.js';
+
+
+const { lang = 'es' } = Astro.props;
+// Normalizar el código de idioma
+const normalizedLang = normalizeLanguageCode(lang);
+// console.log(`About component - Idioma normalizado: ${normalizedLang}`);
+
+// Cargar traducciones de about
+let aboutTranslations;
+try {
+  aboutTranslations = await loadTranslations(normalizedLang, 'about');
+  // console.log('Traducciones de about cargadas:', aboutTranslations);
+} catch (error) {
+  console.error('Error loading about translations:', error);
+  aboutTranslations = {
+    title: "Sobre Nosotros",
+    claim: {
+      title: "Somos creadores de tendencias en el mundo digital",
+      subtitle: "Fusionamos diseño innovador con pasión por la tecnología.",
+      whatWeDo: "QUÉ HACEMOS",
+      description: "Creamos experiencias digitales excepcionales, combinando diseño de vanguardia con funcionalidad intuitiva."
+    }
+  };
+}
+---
+
+<section id="about" class="bg-theme text-theme-text py-20 transition-colors duration-300 relative overflow-hidden" style="min-height: 400px;">
+  <div class="container mx-auto px-6 md:px-8 relative z-10">
+    <div class="mb-0">
+      <div class="w-full mx-auto">
+        <h2 class="SectionTitle text-7xl md:text-8xl font-display font-bold mb-8 text-center fade-up-element opacity-0 translate-y-10 fade-up-element opacity-0 translate-y-10" data-delay="0.2">
+          {aboutTranslations.claim?.title}
+        </h2>
+        
+        <p class="SectionSubTitle text-[18px] leading-[22px] md:text-[22px] md:leading-[26px] text-center mb-12 text-theme-secondary fade-up-element opacity-0 translate-y-10" data-delay="0.4">
+          {aboutTranslations.claim?.subtitle}
+        </p>
+        
+        <div class="flex flex-col md:flex-row justify-between items-center gap-12">
+          <div class="w-full">
+            <p class="text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-center SectionSubTitle fade-up-element opacity-0 translate-y-10" data-delay="0.6">
+              {aboutTranslations.claim?.description2}
+            </p>
+            <p class="text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-center SectionSubTitle fade-up-element opacity-0 translate-y-10" data-delay="0.8">
+              {aboutTranslations.claim?.description3}
+            </p>
+            <p class="text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-center SectionSubTitle fade-up-element opacity-0 translate-y-10" data-delay="1">
+              {aboutTranslations.claim?.description}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Estilos existentes */
+  .SectionTitle {
+    color: '#5b6875';
+  }
+
+  :global(html.dark) .SectionTitle {
+    color: #7943f6;
+  }
+
+  .SectionSubTitle {
+    color: #5b6875;
+  }
+
+  :global(html.dark) .SectionSubTitle {
+    color: #5b6875;
+  }
+
+  /* Estilos para las animaciones */
+  .fade-up-element {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .fade-up-element.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const element = entry.target;
+          const delay = element.dataset.delay || 0;
+          
+          setTimeout(() => {
+            element.classList.add('visible');
+          }, delay * 1000);
+          
+          observer.unobserve(element);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-up-element').forEach(element => {
+      observer.observe(element);
+    });
+  });
+</script>

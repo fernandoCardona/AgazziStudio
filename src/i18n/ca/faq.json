@@ -1,0 +1,87 @@
+{
+  "title": "Preguntes freqüents",
+  "description": "Aquí trobaràs respostes a les preguntes més comunes sobre els nostres serveis. Si tens algun dubte addicional, no dubtis a contactar-nos.",
+  "bookCallButton": "Contacta amb nosaltres",
+  "questions": [
+    {
+      "question": "Què fa un Content Media Manager?",
+      "answer": "El Content Media Manager dissenya, coordina i supervisa l'estratègia de continguts digitals de la marca: planifica el calendari editorial, crea i adapta textos, imatges i vídeos, gestiona la distribució en canals online i realitza el manteniment i actualització constant dels continguts per assegurar coherència, qualitat i engagement.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "Què fa un Media Manager?",
+      "answer": "M'encarrego de planificar, comprar i optimitzar espais publicitaris en mitjans digitals (display, social ads, vídeo, àudio) per maximitzar el ROI i l'abast de les teves campanyes.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "En quines plataformes acostumo a treballar?",
+      "answer": "Manteniment i creació de contingut per a Facebook/Facebook Ads, Instagram/Instagram Ads, Google Ads, LinkedIn Ads, YouTube, TikTok segons el teu públic objectiu.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "Què fa un Social Content Manager?",
+      "answer": "El Social Content Manager gestiona i manté els continguts específics per a xarxes socials: publica, programa i modera posts, interactua amb la comunitat, analitza mètriques d'engagement i ajusta l'estratègia de contingut per optimitzar la presència de la marca a cada plataforma.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "Com defineixo l'estratègia de mitjans?",
+      "answer": "El procés per definir l'estratègia de mitjans comença amb una anàlisi detallada dels teus objectius i audiència. Després, selecciono els canals òptims que millor s'adapten al teu públic objectiu. Continuo amb la configuració precisa de les campanyes i finalitzo amb un sistema de monitorització i ajustos continus per maximitzar els resultats.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "Com mesuro l'èxit d'una campanya?",
+      "answer": "Amb KPIs personalitzats (CPC, CPA, CTR, ROAS) i informes periòdics en què revisem resultats, aprenentatges i següents passos.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "Quines tecnologies utilitzes?",
+      "answer": "Per a web: Html, Css, Js Vanilla o React, Next.js, Astro.js, i CMS com WordPress, Prestashop, Sanity o Backend personalitzat com Laravel o Strapi. Per a apps: React Native per crear apps multiplataforma (iOS, android, web), segons necessitats de rendiment i escalabilitat.",
+      "category": "development"
+    },
+    {
+      "question": "Quin és el teu procés de desenvolupament?",
+      "answer": "El procés de desenvolupament segueix una metodologia estructurada que comença amb la definició detallada de requisits. Continuo amb el disseny de l'arquitectura i la maquetació i prototipat. Després ve la fase de desenvolupament, seguida per proves exhaustives i control de qualitat. Finalment, realitzem la posada en producció assegurant una transició suau.",
+      "category": "development"
+    },
+    {
+      "question": "Quant temps triga un projecte típic?",
+      "answer": "Un lloc web corporatiu estàtic (sense Backend o CMS) sol trigar entre 4 i 8 setmanes, un lloc web corporatiu estàtic (amb Backend o CMS) sol trigar entre 6 i 8 setmanes, una app mòbil, de 2 a 4 mesos, depenent de funcionalitats i complexitat.",
+      "category": "development"
+    },
+    {
+      "question": "Ofereixes manteniment i suport?",
+      "answer": "Sí, ofereixo plans mensuals de suport (actualitzacions, còpies de seguretat, millores i resolució d'incidències) perquè el teu projecte estigui sempre al dia.",
+      "category": "development"
+    },
+    {
+      "question": "Com garanteixes la seguretat del web/app?",
+      "answer": "Implemento bones pràctiques de codificació, certificats SSL, anàlisi de vulnerabilitats i proves de penetració abans de cada llançament.",
+      "category": "development"
+    },
+    {
+      "question": "Com és el teu procés de disseny i UX?",
+      "answer": "El procés de disseny i UX comença amb una profunda investigació de l'usuari per entendre les seves necessitats. Després desenvolupo wireframes i prototips que visualitzen l'estructura. Continuo amb el disseny visual detallat i realitzo tests d'usabilitat per validar l'experiència. Finalment, implemento ajustos fins aconseguir la versió final que satisfaci completament els objectius del projecte.",
+      "category": "design"
+    },
+    {
+      "question": "Com integro la identitat de marca en el disseny?",
+      "answer": "Partint de la teva missió, valors i to de comunicació, creo paletes de color, tipografies i icones que reforcin la teva personalitat.",
+      "category": "design"
+    },
+    {
+      "question": "Quins lliurables inclous?",
+      "answer": "Arxius editables (Figma/Sketch), guies d'estil, prototips interactius i especificacions per a desenvolupadors.",
+      "category": "design"
+    },
+    {
+      "question": "Quantes rondes de revisió ofereixes?",
+      "answer": "Incloc fins a 3 revisions de disseny per assegurar que el resultat encaixi al 100% amb les teves expectatives.",
+      "category": "design"
+    },
+    {
+      "question": "Quines eines utilitzes?",
+      "answer": "Figma, Sketch, Adobe Illustrator i eines de testing com Maze o Lookback per validar l'experiència d'usuari.",
+      "category": "design"
+    }
+  ]
+}

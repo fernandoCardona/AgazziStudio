@@ -1,0 +1,79 @@
+---
+// Props del componente
+const { 
+  lottiePath = "/assets/lottie/BgSection.json", 
+  zIndex = "-1",
+  opacity = "0.5",
+  className = "",
+  id = "lottie-bg-animation"
+} = Astro.props;
+
+// Generar un ID único para evitar conflictos
+const uniqueId = id || `lottie-bg-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div class={`lottie-background ${className}`} style={`z-index: ${zIndex}; opacity: ${opacity};`}>
+  <div id={uniqueId} class="w-full h-full"></div>
+</div>
+
+<style>
+  .lottie-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+</style>
+
+<!-- Importar la biblioteca Lottie igual que en Services -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
+<script define:vars={{ uniqueId, lottiePath }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Elementos del DOM
+    const lottieContainer = document.getElementById(uniqueId);
+    
+    // Variable para almacenar la animación
+    let animation = null;
+    
+    if (lottieContainer) {
+      // console.log(`Contenedor Lottie encontrado (${uniqueId}), cargando animación...`);
+      
+      try {
+        // Cargar la animación Lottie
+        animation = lottie.loadAnimation({
+          container: lottieContainer,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: lottiePath,
+          rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice',
+            clearCanvas: false,
+            progressiveLoad: true,
+            hideOnTransparent: true
+          }
+        });
+        
+        // console.log(`Animación Lottie cargada correctamente en ${uniqueId}`);
+        
+        // Manejar errores de carga
+        animation.addEventListener('data_failed', () => {
+          console.error(`Error al cargar la animación Lottie en ${uniqueId}:`, lottiePath);
+        });
+        
+        // Ajustar la animación cuando cambia el tamaño de la ventana
+        window.addEventListener('resize', () => {
+          animation.resize();
+        });
+      } catch (error) {
+        console.error(`Error al inicializar la animación Lottie en ${uniqueId}:`, error);
+      }
+    } else {
+      console.error(`Contenedor Lottie no encontrado: ${uniqueId}`);
+    }
+  });
+</script>

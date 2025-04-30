@@ -1,0 +1,136 @@
+---
+import { loadTranslations, normalizeLanguageCode } from '../../i18n/i18n.js';
+import BottomWaveBackground from '../bgComponents/BottomWaveBackground.astro';
+
+const { lang = 'es' } = Astro.props;
+const normalizedLang = normalizeLanguageCode(lang);
+const privacyTranslations = await loadTranslations(normalizedLang, 'privacy');
+---
+
+<!-- ENLACE-TRIGGER: Colocar donde quieras que abra el modal -->
+<a
+  id="open-privacy-policy"
+  href="#"
+  class="underline hover:text-gray-800 dark:hover:text-white"
+>
+  {privacyTranslations.footer?.privacyPolicy || 'Política de Privacidad'}
+</a>
+
+<!-- MODAL oculto por defecto con `hidden` -->
+<section
+  id="privacy-policy-modal"
+  class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden"
+>
+  <div
+    class="relative bg-transparent text-gray-600 dark:text-white
+           w-[90vw] max-w-3xl max-h-[90vh] overflow-y-auto rounded-xl shadow-lg"
+  >
+    <!-- Fondo animado, wave → pointer-events-none para no interferir -->
+    <div
+      class="absolute inset-0 w-full h-full pointer-events-none"
+      style="z-index: 0;"
+    >
+      <BottomWaveBackground />
+    </div>
+
+    <!-- Contenido del modal -->
+    <div class="relative z-10 p-6">
+      <!-- Botón de cierre (aspa) -->
+      <button
+        id="close-privacy-policy-top"
+        aria-label="Cerrar Política de Privacidad"
+        class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:hover:text-white"
+      >
+        ✕
+      </button>
+
+      <!-- Título y subtítulo -->
+      <div class="flex flex-col items-center text-center mb-8">
+        <h2 class="text-4xl md:text-6xl font-display font-bold mb-4">
+          {privacyTranslations.title || 'Política de Privacidad'}
+        </h2>
+        <p class="text-lg md:text-2xl max-w-2xl">
+          {privacyTranslations.subtitle || 'Información sobre cómo tratamos tus datos'}
+        </p>
+      </div>
+
+      <!-- Contenido de secciones -->
+      <div class="prose prose-lg max-w-none text-gray-700 dark:text-gray-300">
+        <h3>{privacyTranslations.sections?.introduction?.title || 'Introducción'}</h3>
+        <p>{privacyTranslations.sections?.introduction?.content}</p>
+
+        <h3>{privacyTranslations.sections?.dataCollection?.title || 'Información que recopilamos'}</h3>
+        <p>{privacyTranslations.sections?.dataCollection?.content}</p>
+
+        <h3>{privacyTranslations.sections?.dataUse?.title || 'Cómo utilizamos su información'}</h3>
+        <p>{privacyTranslations.sections?.dataUse?.content}</p>
+
+        <h3>{privacyTranslations.sections?.dataSharing?.title || 'Compartición de datos'}</h3>
+        <p>{privacyTranslations.sections?.dataSharing?.content}</p>
+
+        <h3>{privacyTranslations.sections?.cookies?.title || 'Cookies'}</h3>
+        <p>{privacyTranslations.sections?.cookies?.content}</p>
+
+        <h3>{privacyTranslations.sections?.rights?.title || 'Sus derechos'}</h3>
+        <p>{privacyTranslations.sections?.rights?.content}</p>
+
+        <h3>{privacyTranslations.sections?.contact?.title || 'Contacto'}</h3>
+        <p>
+          {privacyTranslations.sections?.contact?.content}{' '}
+          <a
+            href={`mailto:${privacyTranslations.contactEmail || 'hello@agazzistudio.com'}`}
+            class="underline"
+          >
+            {privacyTranslations.contactEmail || 'hello@agazzistudio.com'}
+          </a>
+        </p>
+      </div>
+
+      <!-- Footer con botón de cierre -->
+      <div class="mt-8 pt-6 border-t border-current/20 text-right">
+        <button
+          id="close-privacy-policy-bottom"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+        >
+          {privacyTranslations.footer?.close || 'Cerrar'}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script client:load>
+(() => {
+  const modal    = document.getElementById('privacy-policy-modal');
+  const opener   = document.getElementById('open-privacy-policy');
+  const closeTop = document.getElementById('close-privacy-policy-top');
+  const closeBot = document.getElementById('close-privacy-policy-bottom');
+
+  function openModal(e) {
+    e?.preventDefault();
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  opener?.addEventListener('click', openModal);
+  closeTop?.addEventListener('click', closeModal);
+  closeBot?.addEventListener('click', closeModal);
+
+  // Cerrar si se hace click fuera del contenido
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+})();
+</script>
+
+<style>
+  /* Transiciones suaves */
+  #privacy-policy-modal {
+    transition: opacity 0.3s ease;
+  }
+</style>

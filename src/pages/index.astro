@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Claim from '../components/sections/Claim.astro';
+import LanguagePicker from '../components/LanguagePicker.astro';
+import { loadTranslations, normalizeLanguageCode, detectBrowserLanguage } from '../i18n/i18n.js';
+import Contact from '../components/sections/Contact.astro';
+import Partners from '../components/sections/Partners.astro';
+import Testimonials from '../components/sections/testimonials.astro';
+import Faq from '../components/sections/Faq.astro';
+import About from '../components/sections/About.astro';
+import Services from '../components/sections/Services.astro';
+import BubbleBackground from '../components/bgComponents/BubbleBackground.astro';
+import PrivacyPolicyModal from '../components/modals/PrivacyPolicyModal.astro';
+import TermsOfServiceModal from '../components/modals/TermsOfServiceModal.astro';
+import AvisoCookies from '../components/AvisoCookies.astro';
+
+// Get language from URL or use browser detection
+const url = Astro.url;
+const pathname = url.pathname;
+let lang;
+
+// Check if URL contains language code
+if (pathname.startsWith('/en')) {
+  lang = 'en';
+} else if (pathname.startsWith('/ca')) {
+  lang = 'ca';
+} else {
+  // Default to Spanish or detect from browser
+  lang = 'es';
+  
+  // For client-side detection, we'll add a script later
+}
+
+// Normalize language code
+const normalizedLang = normalizeLanguageCode(lang);
+
+// Load translations for the home page
+let homeTranslations;
+try {
+  homeTranslations = await loadTranslations(normalizedLang, 'home');
+} catch (error) {
+  // Fallback translations
+  homeTranslations = {
+    title: "Agazzi Studio",
+    subtitle: "Creamos contenidos digitales para tu negocio",
+    cta: "Contáctanos"
+  };
+}
+---
+
+<Layout title="Agazzi Studio" lang={normalizedLang}>
+  <Hero lang={normalizedLang} />
+
+ 
+    
+    <About lang={lang} />
+    <Services lang={lang} />
+    <Faq lang={lang} />
+    <Testimonials lang={lang} />
+    <Partners lang={lang} />
+    
+  
+  <Contact lang={normalizedLang} />
+  <PrivacyPolicyModal lang={lang} />
+  <TermsOfServiceModal lang={lang} />
+  <AvisoCookies lang={lang} />
+</Layout>
+<script is:inline>
+  // Client-side language detection and redirection
+  document.addEventListener('DOMContentLoaded', () => {
+    // Only run this if we're at the root URL (not already on a language path)
+    if (window.location.pathname === '/' || window.location.pathname === '') {
+      // Get browser language
+      const browserLang = navigator.language.split('-')[0];
+      
+      // Check if browser language is supported and not already the default
+      if (browserLang === 'en' || browserLang === 'ca') {
+        // Redirect to the appropriate language version
+        window.location.pathname = `/${browserLang}`;
+      }
+      // If language is 'es' or unsupported, stay on the default page
+    }
+  });
+</script>

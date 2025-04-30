@@ -1,0 +1,267 @@
+---
+// Layout.astro
+import WebPreloader from '../components/webPreloader.astro';
+import BubbleBackground from '../components/bgComponents/BubbleBackground.astro';
+import Navigation from '../components/Navigation.astro';
+import SEOHead from '../components/SEOHead.astro';
+import SchemaOrg from '../components/SchemaOrg.astro';
+import '../styles/global.css'; // Importamos los estilos globales
+
+export interface Props {
+  title: string;
+  description?: string;
+  lang: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+}
+
+// Descripciones predeterminadas por idioma
+const defaultDescriptions = {
+  es: "Agazzi Studio | Gestión de contenido para sitios web y redes sociales en Barcelona y Sitges. Especialistas en desarrollo web (React, Next.js, Astro), WordPress, eCommerce, apps React Native y diseño UX/UI para soluciones digitales online y offline.",
+  en: "Agazzi Studio | Website content and social media management experts in Barcelona & Sitges. Specialists in web development (React, Next.js, Astro), WordPress, eCommerce, React Native apps, and UX/UI design for online and offline digital solutions.",
+  ca: "Agazzi Studio | Gestió de continguts per a llocs web i xarxes socials a Barcelona i Sitges. Especialistes en desenvolupament web (React, Next.js, Astro), WordPress, eCommerce, apps React Native i disseny UX/UI per a solucions digitals online i offline."
+};
+
+const { 
+  title, 
+  description, 
+  lang = 'es',
+  ogImage,
+  canonicalUrl
+} = Astro.props;
+
+// Usar la descripción específica del idioma o la proporcionada como prop
+const finalDescription = description || defaultDescriptions[lang] || defaultDescriptions.es;
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <SEOHead 
+      title={title}
+      description={finalDescription}
+      lang={lang}
+      ogImage={ogImage}
+      canonicalUrl={canonicalUrl}
+    />
+    <SchemaOrg 
+      lang={lang}
+      type="Organization"
+      name="Agazzi Studio"
+    />
+    
+    <!-- Cabecera de seguridad HSTS -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="AgazziStudio.com" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Resto de tus etiquetas head -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Six+Caps&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Six+Caps&display=swap" rel="stylesheet">
+    
+    <script is:inline>
+      // Theme initialization script
+      function initTheme() {
+        // Check if user has a saved preference
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+          // Use saved preference if available
+          document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+        } else {
+          // If no saved preference, explicitly set to light theme
+          document.documentElement.classList.remove('dark'); // Ensure dark class is removed
+          localStorage.setItem('theme', 'light');
+        }
+      }
+      
+      // Run theme initialization immediately to prevent flash of incorrect theme
+      initTheme();
+      
+      // Also run it again when DOM is loaded to ensure it takes effect
+      document.addEventListener('DOMContentLoaded', initTheme);
+    </script>
+    
+    <!-- Google Analytics -->
+    <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+  </head>
+  <body class="font-sans relative min-h-screen">
+    <script is:inline>
+      // Smooth scroll para todos los enlaces internos
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (!targetId || targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (!targetElement) return;
+            
+            // Scroll suave a la sección
+            window.scrollTo({
+              top: targetElement.offsetTop - 80, // Ajuste para el header fijo
+              behavior: 'smooth'
+            });
+            
+            // Actualizar la URL sin recargar la página
+            history.pushState(null, null, targetId);
+          });
+        });
+        
+        // Manejar la navegación inicial si hay un hash en la URL
+        if (window.location.hash) {
+          const targetElement = document.querySelector(window.location.hash);
+          if (targetElement) {
+            setTimeout(() => {
+              window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
+              });
+            }, 100);
+          }
+        }
+      });
+    </script>
+    
+    <script is:inline>
+      // Script para resetear la posición de scroll al recargar la página
+      window.onload = function() {
+        window.scrollTo(0, 0);
+      }
+      
+      // Alternativa que funciona incluso si la página se carga desde caché
+      if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+      }
+      window.scrollTo(0, 0);
+    </script>
+    
+    <div class="z-50">
+      <WebPreloader />
+    </div>
+    <!-- Añadir el fondo de burbujas como primer elemento -->
+    <div class="fixed inset-0 w-full h-full overflow-hidden pointer-events-none">
+      <BubbleBackground 
+        opacity="0.7" 
+        zIndex="-1" 
+        primaryColor="#ee7bb3" 
+        secondaryColor="#d6d6d6c6" 
+        bubbleCount="50"
+        height="100vh"
+      />
+    </div>
+    
+    <header>
+      <Navigation lang={lang} />
+    </header>
+    
+    <main>
+      <slot />
+    </main>
+
+    <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script is:inline>
+      // Smooth scroll para todos los enlaces internos
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (!targetId || targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (!targetElement) return;
+            
+            // Scroll suave a la sección
+            window.scrollTo({
+              top: targetElement.offsetTop - 80, // Ajuste para el header fijo
+              behavior: 'smooth'
+            });
+            
+            // Actualizar la URL sin recargar la página
+            history.pushState(null, null, targetId);
+          });
+        });
+        
+        // Manejar la navegación inicial si hay un hash en la URL
+        if (window.location.hash) {
+          const targetElement = document.querySelector(window.location.hash);
+          if (targetElement) {
+            setTimeout(() => {
+              window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
+              });
+            }, 100);
+          }
+        }
+      });
+    </script>
+    
+    <script is:inline>
+      // Script para resetear la posición de scroll al recargar la página
+      window.onload = function() {
+        window.scrollTo(0, 0);
+      }
+      
+      // Alternativa que funciona incluso si la página se carga desde caché
+      if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+      }
+      window.scrollTo(0, 0);
+    </script>
+    
+    <script is:inline>
+      // Tracking de scroll para secciones
+      document.addEventListener('DOMContentLoaded', function() {
+        // Obtener todas las secciones principales
+        const sections = document.querySelectorAll('section[id]');
+        
+        // Configurar el observador de intersección
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // Enviar evento a GA cuando una sección es visible
+              gtag('event', 'view_section', {
+                'section_id': entry.target.id,
+                'section_name': entry.target.getAttribute('data-section-name') || entry.target.id
+              });
+            }
+          });
+        }, { threshold: 0.5 }); // Visible cuando al menos el 50% de la sección está en pantalla
+        
+        // Observar cada sección
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Tracking de clics en enlaces importantes
+        document.querySelectorAll('a[data-track]').forEach(link => {
+          link.addEventListener('click', function() {
+            gtag('event', 'click', {
+              'event_category': 'link',
+              'event_label': this.getAttribute('data-track') || this.href
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

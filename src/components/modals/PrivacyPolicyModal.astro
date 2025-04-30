@@ -1,0 +1,262 @@
+---
+import { loadTranslations, normalizeLanguageCode } from '../../i18n/i18n.js';
+
+const { lang = 'es' } = Astro.props;
+const normalizedLang = normalizeLanguageCode(lang);
+const privacyTranslations = await loadTranslations(normalizedLang, 'privacy');
+---
+
+<!-- Modal de Política de Privacidad -->
+<div id="privacy-policy-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+    <div class="bg-white dark:bg-gray-800 dark:bg-opacity-30 rounded-xl shadow-xl max-w-4xl w-[90vw] max-h-[90vh] flex flex-col pb-4">
+        <div class="w-full flex justify-end p-4">
+            <button
+                id="close-privacy-modal"
+                class="text-gray-500 hover:text-gray-700"
+                >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-10 w-10 transition-transform duration-500 ease-in-out hover:rotate-[90deg]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="#5b6875"
+                >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+        </div>
+        <div class="overflow-y-auto flex-1 px-6 pb-8 mx-4">
+            <div class="w-full flex flex-col items-center justify-start mb-6">
+                <div class="w-full flex items-center justify-center mb-6 bg-gray p-2">
+                    <h2 class="text-3xl md:text-6xl tracking-wide font-display font-bold text-white">
+                    {privacyTranslations.title || 'Política de Privacidad'}
+                    </h2>
+                </div>
+            </div>
+
+            <div class="prose prose-lg max-w-none text-gray-600 dark:text-gray-300">
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.introduction?.title || 'Introducción'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.introduction?.content || 'Esta Política de Privacidad describe cómo se recopila, utiliza y comparte su información personal cuando visita nuestro sitio web.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.dataCollection?.title || 'Información que recopilamos'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.dataCollection?.content || 'Recopilamos información personal que usted nos proporciona voluntariamente al registrarse, realizar una compra, suscribirse a nuestro boletín o contactarnos.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.dataUse?.title || 'Cómo utilizamos su información'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.dataUse?.content || 'Utilizamos la información que recopilamos para proporcionar y mejorar nuestros servicios, procesar sus transacciones, comunicarnos con usted y cumplir con nuestras obligaciones legales.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.dataSharing?.title || 'Compartición de datos'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.dataSharing?.content || 'Podemos compartir su información personal con proveedores de servicios, socios comerciales y cuando sea necesario para cumplir con la ley.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.cookies?.title || 'Cookies'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.cookies?.content || 'Utilizamos cookies y tecnologías similares para mejorar su experiencia en nuestro sitio web, analizar el tráfico y personalizar el contenido.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.rights?.title || 'Sus derechos'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.rights?.content || 'Dependiendo de su ubicación, puede tener ciertos derechos con respecto a su información personal, como el derecho a acceder, corregir o eliminar sus datos.'}
+                </p>
+                </div>
+
+                <div class="mb-6">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.contact?.title || 'Contacto'}
+                </h3>
+                <p class="text-base md:text-lg text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.sections?.contact?.content || 'Si tiene alguna pregunta sobre esta Política de Privacidad, puede contactarnos en:'}
+                    <a href={`mailto:${privacyTranslations.contactEmail || 'hello@agazzistudio.com'}`} class="hover:underline text-gray-600 dark:text-gray-300">
+                    {privacyTranslations.contactEmail || 'hello@agazzistudio.com'}
+                    </a>
+                </p>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <button id="close-privacy-button" class="w-full bg-[#ee7bb3] hover:bg-gray text-white px-6 py-2 rounded transition-colors duration-300">
+                Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  // Función para abrir el modal
+  function openPrivacyModal() {
+    const modal = document.getElementById('privacy-policy-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      // Prevenir scroll en el body
+      document.body.style.overflow = 'hidden';
+      
+      // Añadir animación de entrada
+      const modalContent = modal.querySelector('div');
+      if (modalContent) {
+        modalContent.classList.add('animate-fade-in');
+      }
+    }
+  }
+  
+  // Función para cerrar el modal
+  function closePrivacyModal() {
+    const modal = document.getElementById('privacy-policy-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      // Restaurar scroll en el body
+      document.body.style.overflow = '';
+    }
+  }
+  
+  // Configurar event listeners cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', () => {
+    // Asegurarse de que el modal esté oculto al inicio
+    const modal = document.getElementById('privacy-policy-modal');
+    if (modal) {
+      // Asegurarse de que el modal esté oculto inicialmente
+      modal.classList.add('hidden');
+    }
+    
+    // Botón de cerrar dentro del modal
+    const closeButton = document.getElementById('close-privacy-modal');
+    if (closeButton) {
+      closeButton.addEventListener('click', closePrivacyModal);
+    }
+    
+    // Botón de cerrar en la parte inferior
+    const closeButtonBottom = document.getElementById('close-privacy-button');
+    if (closeButtonBottom) {
+      closeButtonBottom.addEventListener('click', closePrivacyModal);
+    }
+    
+    // Cerrar al hacer clic fuera del contenido del modal
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closePrivacyModal();
+        }
+      });
+    }
+    
+    // Escuchar eventos personalizados para abrir el modal
+    document.addEventListener('openPrivacyModal', openPrivacyModal);
+    
+    // Configurar todos los enlaces a la política de privacidad
+    document.querySelectorAll('a[href="#privacy-policy"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPrivacyModal();
+      });
+    });
+  });
+  
+  // Asegurarse de que el modal respete el tema actual
+  function applyThemeToPrivacyModal() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const modal = document.getElementById('privacy-policy-modal');
+    
+    if (modal) {
+      const modalContent = modal.querySelector('div');
+      if (modalContent) {
+        if (isDark) {
+          modalContent.classList.add('dark-theme');
+        } else {
+          modalContent.classList.remove('dark-theme');
+        }
+      }
+    }
+  }
+  
+  // Aplicar tema cuando cambia
+  document.addEventListener('themeChanged', applyThemeToPrivacyModal);
+  
+  // También aplicar al cargar, pero sin abrir el modal
+  window.addEventListener('load', () => {
+    applyThemeToPrivacyModal();
+    // Asegurarse de que el modal esté oculto
+    const modal = document.getElementById('privacy-policy-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  });
+</script>
+
+<style>
+  /* Animaciones para el modal */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  /* Estilos para el tema oscuro */
+  .dark-theme {
+    background-color: #1f2937;
+    color: white;
+  }
+  
+  /* Estilos para el scrollbar en el modal */
+  #privacy-policy-modal div::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  #privacy-policy-modal div::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  #privacy-policy-modal div::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  #privacy-policy-modal div::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  /* Versión para tema oscuro */
+  .dark #privacy-policy-modal div::-webkit-scrollbar-track {
+    background: #374151;
+  }
+  
+  .dark #privacy-policy-modal div::-webkit-scrollbar-thumb {
+    background: #6b7280;
+  }
+  
+  .dark #privacy-policy-modal div::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+</style>

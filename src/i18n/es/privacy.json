@@ -1,0 +1,40 @@
+{
+  "title": "Política de Privacidad",
+  "subtitle": "Información sobre cómo tratamos tus datos",
+  "sections": {
+    "introduction": {
+      "title": "Introducción",
+      "content": "Esta Política de Privacidad describe cómo se recopila, utiliza y comparte su información personal cuando visita nuestro sitio web."
+    },
+    "dataCollection": {
+      "title": "Información que recopilamos",
+      "content": "Recopilamos información personal que usted nos proporciona voluntariamente al registrarse, realizar una compra, suscribirse a nuestro boletín o contactarnos."
+    },
+    "dataUse": {
+      "title": "Cómo utilizamos su información",
+      "content": "Utilizamos la información que recopilamos para proporcionar y mejorar nuestros servicios, procesar sus transacciones, comunicarnos con usted y cumplir con nuestras obligaciones legales."
+    },
+    "dataSharing": {
+      "title": "Compartición de datos",
+      "content": "Podemos compartir su información personal con proveedores de servicios, socios comerciales y cuando sea necesario para cumplir con la ley."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "Utilizamos cookies y tecnologías similares para mejorar su experiencia en nuestro sitio web, analizar el tráfico y personalizar el contenido."
+    },
+    "rights": {
+      "title": "Sus derechos",
+      "content": "Dependiendo de su ubicación, puede tener ciertos derechos con respecto a su información personal, como el derecho a acceder, corregir o eliminar sus datos."
+    },
+    "contact": {
+      "title": "Contacto",
+      "content": "Si tiene alguna pregunta sobre esta Política de Privacidad, puede contactarnos en:"
+    }
+  },
+  "contactEmail": "hello@agazzistudio.com",
+  "footer": {
+    "copyright": "© 2023 Agazzi Studio. Todos los derechos reservados.",
+    "privacyPolicy": "Política de Privacidad",
+    "termsOfService": "Términos de Servicio"
+  }
+}

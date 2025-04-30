@@ -1,0 +1,63 @@
+{
+  "title": "Términos y Condiciones de Servicio",
+  "sections": {
+    "parties": {
+      "title": "1. Partes y Objeto",
+      "content": "Este documento regula los términos y condiciones (en adelante, «Términos») aplicables a los servicios de publicidad y marketing digital prestados por Agazzi Studio, con domicilio en Barcelona y C.I.F. B-XXXXXXXX (en adelante, «la Agencia»), a las personas físicas o jurídicas (en adelante, «el Cliente») que contraten sus servicios."
+    },
+    "scope": {
+      "title": "2. Alcance de los Servicios",
+      "content": "2.1. La Agencia prestará al Cliente servicios de diseño, planificación, ejecución y gestión de campañas publicitarias, Social Media Management, creación de contenidos, email marketing, SEO/SEM y demás servicios acordados en el presupuesto.\n\n2.2. Las especificaciones, plazos de entrega y entregables concretos se detallarán en el presupuesto o propuesta de proyecto firmado por ambas partes."
+    },
+    "budgets": {
+      "title": "3. Presupuestos y Contratación",
+      "content": "3.1. Todo servicio se formalizará mediante la aceptación escrita de un presupuesto que recogerá precio, scope de trabajo, plazos y condiciones.\n\n3.2. La validez del presupuesto será de 30 días naturales desde su emisión, salvo pacto expreso en contrario."
+    },
+    "payment": {
+      "title": "4. Términos de Pago",
+      "content": "4.1. El Cliente abonará a la Agencia un 50% de anticipo al aceptar el presupuesto y antes de iniciar cualquier trabajo.\n\n4.2. El 50% restante deberá abonarse en la fecha de entrega de los trabajos o según hitos intermedios definidos en el presupuesto.\n\n4.3. Los pagos se realizarán mediante transferencia bancaria a la cuenta indicada en la factura.\n\n4.4. En caso de retraso en el pago, se devengarán intereses de demora conforme al tipo legal vigente más un 2% adicional."
+    },
+    "modifications": {
+      "title": "5. Modificaciones y Revisión de Alcance",
+      "content": "5.1. Cualquier cambio o solicitud adicional no contemplada en el presupuesto original se considerará un servicio extra sujeto a nuevo presupuesto.\n\n5.2. La Agencia informará al Cliente de posibles ajustes en plazos y costes antes de iniciar los trabajos adicionales."
+    },
+    "intellectual": {
+      "title": "6. Propiedad Intelectual",
+      "content": "6.1. Todos los derechos de propiedad intelectual de los materiales originales creados por la Agencia (diseños, textos, vídeos, etc.) permanecerán en favor de la Agencia hasta el pago íntegro de los servicios.\n\n6.2. Una vez abonada la totalidad del precio, la Agencia cede al Cliente los derechos de uso y explotación del entregable según lo acordado, sin perjuicio de citar siempre la autoría de la Agencia."
+    },
+    "confidentiality": {
+      "title": "7. Confidencialidad",
+      "content": "Ambas partes se comprometen a mantener la confidencialidad de toda la información técnica, comercial o estratégica intercambiada durante la ejecución del contrato."
+    },
+    "liability": {
+      "title": "8. Responsabilidad y Garantías",
+      "content": "8.1. La Agencia garantiza la realización de los servicios conforme a las buenas prácticas del sector, pero no se hace responsable de los resultados comerciales o de audiencia que puedan derivarse.\n\n8.2. La responsabilidad máxima de la Agencia ante cualquier reclamación no podrá exceder el importe total pagado por el Cliente en el proyecto."
+    },
+    "deadlines": {
+      "title": "9. Plazos de Entrega y Retrasos",
+      "content": "9.1. La Agencia se compromete a respetar los plazos acordados, siempre que el Cliente facilite a tiempo la información y materiales necesarios.\n\n9.2. En caso de retrasos imputables al Cliente, los plazos se prorrogarán en idéntico periodo."
+    },
+    "duration": {
+      "title": "10. Duración y Resolución",
+      "content": "10.1. El contrato tendrá la duración necesaria para completar los servicios encargados.\n\n10.2. Cualquiera de las partes podrá resolver anticipadamente el contrato si la otra incurre en un incumplimiento grave que no subsane en un plazo de 15 días tras notificación escrita."
+    },
+    "force": {
+      "title": "11. Fuerza Mayor",
+      "content": "Ninguna de las partes será responsable de retrasos o incumplimientos derivados de causas de fuerza mayor."
+    },
+    "data": {
+      "title": "12. Protección de Datos",
+      "content": "La Agencia no gestionará datos personales sensibles ni realizará tratamientos que requieran inscripción en el Registro de la AEPD, dado que el servicio consiste en difusión y no recoge datos del usuario final."
+    },
+    "law": {
+      "title": "13. Ley Aplicable y Jurisdicción",
+      "content": "Estos Términos se regirán por la legislación española. Para cualquier conflicto, las partes se someten a los Juzgados y Tribunales de Barcelona, con renuncia expresa a cualquier otro fuero."
+    },
+    "contact": {
+      "title": "Contacto",
+      "content": "Si tiene alguna pregunta sobre estos Términos y Condiciones, puede contactarnos en:"
+    }
+  },
+  "lastUpdate": "Fecha de última actualización: 1 de Junio de 2023",
+  "contactEmail": "hello@agazzistudio.com"
+}

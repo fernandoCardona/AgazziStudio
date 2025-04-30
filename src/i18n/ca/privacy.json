@@ -1,0 +1,40 @@
+{
+  "title": "Política de Privacitat",
+  "subtitle": "Informació sobre com tractem les teves dades",
+  "sections": {
+    "introduction": {
+      "title": "Introducció",
+      "content": "Aquesta Política de Privacitat descriu com es recopila, utilitza i comparteix la seva informació personal quan visita el nostre lloc web."
+    },
+    "dataCollection": {
+      "title": "Informació que recopilem",
+      "content": "Recopilem informació personal que vostè ens proporciona voluntàriament en registrar-se, realitzar una compra, subscriure's al nostre butlletí o contactar-nos."
+    },
+    "dataUse": {
+      "title": "Com utilitzem la seva informació",
+      "content": "Utilitzem la informació que recopilem per proporcionar i millorar els nostres serveis, processar les seves transaccions, comunicar-nos amb vostè i complir amb les nostres obligacions legals."
+    },
+    "dataSharing": {
+      "title": "Compartició de dades",
+      "content": "Podem compartir la seva informació personal amb proveïdors de serveis, socis comercials i quan sigui necessari per complir amb la llei."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "Utilitzem cookies i tecnologies similars per millorar la seva experiència al nostre lloc web, analitzar el trànsit i personalitzar el contingut."
+    },
+    "rights": {
+      "title": "Els seus drets",
+      "content": "Depenent de la seva ubicació, pot tenir certs drets respecte a la seva informació personal, com el dret a accedir, corregir o eliminar les seves dades."
+    },
+    "contact": {
+      "title": "Contacte",
+      "content": "Si té alguna pregunta sobre aquesta Política de Privacitat, pot contactar-nos a:"
+    }
+  },
+  "contactEmail": "hello@agazzistudio.com",
+  "footer": {
+    "copyright": "© 2023 Agazzi Studio. Tots els drets reservats.",
+    "privacyPolicy": "Política de Privacitat",
+    "termsOfService": "Termes de Servei"
+  }
+}

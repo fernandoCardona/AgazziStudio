@@ -1,0 +1,43 @@
+{
+  "ca": {
+    "title": "ELS NOSTRES CLIENTS",
+    "subtitle": "CLIENTS GENIALS"
+  },
+  "partners": [
+    {
+      "name": "Premium Houses",
+      "url": "https://www.premiumhouses.es/",
+      "image": "/images/partners/premium-houses.svg"
+    },
+    {
+      "name": "Niky Pinturas",
+      "url": " https://nikypinturas.es/",
+      "image": "/images/partners/niky-pinturas.svg"
+    },
+    {
+      "name": "Atlex Legal",
+      "url": "https://atlexlegal.org/ ",
+      "image": "/images/partners/atlexlegal.svg"
+    },
+    {
+      "name": "Eco Clean Ribes",
+      "url": " https://www.ecocleanribes.com/",
+      "image": "/images/partners/eco-clean-ribes.svg"
+    },
+    {
+      "name": "Riverconsa",
+      "url": "https://riverconsa.com",
+      "image": "/images/partners/riverconsa-logo.svg"
+    },
+    {
+      "name": "Suitable Agency",
+      "url": "https://www.suitableagency.com",
+      "image": "/images/partners/Suitable-Logo-White.svg"
+    },
+    {
+      "name": "UAM",
+      "url": "#",
+      "image": "/images/partners/uam.svg"
+    }
+  ]
+}

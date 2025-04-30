@@ -1,0 +1,100 @@
+---
+// src/components/CookieBanner.astro
+const { lang = 'es' } = Astro.props;
+const expireHours = 48;
+import { loadTranslations } from '../i18n/i18n.js';
+
+let cookiesTranslations = {
+  message: "Esta web es estática y no recoge datos personales. Al continuar, aceptas nuestra política de privacidad.",
+  accept: "Aceptar"
+};
+
+try {
+  cookiesTranslations = await loadTranslations(lang, 'cookies');
+} catch {
+  console.warn('No se pudieron cargar las traducciones de cookies.');
+}
+---
+
+<!-- CONTENEDOR -->
+<div id="cookie-banner-container">
+  <!-- BACKDROP -->
+  <div
+    id="cookie-backdrop"
+    class="fixed inset-0 bg-black/50 opacity-0 transition-opacity duration-500 pointer-events-none z-50"
+  ></div>
+
+  <!-- BANNER -->
+  <div
+    id="privacy-banner"
+    role="dialog"
+    aria-live="polite"
+    class="fixed bottom-0 inset-x-0
+           w-full md:w-auto mx-auto
+           bg-[#7943f6] text-white p-4 pb-8 mb:pb-
+           transform translate-y-full opacity-0
+           transition-transform duration-500
+           pointer-events-none z-[99999999]"
+  >
+    <div class="flex flex-col md:flex-row md:justify-between items-center gap-4">
+      <p class="text-[18px] leading-[22px] lg:text-[20px] lg:leading-[24px] text-center md:text-left">
+        {cookiesTranslations.message}
+      </p>
+      <button
+        id="accept-policy"
+        class="h-[45px] lg:h-[50px] w-[140px] lg:w-[200px] bg-transparent border border-white hover:bg-white md:text-[18px] md:leading-[22px]  text-white hover:text-purple px-4 py-2 rounded transition-all duration-300"
+      >
+        {cookiesTranslations.acceptButton}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT QUE SE HIDRATA EN EL CLIENTE -->
+<script client:load>
+(() => {
+  const expireHours = 48;
+  const key         = 'privacyAcceptedUntil';
+  const backdrop    = document.getElementById('cookie-backdrop');
+  const banner      = document.getElementById('privacy-banner');
+  const acceptBtn   = document.getElementById('accept-policy');
+  const now         = new Date();
+  const stored      = localStorage.getItem(key);
+
+  // Si ya aceptó recientemente, no mostramos nada
+  if (stored && now < new Date(stored)) {
+    return;
+  }
+
+  // Bloquear scroll
+  document.body.style.overflow = 'hidden';
+
+  // Mostrar con fade-in + slide-up
+  requestAnimationFrame(() => {
+    backdrop.classList.remove('pointer-events-none');
+    banner.classList.remove('pointer-events-none');
+    backdrop.classList.replace('opacity-0', 'opacity-100');
+    banner.classList.replace('translate-y-full', 'translate-y-0');
+    banner.classList.replace('opacity-0', 'opacity-100');
+  });
+
+  // Al pulsar "Aceptar"
+  acceptBtn.addEventListener('click', () => {
+    const expireDate = new Date(Date.now() + expireHours * 3600 * 1000);
+    localStorage.setItem(key, expireDate.toISOString());
+
+    // Fade-out + slide-down
+    backdrop.classList.replace('opacity-100', 'opacity-0');
+    backdrop.classList.add('pointer-events-none');
+    banner.classList.replace('opacity-100', 'opacity-0');
+    banner.classList.replace('translate-y-0', 'translate-y-full');
+    banner.classList.add('pointer-events-none');
+
+    setTimeout(() => {
+      document.body.style.overflow = '';
+      backdrop.remove();
+      banner.remove();
+    }, 500);
+  });
+})();
+</script>

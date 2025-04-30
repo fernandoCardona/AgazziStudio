@@ -1,0 +1,290 @@
+/* Variables globales */
+:root {
+  /* Colores principales */
+  --color-primary: #5b6875;
+  --color-accent: #4a6cf7;
+  --color-background: #ffffff;
+  --color-text: #5b6875;
+  --color-text-light: #6e7884;
+  --color-border: rgba(0, 0, 0, 0.1);
+  
+  /* Tema oscuro */
+  --dark-color-background: #000000;
+  --dark-color-text: #ffffff;
+  --dark-color-text-light: #aaaaaa;
+  --dark-color-border: rgba(255, 255, 255, 0.2);
+  
+  /* Fuentes */
+  --font-sans: 'Poppins', sans-serif;
+  --font-display: 'Six Caps', sans-serif;
+  
+  /* Tamaños de fuente responsivos */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+  --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 1.875rem);
+  --text-3xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.25rem);
+  --text-4xl: clamp(2.25rem, 1.9rem + 1.75vw, 3rem);
+  --text-5xl: clamp(3rem, 2.5rem + 2.5vw, 4rem);
+  --text-6xl: clamp(3.75rem, 3rem + 3.75vw, 6rem);
+  --text-7xl: clamp(4.5rem, 3.5rem + 5vw, 8rem);
+  --text-8xl: clamp(6rem, 4.5rem + 7.5vw, 12rem);
+  
+  /* Espaciado */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+  
+  /* Bordes */
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 1rem;
+  
+  /* Transiciones */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Estilos base */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* Tema claro (por defecto) */
+html:not(.dark) {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Tema oscuro */
+html.dark {
+  background-color: var(--dark-color-background);
+  color: var(--dark-color-text);
+}
+
+/* Estilos de tipografía */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: var(--text-5xl);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+}
+
+h3 {
+  font-size: var(--text-3xl);
+}
+
+h4 {
+  font-size: var(--text-2xl);
+}
+
+h5 {
+  font-size: var(--text-xl);
+}
+
+h6 {
+  font-size: var(--text-lg);
+}
+
+p {
+  margin-bottom: var(--spacing-md);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+/* Utilidades */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+}
+
+/* Clases de tema */
+.dark\:text-white {
+  color: var(--dark-color-text);
+}
+
+.light\:text-gray {
+  color: var(--color-text);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-normal);
+}
+
+.animate-slide-up {
+  animation: slideUp var(--transition-normal);
+}
+
+/* Estilos específicos para el componente Contact */
+#contact {
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* Tema claro */
+html:not(.dark) #contact {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+html:not(.dark) #contact .text-theme-text {
+  color: var(--color-text);
+}
+
+html:not(.dark) #contact input,
+html:not(.dark) #contact textarea {
+  border-color: rgba(91, 104, 117, 0.2);
+  color: var(--color-text);
+  background-color: transparent;
+}
+
+html:not(.dark) #contact input:focus,
+html:not(.dark) #contact textarea:focus {
+  border-color: rgba(91, 104, 117, 0.8);
+}
+
+html:not(.dark) #contact input::placeholder,
+html:not(.dark) #contact textarea::placeholder {
+  color: rgba(91, 104, 117, 0.6);
+}
+
+html:not(.dark) #contact button {
+  border-color: rgba(91, 104, 117, 0.2);
+  color: var(--color-text);
+}
+
+html:not(.dark) #contact button:hover {
+  border-color: rgba(91, 104, 117, 0.8);
+}
+
+/* Tema oscuro */
+html.dark #contact {
+  background-color: var(--dark-color-background);
+  color: var(--dark-color-text);
+}
+
+html.dark #contact .text-theme-text {
+  color: var(--dark-color-text);
+}
+
+html.dark #contact input,
+html.dark #contact textarea {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--dark-color-text);
+  background-color: transparent;
+}
+
+html.dark #contact input:focus,
+html.dark #contact textarea:focus {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+html.dark #contact input::placeholder,
+html.dark #contact textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+html.dark #contact button {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--dark-color-text);
+}
+
+html.dark #contact button:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Animación para el formulario de contacto */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#contact .animate-fadeInUp {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Clases de tema mejoradas */
+.dark\:bg-black {
+  background-color: #000000;
+}
+
+.light\:bg-white {
+  background-color: #ffffff;
+}
+
+.dark\:text-white {
+  color: #ffffff;
+}
+
+.light\:text-gray {
+  color: #5b6875;
+}
+
+/* Estilos para SectionTitle */
+h2.SectionTitle {
+  @apply text-gray;
+}
+
+/* En modo dark, el título cambia a morado */
+:global(html.dark) h2.SectionTitle {
+  @apply text-purple;
+}
+
+/* Estilos para SectionSubTitle */
+p.SectionSubTitle {
+  @apply text-gray;
+}
+
+/* En modo dark, el subtítulo permanece gris */
+:global(html.dark) p.SectionSubTitle {
+  @apply text-gray;
+}

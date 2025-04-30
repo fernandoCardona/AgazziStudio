@@ -1,0 +1,622 @@
+---
+import { loadTranslations, normalizeLanguageCode } from '../../i18n/i18n.js';
+
+// Obtener el idioma de las props (por defecto "es")
+const { lang = 'es', theme = 'dark' } = Astro.props;
+const normalizedLang = normalizeLanguageCode(lang);
+// console.log('Partners component - normalizedLang:', normalizedLang);
+
+// Datos por defecto para asegurarnos de que siempre existan las traducciones y los items
+const defaultPartnersData = {
+  "es": {
+    "title": "NUESTROS CLIENTES",
+    "subtitle": "CLIENTES GENIALES"
+  },
+  "en": {
+    "title": "OUR CLIENTS",
+    "subtitle": "AWESOME CLIENTS"
+  },
+  "ca": {
+    "title": "ELS NOSTRES CLIENTS",
+    "subtitle": "CLIENTS GENIALS"
+  },
+  "partners": [
+  {
+      "name": "Premium Houses",
+      "url": "https://www.premiumhouses.es/",
+      "image": "/images/partners/premium-houses.svg"
+    },
+    {
+      "name": "Niky Pinturas",
+      "url": " https://nikypinturas.es/",
+      "image": "/images/partners/niky-pinturas.svg"
+    },
+    {
+      "name": "Atlex Legal",
+      "url": "https://atlexlegal.org/ ",
+      "image": "/images/partners/atlexlegal.svg"
+    },
+    {
+      "name": "Eco Clean Ribes",
+      "url": " https://www.ecocleanribes.com/",
+      "image": "/images/partners/eco-clean-ribes.svg"
+    },
+    {
+      "name": "Riverconsa",
+      "url": "https://riverconsa.com",
+      "image": "/images/partners/riverconsa-logo.svg"
+    },
+    {
+      "name": "Suitable Agency",
+      "url": "https://www.suitableagency.com",
+      "image": "/images/partners/Suitable-Logo-White.svg"
+    },
+    {
+      "name": "UAM",
+      "url": "#",
+      "image": "/images/partners/uam.svg"
+    }
+  ]
+};
+
+// Intentamos cargar los datos mediante loadTranslations; en caso de fallo se usa el default
+let partnersData;
+try {
+  partnersData = await loadTranslations(normalizedLang, 'partners');
+} catch (error) {
+  console.error('Error loading partners translations:', error);
+  partnersData = defaultPartnersData;
+}
+
+// Para el título y subtítulo buscamos en la clave del idioma, o se hace fallback a "es"
+const translations = partnersData[normalizedLang] || partnersData["es"] || defaultPartnersData["es"];
+const title = translations.title;
+const subtitle = translations.subtitle;
+
+// La lista de partners la obtenemos de la clave "partners"
+const partners = partnersData.partners || defaultPartnersData.partners;
+const partnersCount = partners.length;
+
+// Asegurarnos de que las rutas de las imágenes sean correctas
+const fixedPartners = partners.map(partner => {
+  // Extraer solo el nombre del archivo de la ruta completa
+  const imageName = partner.image.split('/').pop();
+  return {
+    ...partner,
+    image: `/assets/images/partners/${imageName}`
+  };
+});
+
+// console.log('Partners count:', partnersCount);
+
+// Determinar la clase para los SVG según el tema
+const svgColorClass = theme === 'dark' ? 'svg-purple' : 'svg-gray';
+// console.log('Current theme:', theme, 'SVG color class:', svgColorClass);
+---
+
+<section id="partners" class="bg-theme text-theme-text py-20">
+  <div class="container mx-auto px-0 sm:px-0 md:px-8">
+    <!-- Título y subtítulo -->
+    <div class="text-center mb-12">
+      <h2 class="SectionTitle text-7xl md:text-8xl font-display font-bold mb-6 fade-up-element opacity-0 translate-y-10" data-delay="0.4">{title}</h2>
+      <p class="SectionSubTitle text-[16px] xs:text-[18px] sm:text-[22px] leading-[20px] xs:leading-[22px] sm:leading-[26px] font-sans  uppercase max-w-2xl mx-auto fade-up-element opacity-0 translate-y-10" data-delay="0.8">{subtitle}</p>
+    </div>
+
+    <!-- Vista Desktop: Grid con animación escalonada (visible a partir de sm) -->
+    <div class="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-theme-border partners-grid ">
+      {fixedPartners.map((partner) => (
+        <a
+          href={partner.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="partner-item bg-theme p-8 flex flex-col items-center justify-center text-center h-64 transition-all duration-300 hover:scale-[1.02] opacity-0"
+          key={partner.name}
+        >
+          <div class="logo-container h-30 flex items-center justify-center mb-6">
+            <img 
+              src={partner.image} 
+              alt={`${partner.name} logo`} 
+              class={`h-[120px] w-auto object-contain ${svgColorClass}`}
+              onerror="this.onerror=null; this.src='/images/partners/default-logo.svg';"
+              data-theme={theme}
+            />
+          </div>
+          <p class="text-[20px] md:text-[24px] font-bold partner-name">{partner.name}</p>
+        </a>
+      ))}
+    </div>
+
+    <!-- Vista Móvil: Slider continuo con CSS (visible por debajo de sm) -->
+    <div class="sm:hidden overflow-hidden relative carousel-container fade-up-element opacity-0 translate-y-10" data-delay="0.4">
+      <!-- Capa de difuminado izquierda -->
+      <div class="fade-left"></div>
+      
+      <!-- Capa de difuminado derecha -->
+      <div class="fade-right"></div>
+      
+      <!-- Duplicamos los items para lograr una animación continua sin saltos -->
+      <div
+        class="slider-track flex"
+        style={`--slide-width: ${130 * partnersCount}px; width: ${130 * partnersCount * 2}px;`}
+      >
+        {fixedPartners.map((partner) => (
+          <div class="slider-item" key={partner.name}>
+            <a
+              href={partner.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-theme p-2 flex flex-col items-center"
+            >
+              <div class="logo-container flex items-center justify-center mb-2">
+                <img 
+                  src={partner.image} 
+                  alt={`${partner.name} logo`} 
+                  class="partner-logo w-[160px] h-[160px]" 
+                  onerror="this.onerror=null; this.src='/images/partners/default-logo.svg';"
+                />
+              </div>
+              <p class="text-md font-bold mt-1 partner-name text-[#5b6875] dark:text-[#7943f6]"> {partner.name} </p>
+            </a>
+          </div>
+        ))}
+        {fixedPartners.map((partner) => (
+          <div class="slider-item" key={partner.name + '-dup'}>
+            <a
+              href={partner.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-theme p-2 flex flex-col items-center"
+            >
+              <div class="logo-container flex items-center justify-center mb-2">
+                <img 
+                  src={partner.image} 
+                  alt={`${partner.name} logo`} 
+                  class="partner-logo w-[160px] h-[160px]" 
+                  onerror="this.onerror=null; this.src='/images/partners/default-logo.svg';"
+                />
+              </div>
+              <p class="text-md font-bold mt-1 partner-name text-[#5b6875] dark:text-[#7943f6]"> {partner.name} </p>
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Estilos adaptables al tema */
+  :global(html.dark) .bg-theme {
+    background-color: #000;
+  }
+  :global(html:not(.dark)) .bg-theme {
+    background-color: #fff;
+  }
+  
+  :global(html.dark) .text-theme-text {
+    color: #fff;
+  }
+  :global(html:not(.dark)) .text-theme-text {
+    color: #5b6875;
+  }
+  
+  :global(html.dark) .text-theme-secondary {
+    color: #aaa;
+  }
+  :global(html:not(.dark)) .text-theme-secondary {
+    color: #666;
+  }
+  
+  :global(html.dark) .bg-theme-border {
+    background-color: #333;
+  }
+  :global(html:not(.dark)) .bg-theme-border {
+    background-color: #eee;
+  }
+
+  /* Estilos para los SVG */
+  :global(html.dark) .svg-purple {
+    filter: invert(32%) sepia(74%) saturate(3695%) hue-rotate(245deg) brightness(97%) contrast(93%);
+  }
+  
+  :global(html.dark) .svg-purple + p {
+    color: #7943f6 !important;
+  }
+  
+  :global(html:not(.dark)) .svg-gray {
+    filter: invert(42%) sepia(9%) saturate(783%) hue-rotate(182deg) brightness(87%) contrast(84%);
+  }
+  
+  /* Desktop: Animación de entrada para cada partner */
+  .partner-item {
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+  }
+  .partner-item.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .partner-item:hover {
+    transform: scale(1.1);
+    z-index: 10;
+  }
+  
+  /* Sombra adaptativa según el tema */
+  :global(html.dark) .partner-item:hover {
+    box-shadow: 0 0 0 1px rgb(75 85 99 / 0.5), 0 10px 30px rgb(31 41 55 / 0.9);
+    border: 1px solid rgb(75 85 99 / 0.5);
+  }
+  
+  :global(html:not(.dark)) .partner-item:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  /* Mobile: Slider continuo */
+  .slider-track {
+    display: flex;
+    animation: scroll 20s linear infinite;
+  }
+  .slider-item {
+    flex-shrink: 0;
+    width: 120px;      /* Ancho fijo para cada item */
+    margin-right: 10px; /* Espaciado entre items */
+    text-align: center;
+  }
+
+  /* Estilos para los SVG según el tema */
+  :global(html.dark) .partner-item img,
+  :global(html.dark) .slider-item img {
+    filter: invert(32%) sepia(74%) saturate(3695%) hue-rotate(245deg) brightness(97%) contrast(93%) !important; /* Convierte a púrpura #7943f6 */
+  }
+  
+  :global(html:not(.dark)) .partner-item img,
+  :global(html:not(.dark)) .slider-item img {
+    filter: brightness(0) saturate(100%) invert(35%) sepia(11%) saturate(282%) hue-rotate(173deg) brightness(98%) contrast(90%) !important; /* Convierte a #5b6875 */
+  }
+ 
+
+  /* Contenedor de logo para mantener tamaño consistente */
+  .container {
+    padding-left: 0px; 
+    padding-right: 0px; 
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 8px;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-1 * var(--slide-width)));
+    }
+  }
+</style>
+
+<script>
+  // Animación escalonada para la vista Desktop usando IntersectionObserver
+  function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+      rect.bottom >= 0
+    );
+  }
+
+  function animatePartners() {
+    const partnerItems = document.querySelectorAll('.partner-item');
+    const partnersSection = document.getElementById('partners');
+    if (isInViewport(partnersSection)) {
+      partnerItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('animate-in');
+          item.classList.remove('opacity-0');
+        }, 150 * index);
+      });
+    } else {
+      partnerItems.forEach((item) => {
+        item.classList.remove('animate-in');
+        item.classList.add('opacity-0');
+      });
+    }
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animatePartners();
+      } else {
+        const partnerItems = document.querySelectorAll('.partner-item');
+        partnerItems.forEach(item => {
+          item.classList.remove('animate-in');
+          item.classList.add('opacity-0');
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+
+  const partnersSection = document.getElementById('partners');
+  if (partnersSection) {
+    observer.observe(partnersSection);
+    setTimeout(animatePartners, 300);
+  }
+  window.addEventListener('scroll', animatePartners);
+  
+  // Función para aplicar el tema correcto a los partners
+  function applyThemeToPartners() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const theme = isDark ? 'dark' : 'light';
+    // console.log('Partners: Aplicando tema', theme);
+    
+    const partnersSection = document.getElementById('partners');
+    const partnersTitle = document.querySelector('#partners h2');
+    const partnersSubtitle = document.querySelector('#partners p.subtitle');
+    const partnerLogos = document.querySelectorAll('.partner-logo');
+    
+    if (theme === 'dark') {
+      // Aplicar estilos para tema oscuro
+      partnersSection.style.backgroundColor = 'transparent';
+      partnersSection.style.color = '#fff';
+      
+      partnersTitle.style.color = '#fff';
+      if (partnersSubtitle) partnersSubtitle.style.color = '#9ca3af'; // text-gray-400
+      
+      partnerLogos.forEach(logo => {
+        logo.style.backgroundColor = '#0D0D0D';
+        logo.style.border = 'none';
+        // Filtro para logos en modo oscuro (opcional)
+        logo.style.filter = 'brightness(0.9) contrast(1.1)';
+      });
+    } else {
+      // Aplicar estilos para tema claro
+      partnersSection.style.backgroundColor = 'transparent';
+      partnersSection.style.color = '#5b6875';
+      
+      partnersTitle.style.color = '#5b6875';
+      if (partnersSubtitle) partnersSubtitle.style.color = '#5b6875';
+      
+      partnerLogos.forEach(logo => {
+        logo.style.backgroundColor = 'transparent';
+        logo.style.border = 'none';
+        // Restablecer filtros
+        logo.style.filter = 'none';
+      });
+    }
+  }
+  
+  // Aplicar tema al cargar
+  document.addEventListener('DOMContentLoaded', applyThemeToPartners);
+  
+  // Aplicar tema cuando cambia
+  document.addEventListener('themeChanged', (event) => {
+    // console.log('Partners: Evento themeChanged recibido', event.detail.theme);
+    applyThemeToPartners();
+  });
+  
+  // Verificar también cuando la ventana termina de cargar
+  window.addEventListener('load', applyThemeToPartners);
+</script>
+
+<style>
+  /* Añadir transiciones suaves para los cambios de tema */
+  #partners, .partner-logo, #partners h2, #partners p {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, filter 0.3s ease;
+  }
+  
+  /* Estilos específicos para los logos de partners */
+  .partner-logo {
+    background-color: var(--logo-bg-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  :global(html.dark) .partner-logo {
+    --logo-bg-color: #5b6875;
+  }
+  
+  :global(html:not(.dark)) .partner-logo {
+    --logo-bg-color: transparent;
+    border: 1px solid #5b6875;
+  }
+</style>
+
+<style>
+  /* Estilos para SectionTitle - SOLO COLOR */
+  h2.SectionTitle {
+    color: #5b6875 !important;
+  }
+
+  /* En modo dark, el título cambia a morado - SOLO COLOR */
+  :global(html.dark) h2.SectionTitle {
+    color: #7943f6 !important;
+  }
+
+  /* Estilos para SectionSubTitle - SOLO COLOR */
+  p.SectionSubTitle {
+    color: #5b6875 !important;
+  }
+
+  /* En modo dark, el subtítulo permanece gris - SOLO COLOR */
+  :global(html.dark) p.SectionSubTitle {
+    color: #5b6875 !important;
+  }
+  
+  /* Estilos para los logos SVG y sus nombres en modo claro */
+  .partner-logo svg path,
+  .partner-name {
+    color: #5b6875 !important;
+    fill: #5b6875 !important;
+  }
+  
+  /* En modo dark, los logos SVG y sus nombres cambian a morado */
+  :global(html.dark) .partner-logo svg path,
+  :global(html.dark) .partner-name {
+    color: #7943f6;
+    fill: #7943f6 !important;
+  }
+</style>
+
+<style>
+  /* Configuración del contenedor del carrusel */
+  .carousel-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Efecto de difuminado en el lado izquierdo */
+  .fade-left {
+    position: absolute;
+    top: 0;
+    left: -1px; /* Extender 1px más allá del borde izquierdo */
+    width: 100px; /* Aumentar el ancho para mejor cobertura */
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+  }
+  
+  /* Efecto de difuminado en el lado derecho */
+  .fade-right {
+    position: absolute;
+    top: 0;
+    right: -1px; /* Extender 1px más allá del borde derecho */
+    width: 100px; /* Aumentar el ancho para mejor cobertura */
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+  }
+  
+  /* Aplicar gradientes según el tema */
+  :global(html.dark) .fade-left {
+    background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%);
+  }
+  
+  :global(html.dark) .fade-right {
+    background: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0) 100%);
+  }
+  
+  :global(html:not(.dark)) .fade-left {
+    background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 40%, rgba(255,255,255,0) 100%);
+  }
+  
+  :global(html:not(.dark)) .fade-right {
+    background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 40%, rgba(255,255,255,0) 100%);
+  }
+  
+  /* Mejoras para el carrusel en móvil */
+  @media (max-width: 768px) {
+    .slider-item {
+      width: 200px !important; /* Aumentar el ancho del item */
+      margin-right: 15px !important; /* Más espacio entre items */
+    }
+    
+    .logo-container {
+      height: 180px !important; /* Altura del contenedor */
+      width: 180px !important; /* Ancho del contenedor */
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background-color: transparent !important;
+      border: none !important;
+    }
+    
+    .partner-logo {
+      height: 180px !important; /* Altura del SVG */
+      width: 180px !important; /* Ancho del SVG */
+      object-fit: contain !important;
+      max-width: 180px !important;
+      max-height: 180px !important;
+      background-color: transparent !important;
+    }
+    
+    .partner-name {
+      font-size: 20px !important;
+      margin-top: 15px !important;
+      text-align: center !important;
+      width: 100% !important;
+    }
+    
+    /* Ajustar la velocidad de la animación */
+    .slider-track {
+      animation-duration: 30s !important; /* Más lento para mejor visibilidad */
+    }
+  }
+  /* Estilos para las animaciones */
+  .fade-up-element {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .fade-up-element.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<!-- <li class="splide__slide">
+  <img src="/path/to/logo.svg" alt="Nombre del Partner" class="partner-logo" />
+  <span class="partner-name">Nombre del Partner</span>
+</li> -->
+
+<script>
+  // Script para asegurar una animación fluida del carrusel
+  document.addEventListener('DOMContentLoaded', () => {
+    const sliderTrack = document.querySelector('.slider-track');
+    if (sliderTrack) {
+      // Calcular el ancho exacto de los elementos originales
+      const items = document.querySelectorAll('.slider-item');
+      const itemWidth = 215; // Ancho del item + margen
+      const itemCount = items.length / 2; // Dividimos por 2 porque tenemos duplicados
+      const totalWidth = itemWidth * itemCount;
+      
+      // Establecer el ancho correcto para la animación
+      sliderTrack.style.setProperty('--slide-width', `${totalWidth}px`);
+      
+      // Reiniciar la animación para que sea fluida
+      const resetAnimation = () => {
+        sliderTrack.style.animation = 'none';
+        void sliderTrack.offsetWidth; // Forzar un reflow
+        sliderTrack.style.animation = 'scroll 60s linear infinite';
+      };
+      
+      // Reiniciar la animación cuando cambia el tamaño de la ventana
+      window.addEventListener('resize', resetAnimation);
+      
+      // Iniciar con una animación fluida
+      resetAnimation();
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const element = entry.target;
+          const delay = element.dataset.delay || 0;
+          
+          setTimeout(() => {
+            element.classList.add('visible');
+          }, delay * 1000);
+          
+          observer.unobserve(element);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-up-element').forEach(element => {
+      observer.observe(element);
+    });
+  });
+</script>

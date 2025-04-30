@@ -1,0 +1,48 @@
+{
+  "title": "El que diuen els nostres clients",
+  "description": "Descobreix el que els nostres clients tenen a dir sobre el nostre treball i experiència.",
+  "testimonials": [
+    {
+      "name": "Jona Carter",
+      "position": "Fundador d'Ecobiz",
+      "text": "Cada projecte que Agazzi Studio toca es converteix en una perfecta barreja de disseny i propòsit. Van crear un packaging que reflectia la nostra missió ecològica mentre feien que els nostres productes destaquessin als prestatges.",
+      "stars": 5
+    },
+    {
+      "name": "Sofia Toms",
+      "position": "Directora a Green Studios",
+      "text": "Els dissenys d'Agazzi Studio parlen per si mateixos: audaços, estratègics i impactants. Es van prendre el temps per entendre la nostra marca, lliurant conceptes de packaging que van ressonar amb el nostre públic objectiu i van potenciar el lloc web del nostre producte.",
+      "stars": 5
+    },
+    {
+      "name": "Richards Johnson",
+      "position": "Director Creatiu i Dissenyador Principal",
+      "text": "Treballar amb Agazzi Studio va ser una experiència perfecta. La seva capacitat per fusionar creativitat amb funcionalitat va resultar en dissenys que no només lluïen impressionants sinó que també van generar un compromís significatiu. Altament recomanat!",
+      "stars": 4
+    },
+    {
+      "name": "Alex Morgan",
+      "position": "CEO de TechVision",
+      "text": "Agazzi Studio va transformar completament la nostra identitat de marca. El seu enfocament estratègic i atenció al detall ens va ajudar a destacar en un mercat saturat. Les nostres conversions han augmentat un 45% des del redisseny.",
+      "stars": 5
+    },
+    {
+      "name": "Maria Rodríguez",
+      "position": "Fundadora de Bella Moda",
+      "text": "Trobar Agazzi Studio va ser el millor que li va passar al meu negoci. Van entendre perfectament l'essència de la meva marca de moda i van crear una identitat visual que ressona amb la meva audiència. El procés va ser fluid i els resultats, excepcionals.",
+      "stars": 5
+    },
+    {
+      "name": "David Chen",
+      "position": "Director de Màrqueting a FoodDelight",
+      "text": "La col·laboració amb Agazzi Studio va elevar la nostra presència digital a un altre nivell. La seva comprensió del mercat gastronòmic i la seva capacitat per crear experiències visuals atractives ens ha permès connectar millor amb els nostres clients.",
+      "stars": 4
+    },
+    {
+      "name": "Emma Wilson",
+      "position": "Propietària de Wellness Hub",
+      "text": "Agazzi Studio va captar l'essència del nostre centre de benestar i la va traduir en un disseny que transmet calma i professionalisme. Des del redisseny, hem vist un augment significatiu en nous clients que mencionen específicament com d'atrets es van sentir per la nostra imatge.",
+      "stars": 5
+    }
+  ]
+}

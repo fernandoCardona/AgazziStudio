@@ -1,0 +1,787 @@
+---
+import { loadTranslations, normalizeLanguageCode } from '../../i18n/i18n.js';
+
+const { lang = 'es' } = Astro.props;
+// Normalizar el código de idioma
+const normalizedLang = normalizeLanguageCode(lang);
+// console.log(`FAQ component - Idioma normalizado: ${normalizedLang}`);
+
+// Cargar traducciones de FAQ
+const faqTranslations = await loadTranslations(normalizedLang, 'faq');
+// console.log('Traducciones de FAQ cargadas:', faqTranslations);
+
+// Categorías predeterminadas en caso de que no se puedan cargar las traducciones
+const defaultFaqCategories = {
+  mediaManager: [
+    {
+      question: "¿Qué hace un Media Manager?",
+      answer: "Me encargo de planificar, comprar y optimizar espacios publicitarios en medios digitales (display, social ads, vídeo, audio) para maximizar el ROI y el alcance de tus campañas.",
+      isOpen: true
+    },
+    {
+      question: "¿En qué plataformas suelo trabajar?",
+      answer: "Google Ads, Facebook/Instagram Ads, LinkedIn Ads, YouTube, TikTok y DSPs especializadas según tu público objetivo."
+    },
+    {
+      question: "¿Cómo defino la estrategia de medios?",
+      answer: "Análisis de objetivos y audiencia 2) Selección de canales óptimos 3) Configuración de campañas 4) Monitorización y ajustes continuos."
+    },
+    {
+      question: "¿Cómo mido el éxito de una campaña?",
+      answer: "Con KPIs personalizados (CPC, CPA, CTR, ROAS) y reportes periódicos en los que revisamos resultados, aprendizajes y siguientes pasos."
+    },
+    {
+      question: "¿Cuál es la inversión mínima recomendada?",
+      answer: "Depende de tus objetivos y sector, pero generalmente recomendamos un presupuesto mensual mínimo de 1.000 € para ver resultados consistentes."
+    }
+  ],
+  webAppDev: [
+    {
+      question: "¿Qué tecnologías utilizas?",
+      answer: "Para web: React, Next.js, Node.js, y CMS como WordPress o Sanity. Para apps: React Native o Flutter, según necesidades de rendimiento y escalabilidad.",
+      isOpen: true
+    },
+    {
+      question: "¿Cuál es tu proceso de desarrollo?",
+      answer: "Definición de requisitos 2) Diseño de arquitectura 3) Maquetación y prototipado 4) Desarrollo 5) Pruebas y QA 6) Puesta en producción."
+    },
+    {
+      question: "¿Cuánto tiempo tarda un proyecto típico?",
+      answer: "Un sitio web corporativo suele tardar entre 4 y 8 semanas; una app móvil, de 2 a 4 meses, dependiendo de funcionalidades y complejidad."
+    },
+    {
+      question: "¿Ofreces mantenimiento y soporte?",
+      answer: "Sí, ofrezco planes mensuales de soporte (actualizaciones, backups, mejoras y resolución de incidencias) para que tu proyecto siempre esté al día."
+    },
+    {
+      question: "¿Cómo garantizas la seguridad de la web/app?",
+      answer: "Implemento buenas prácticas de codificación, certificados SSL, análisis de vulnerabilidades y pruebas de penetración antes de cada lanzamiento."
+    }
+  ],
+  graphicDesign: [
+    {
+      question: "¿Cómo es tu proceso de diseño y UX?",
+      answer: "Investigación de usuario 2) Wireframes y prototipos 3) Diseño visual 4) Test de usabilidad 5) Ajustes hasta la versión final.",
+      isOpen: true
+    },
+    {
+      question: "¿Qué entregables incluyes?",
+      answer: "Archivos editables (Figma/Sketch), guías de estilo, prototipos interactivos y especificaciones para desarrolladores."
+    },
+    {
+      question: "¿Cómo integro la identidad de marca en el diseño?",
+      answer: "Partiendo de tu misión, valores y tono de comunicación, creo paletas de color, tipografías e íconos que refuercen tu personalidad."
+    },
+    {
+      question: "¿Cuántas rondas de revisión ofreces?",
+      answer: "Incluyo hasta 3 revisiones de diseño para asegurar que el resultado encaje al 100 % con tus expectativas."
+    },
+    {
+      question: "¿Qué herramientas utilizas?",
+      answer: "Figma, Sketch, Adobe Illustrator y herramientas de testing como Maze o Lookback para validar la experiencia de usuario."
+    }
+  ]
+};
+
+// Usar las preguntas del archivo JSON si están disponibles, o usar las predeterminadas
+let faqCategories;
+
+if (faqTranslations && faqTranslations.questions) {
+  // Organizar las preguntas por categoría
+  const mediaManagerQuestions = faqTranslations.questions.filter(q => q.category === 'mediaManager');
+  const developmentQuestions = faqTranslations.questions.filter(q => q.category === 'development');
+  const designQuestions = faqTranslations.questions.filter(q => q.category === 'design');
+  
+  faqCategories = [
+    {
+      title: "Media Manager",
+      questions: mediaManagerQuestions
+    },
+    {
+      title: "Desarrollo Web & Apps",
+      questions: developmentQuestions
+    },
+    {
+      title: "Diseño UX/UI",
+      questions: designQuestions
+    }
+  ];
+} else {
+  // Convertir el objeto defaultFaqCategories en un array con la estructura correcta
+  faqCategories = [
+    {
+      title: "Media Manager",
+      questions: defaultFaqCategories.mediaManager || []
+    },
+    {
+      title: "Desarrollo Web & Apps",
+      questions: defaultFaqCategories.webAppDev || []
+    },
+    {
+      title: "Diseño UX/UI",
+      questions: defaultFaqCategories.graphicDesign || []
+    }
+  ];
+}
+
+// Categoría activa por defecto
+const activeCategory = "mediaManager";
+// Valores predeterminados para las traducciones
+const defaultTranslations = {
+  title: "Preguntas frecuentes",
+  description: "Encuentra respuestas a preguntas comunes sobre nuestros servicios",
+  bookCallButton: "Reservar una llamada gratuita"
+};
+
+// Usar traducciones del archivo JSON si están disponibles, o usar las predeterminadas
+const title = faqTranslations?.title || defaultTranslations.title;
+const description = faqTranslations?.description || defaultTranslations.description;
+const bookCallButton = faqTranslations?.bookCallButton || defaultTranslations.bookCallButton;
+---
+
+<section id="faq" class="bg-theme text-theme-text py-20">
+  <div class="container mx-auto px-6 md:px-8">
+    <div class="flex flex-col md:flex-row gap-10">
+      <!-- Columna izquierda: Título y descripción -->
+      <div class="md:w-1/3">
+        <a href="#faq" class="inline-flex items-center text-sm text-theme-secondary mb-4 hover:text-theme-text transition-colors fade-up-element opacity-0 translate-y-10" data-delay="0.2">
+          <span class="mr-2">FAQ'S</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17l9.2-9.2M17 17V7H7"/>
+          </svg>
+        </a>
+        <h2 class="SectionTitle text-7xl md:text-8xl font-display font-bold mb-6 text-theme-text fade-up-element opacity-0 translate-y-10" data-delay="0.4">{title}</h2>
+        <p class="SectionSubTitle text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-theme-secondary mb-8 fade-up-element opacity-0 translate-y-10" data-delay="0.6">
+          {description}
+        </p>
+        
+        <!-- Botones de categoría -->
+        <div class="flex flex-wrap gap-3 mb-8 fade-up-element opacity-0 translate-y-10" data-delay="0.8">
+          <button 
+            class="category-btn px-4 py-2 bg-tag text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] text-theme-text transition-all duration-300 hover:bg-theme-text hover:text-theme-bg" 
+            data-category="mediaManager"
+            aria-selected="true"
+          >
+            Media manager
+          </button>
+          <button
+            class="category-btn px-4 py-2 bg-tag text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] text-theme-text transition-all duration-300 hover:bg-theme-text hover:text-theme-bg"
+            data-category="webAppDev"
+            aria-selected="false"
+          >
+            Web & App Develop
+          </button>
+
+          <button 
+            class="category-btn px-4 py-2 bg-tag text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] text-theme-text transition-all duration-300 hover:bg-theme-text hover:text-theme-bg" 
+            data-category="graphicDesign"
+            aria-selected="false"
+          >
+            Graphic design & UX
+          </button>
+        </div>
+        
+        <a href="#contact" class="inline-flex items-center px-6 py-3 border border-theme-text text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] text-theme-text hover:bg-theme-text hover:text-white dark:hover:text-black transition-colors fade-up-element opacity-0 translate-y-10" data-delay="1">
+          <span>{bookCallButton}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+      
+      <!-- Columna derecha: Preguntas y respuestas -->
+      <div class="md:w-2/3 fade-up-element opacity-0 translate-y-10" data-delay="1.4">
+        <!-- Contenedor para todas las categorías de FAQ -->
+        <div id="faq-categories-container">
+          <!-- Media Manager FAQs -->
+          <div class="faq-category space-y-1" data-category="mediaManager">
+            {faqCategories[0].questions.map((faq, index) => (
+              <div class="faq-item border-t border-theme-border py-4">
+                <button 
+                  id="faq-media-manager"
+                  class="faq-question w-full flex justify-between items-center text-left focus:outline-none text-theme-text"
+                  aria-expanded={faq.isOpen ? "true" : "false"}
+                  data-index={index}
+                >
+                  <span class="faq-question-title text-[18px] leading-[22px] md:text-[22px] md:leading-[26px] font-medium">{faq.question}</span>
+                  <svg 
+                    class={`faq-question-title w-6 h-6 transform transition-transform duration-300 ${faq.isOpen ? 'rotate-45' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </button>
+                <div 
+                  class={`faq-answer overflow-hidden transition-all duration-300 ${faq.isOpen ? 'max-h-96 opacity-100 pt-4' : 'max-h-0 opacity-0'}`}
+                >
+                  <p class="text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-theme-secondary">{faq.answer}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <!-- Web & App Development FAQs -->
+          <div class="faq-category space-y-1 hidden" data-category="webAppDev">
+            {faqCategories[1].questions.map((faq, index) => (
+              <div class="faq-item border-t border-theme-border py-4">
+                <button 
+                  id="faq-web-app-develop"
+                  class="faq-question w-full flex justify-between items-center text-left focus:outline-none text-theme-text"
+                  aria-expanded={faq.isOpen ? "true" : "false"}
+                  data-index={index}
+                >
+                  <span class="faq-question-title text-[18px] leading-[22px] md:text-[22px] md:leading-[26px] font-medium">{faq.question}</span>
+                  <svg 
+                    class={`w-6 h-6 transform transition-transform duration-300 ${faq.isOpen ? 'rotate-45' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </button>
+                <div 
+                  class={`faq-answer overflow-hidden transition-all duration-300 ${faq.isOpen ? 'max-h-96 opacity-100 pt-4' : 'max-h-0 opacity-0'}`}
+                >
+                  <div class="text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-theme-secondary" set:html={faq.answer}></div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <!-- Graphic Design & UX FAQs -->
+          <div class="faq-category space-y-1 hidden" data-category="graphicDesign">
+            {faqCategories[2].questions.map((faq, index) => (
+              <div class="faq-item border-t border-theme-border py-4">
+                <button 
+                  id="faq-graphic-design"
+                  class="faq-question w-full flex justify-between items-center text-left focus:outline-none text-theme-text"
+                  aria-expanded={faq.isOpen ? "true" : "false"}
+                  data-index={index}
+                >
+                  <span class="faq-question-title text-[18px] leading-[22px] md:text-[22px] md:leading-[26px] font-medium">{faq.question}</span>
+                  <svg 
+                    class={`w-6 h-6 transform transition-transform duration-300 ${faq.isOpen ? 'rotate-45' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </button>
+                <div 
+                  class={`faq-answer overflow-hidden transition-all duration-300 ${faq.isOpen ? 'max-h-96 opacity-100 pt-4' : 'max-h-0 opacity-0'}`}
+                >
+                  <p class="text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] text-theme-secondary">{faq.answer}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Estilos para SectionTitle - SOLO COLOR */
+  h2.SectionTitle {
+    color: #5b6875 !important;
+  }
+
+  /* En modo dark, el título cambia a morado - SOLO COLOR */
+  :global(html.dark) h2.SectionTitle {
+    color: #7943f6 !important;
+  }
+
+  /* Estilos para SectionSubTitle - SOLO COLOR */
+  p.SectionSubTitle {
+    color: #5b6875 !important;
+  }
+
+  /* En modo dark, el subtítulo permanece gris - SOLO COLOR */
+  :global(html.dark) p.SectionSubTitle {
+    color: #5b6875 !important;
+  }
+  
+  /* Estilos para botones de categoría activos */
+  .category-btn.active {
+    background-color: #7943f6 !important;
+    color: white !important;
+    font-weight: 600;
+    border-color: #7943f6 !important;
+  }
+  
+  /* Estilos para botones de categoría no activos */
+  .category-btn:not(.active) {
+    background-color: transparent;
+    color: #5b6875;
+  }
+  
+  /* En modo dark, ajustamos colores para botones no activos */
+  :global(html.dark) .category-btn:not(.active) {
+    color: #aaa;
+  }
+  
+  /* Estilos para los titulares de preguntas */
+  .faq-question-title, svg.faq-question-title {
+    color: #5b6875 !important;
+  }
+  
+  /* En modo dark, los titulares de preguntas cambian a morado */
+  :global(html.dark) .faq-question-title {
+    color: #7943f6 !important;
+  }
+  :global(html.dark) svg.faq-question-title {
+    color: #7943f6 !important;
+  }
+  
+  /* Estilos para los titulares de categorías */
+  .faq-category-title {
+    color: #5b6875;
+  }
+  
+  /* En modo dark, los titulares de categorías cambian a morado */
+  :global(html.dark) .faq-category-title {
+    color: #7943f6 !important;
+  }
+  
+  /* Estilos adaptables al tema */
+  :global(html.dark) .bg-theme {
+    /* background-color: #000 !important; */
+  }
+  :global(html:not(.dark)) .bg-theme {
+    /* background-color: #fff !important; */
+  }
+  
+  :global(html.dark) .text-theme-text {
+    color: #fff !important;
+  }
+  :global(html:not(.dark)) .text-theme-text {
+    color: #5b6875 !important;
+  }
+  
+  :global(html.dark) .text-theme-secondary {
+    color: #aaa !important;
+  }
+  :global(html:not(.dark)) .text-theme-secondary {
+    color: #666 !important;
+  }
+  
+  :global(html.dark) .bg-tag {
+    background-color: #333 !important;
+  }
+  :global(html:not(.dark)) .bg-tag {
+    background-color: #f0f0f0 !important;
+  }
+  
+  :global(html.dark) .border-theme-text {
+    border-color: #fff !important;
+  }
+  :global(html:not(.dark)) .border-theme-text {
+    border-color: #5b6875 !important;
+  }
+  
+  :global(html.dark) .border-theme-border {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+  :global(html:not(.dark)) .border-theme-border {
+    border-color: rgba(91, 104, 117, 0.2) !important;
+  }
+  
+  :global(html.dark) .hover\:bg-theme-text:hover {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+  :global(html:not(.dark)) .hover\:bg-theme-text:hover {
+    background-color: #5b6875 !important;
+    color: #fff !important;
+  }
+  
+  :global(html.dark) .hover\:text-theme-text:hover {
+    color: #fff !important;
+  }
+  :global(html:not(.dark)) .hover\:text-theme-text:hover {
+    color: #5b6875 !important;
+  }
+  
+  /* Estilos específicos para SVG y otros elementos */
+:global(html.dark) .faq-question svg {
+    stroke: #7943f6 !important;
+}
+:global(html:not(.dark)) .faq-question svg {
+    stroke: #5b6875 !important;
+}
+  
+  /* Asegurar que las líneas divisorias cambien de color */
+  :global(html.dark) .faq-item {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+  :global(html:not(.dark)) .faq-item {
+    border-color: rgba(91, 104, 117, 0.2) !important;
+  }
+  
+  /* Estilos para los botones de categoría activos */
+  :global(html.dark) .category-btn[aria-selected="true"] {
+    background-color: #7943f6 !important;
+    color: white !important;
+  }
+  :global(html:not(.dark)) .category-btn[aria-selected="true"] {
+    background-color: #5b6875 !important;
+    color: #fff !important;
+  }
+  
+  /* Animación para cambio de categorías */
+  .faq-category {
+    transition: opacity 0.5s ease;
+  }
+  
+  .faq-category.hidden {
+    display: none;
+  }
+  
+  .faq-category.fade-in {
+    opacity: 1;
+  }
+  
+  .faq-category.fade-out {
+    opacity: 0;
+    position: absolute;
+  }
+  
+  /* Estilos para la animación escalonada de preguntas */
+  .faq-item {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  /* Estilos para las animaciones */
+  .fade-up-element {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .fade-up-element.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Inicializar las funcionalidades
+        initCategoryTabs();
+        initFaqAccordion();
+        handleDirectLinks();
+        
+        // Función para manejar enlaces directos a categorías específicas
+        function handleDirectLinks() {
+          // Verificar si hay una categoría almacenada en sessionStorage (desde Contact.astro)
+          const storedCategory = sessionStorage.getItem('activeFaqCategory');
+          if (storedCategory) {
+            // Convertir el formato con guiones al formato camelCase
+            let categoryId = storedCategory;
+            if (categoryId === 'media-manager') categoryId = 'mediaManager';
+            if (categoryId === 'web-app-develop') categoryId = 'webAppDev';
+            if (categoryId === 'graphic-design') categoryId = 'graphicDesign';
+            
+            switchCategory(categoryId);
+            // Limpiar después de usar
+            sessionStorage.removeItem('activeFaqCategory');
+          }
+          
+          // También añadir event listeners a todos los enlaces con data-category
+          document.querySelectorAll('a[href="#faq"][data-category]').forEach(link => {
+            link.addEventListener('click', function(e) {
+              e.preventDefault();
+              const category = this.getAttribute('data-category');
+              
+              // Convertir el formato con guiones al formato camelCase
+              let categoryId = category;
+              if (categoryId === 'media-manager') categoryId = 'mediaManager';
+              if (categoryId === 'web-app-develop') categoryId = 'webAppDev';
+              if (categoryId === 'graphic-design') categoryId = 'graphicDesign';
+              
+              // Navegar a la sección FAQ
+              window.location.hash = 'faq';
+              // Cambiar a la categoría correspondiente
+              setTimeout(() => {
+                switchCategory(categoryId);
+              }, 100);
+            });
+          });
+        }
+        
+        // Función para cambiar entre categorías
+        function switchCategory(categoryId) {
+          const categoryButton = document.querySelector(`.category-btn[data-category="${categoryId}"]`);
+          if (categoryButton) {
+            // Actualizar clases de todos los botones
+            document.querySelectorAll('.category-btn').forEach(btn => {
+              btn.classList.remove('active');
+              btn.setAttribute('aria-selected', 'false');
+            });
+            
+            // Activar el botón seleccionado
+            categoryButton.classList.add('active');
+            categoryButton.setAttribute('aria-selected', 'true');
+            
+            // Mostrar la categoría correspondiente
+            showCategory(categoryId);
+          }
+        }
+        
+        // Función para mostrar una categoría específica
+        function showCategory(category) {
+          // Ocultar todas las categorías primero
+          const allCategories = document.querySelectorAll('.faq-category');
+          allCategories.forEach(cat => {
+            cat.classList.add('hidden');
+          });
+          
+          // Mostrar la categoría seleccionada
+          const selectedCategory = document.querySelector(`.faq-category[data-category="${category}"]`);
+          if (selectedCategory) {
+            selectedCategory.classList.remove('hidden');
+            selectedCategory.classList.add('fade-in');
+          }
+        }
+        
+        // Inicializar las pestañas de categorías
+        function initCategoryTabs() {
+          const categoryButtons = document.querySelectorAll('.category-btn');
+          
+          // Mostrar la categoría mediaManager por defecto
+          showCategory('mediaManager');
+          
+          // Añadir event listeners a los botones de categoría
+          categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+              const category = button.getAttribute('data-category');
+              switchCategory(category);
+            });
+          });
+        }
+        
+        // Inicializar el acordeón de preguntas
+        function initFaqAccordion() {
+          const faqQuestions = document.querySelectorAll('.faq-question');
+          
+          faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+              const answer = question.nextElementSibling;
+              const isOpen = question.getAttribute('aria-expanded') === 'true';
+              
+              // Cerrar todas las respuestas en la misma categoría
+              const category = question.closest('.faq-category');
+              if (category) {
+                category.querySelectorAll('.faq-question').forEach(q => {
+                  if (q !== question) {
+                    q.setAttribute('aria-expanded', 'false');
+                    q.querySelector('svg').classList.remove('rotate-45');
+                    const a = q.nextElementSibling;
+                    a.classList.remove('max-h-96', 'opacity-100', 'pt-4');
+                    a.classList.add('max-h-0', 'opacity-0');
+                  }
+                });
+              }
+              
+              // Alternar la respuesta actual
+              if (isOpen) {
+                question.setAttribute('aria-expanded', 'false');
+                question.querySelector('svg').classList.remove('rotate-45');
+                answer.classList.remove('max-h-96', 'opacity-100', 'pt-4');
+                answer.classList.add('max-h-0', 'opacity-0');
+              } else {
+                question.setAttribute('aria-expanded', 'true');
+                question.querySelector('svg').classList.add('rotate-45');
+                answer.classList.remove('max-h-0', 'opacity-0');
+                answer.classList.add('max-h-96', 'opacity-100', 'pt-4');
+              }
+            });
+          });
+        }
+        
+        // Aplicar estilos según el tema
+        function applyThemeToFaq() {
+          const isDarkMode = document.documentElement.classList.contains('dark');
+          
+          // Aplicar estilos a los titulares de preguntas en Web & App Dev y Graphic Design
+          document.querySelectorAll('#faq-web-app-develop .faq-question span, #faq-graphic-design .faq-question span').forEach(span => {
+            if (isDarkMode) {
+              span.style.color = '#7943f6';
+            } else {
+              span.style.color = '#5b6875';
+            }
+          });
+          
+          // Aplicar estilos a los iconos SVG
+          document.querySelectorAll('#faq-web-app-develop .faq-question svg, #faq-graphic-design .faq-question svg').forEach(svg => {
+            if (isDarkMode) {
+              svg.style.stroke = '#7943f6';
+            } else {
+              svg.style.stroke = '#5b6875';
+            }
+          });
+        }
+        
+        // Aplicar estilos al cargar
+        applyThemeToFaq();
+        
+        // Observar cambios en el tema
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+              applyThemeToFaq();
+            }
+          });
+        });
+        
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['class']
+        });
+      });
+   
+    
+    // Inicializar el acordeón de preguntas
+    function initFaqAccordion() {
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+          const answer = question.nextElementSibling;
+          const isOpen = question.getAttribute('aria-expanded') === 'true';
+          
+          // Cerrar todas las respuestas en la misma categoría
+          const category = question.closest('.faq-category');
+          if (category) {
+            category.querySelectorAll('.faq-question').forEach(q => {
+              if (q !== question) {
+                q.setAttribute('aria-expanded', 'false');
+                q.querySelector('svg').classList.remove('rotate-45');
+                const a = q.nextElementSibling;
+                a.classList.remove('max-h-96', 'opacity-100', 'pt-4');
+                a.classList.add('max-h-0', 'opacity-0');
+              }
+            });
+          }
+          
+          // Alternar la respuesta actual
+          if (isOpen) {
+            question.setAttribute('aria-expanded', 'false');
+            question.querySelector('svg').classList.remove('rotate-45');
+            answer.classList.remove('max-h-96', 'opacity-100', 'pt-4');
+            answer.classList.add('max-h-0', 'opacity-0');
+          } else {
+            question.setAttribute('aria-expanded', 'true');
+            question.querySelector('svg').classList.add('rotate-45');
+            answer.classList.remove('max-h-0', 'opacity-0');
+            answer.classList.add('max-h-96', 'opacity-100', 'pt-4');
+          }
+        });
+      });
+    }
+    
+    // Aplicar estilos según el tema
+    function applyThemeToFaq() {
+      const isDarkMode = document.documentElement.classList.contains('dark');
+      
+      // Aplicar estilos a los titulares de preguntas en Web & App Dev y Graphic Design
+      document.querySelectorAll('#faq-web-app-develop .faq-question span, #faq-graphic-design .faq-question span').forEach(span => {
+        if (isDarkMode) {
+          span.classList.add('faq-question-title');
+        } else {
+          span.classList.remove('faq-question-title');
+        }
+      });
+      
+      // Aplicar estilos a los iconos SVG
+      document.querySelectorAll('#faq-web-app-develop .faq-question svg, #faq-graphic-design .faq-question svg').forEach(svg => {
+        if (isDarkMode) {
+          svg.classList.add('faq-question-title');
+        } else {
+          svg.classList.remove('faq-question-title');
+        }
+      });
+    }
+    
+    // Aplicar estilos al cargar
+    applyThemeToFaq();
+    
+    // Observar cambios en el tema
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          applyThemeToFaq();
+        }
+      });
+    });
+    
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+   
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Función para mostrar una categoría específica
+    function showCategory(category) {
+      // Ocultar todas las categorías primero
+      const allCategories = document.querySelectorAll('.faq-category');
+      allCategories.forEach(cat => {
+        cat.classList.add('hidden');
+      });
+      
+      // Mostrar la categoría seleccionada
+      const selectedCategory = document.querySelector(`.faq-category[data-category="${category}"]`);
+      if (selectedCategory) {
+        selectedCategory.classList.remove('hidden');
+        selectedCategory.classList.add('fade-in');
+      }
+    }
+    
+    // Escuchar el evento personalizado
+    document.addEventListener('showFaqCategory', (e) => {
+      showCategory(e.detail.category);
+    });
+    
+    // Verificar si hay una categoría almacenada en sessionStorage
+    const storedCategory = sessionStorage.getItem('activeFaqCategory');
+    if (storedCategory) {
+      showCategory(storedCategory);
+      // Limpiar después de usar
+      sessionStorage.removeItem('activeFaqCategory');
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const element = entry.target;
+          const delay = element.dataset.delay || 0;
+          
+          setTimeout(() => {
+            element.classList.add('visible');
+          }, delay * 1000);
+          
+          observer.unobserve(element);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-up-element').forEach(element => {
+      observer.observe(element);
+    });
+  });
+</script>

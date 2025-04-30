@@ -1,0 +1,40 @@
+{
+  "title": "Contacto",
+  "mainTitle": "Crece. Brilla. Repite.",
+  "stayTuned": {
+    "title": "Mantente Informado",
+    "description": "Mantente actualizado con las últimas novedades, ideas y más suscribiéndote a nuestro boletín."
+  },
+  "form": {
+    "email": "Tu correo electrónico",
+    "submit": "Enviar Mensaje"
+  },
+  "info": {
+    "title": "Contacto",
+    "email": "Email",
+    "emailAddress": "aloha@agazzistudio.com",
+    "phone": "Teléfono",
+    "phoneNumber": "+34 661 175 496",
+    "address": "Dirección",
+    "addressText": "Barcelona, España"
+  },
+  "sitemap": {
+    "title": "Mapa del Sitio",
+    "about": "Sobre Nosotros",
+    "services": "Servicios",
+    "faq": "Preguntas Frecuentes",
+    "partners": "Socios",
+    "testimonials": "Testimonios"
+  },
+  "faq": {
+    "title": "Faq´s",
+    "mediaManager": "Gestión de redes sociales",
+    "webDevelopment": "Desarrollo web & Apps y soluciones ecommerce",
+    "graphicDesign": "Diseño gráfico & Ux"
+  },
+  "footer": {
+    "copyright": "© Diseñado y desarrollado con cariño por Agazzi Studio & Co.",
+    "privacyPolicy": "Política de Privacidad",
+    "termsOfService": "Términos de Servicio"
+  }
+}

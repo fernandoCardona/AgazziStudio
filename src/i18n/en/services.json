@@ -1,0 +1,46 @@
+{
+  "title": "Our Services",
+  "subtitle": "Expert services that define our excellence",
+  "description": "From creative design to technical solutions, our services define excellence in the industry.",
+  "services": {
+    "category": "Our services"
+  },
+  "servicesList": [
+    {
+      "title": "Media Manager",
+      "description": "Planning and optimization of digital media campaigns to maximize your visibility and return on investment.",
+      "icon": "lightning",
+      "image": "/assets/lottie/media-manager.json"
+    },
+    {
+      "title": "Web Content Manager",
+      "description": "Administration and updating of your website and social profiles to keep your online presence always active and coherent.",
+      "icon": "lightning",
+      "image": "/assets/lottie/cms.json"
+    },
+    {
+      "title": "Web & App Development",
+      "description": "We create or modify your responsive apps and websites, with cutting-edge technologies.",
+      "icon": "diamond",
+      "image": "/assets/lottie/coding.json"
+    },
+    {
+      "title": "E-commerce for your business",
+      "description": "Comprehensive e-commerce solutions to efficiently manage products, payments, and shipments.",
+      "icon": "diamond",
+      "image": "/assets/lottie/ecommerce.json"
+    },
+    {
+      "title": "SEO",
+      "description": "Search engine optimization for better indexing and positioning in search results.",
+      "icon": "search",
+      "image": "/assets/lottie/seo.json"
+    },
+    {
+      "title": "Graphic Design",
+      "description": "Creation of visual elements (logos, banners, printed materials) that reinforce your brand's identity and impact.",
+      "icon": "screen",
+      "image": "/assets/lottie/graphic-design.json"
+    }
+  ]
+}

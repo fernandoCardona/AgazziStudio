@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/sections/Hero.astro';
+import Claim from '../../components/sections/Claim.astro';
+import { loadTranslations, normalizeLanguageCode } from '../../i18n/i18n.js';
+import Contact from '../../components/sections/Contact.astro';
+import Partners from '../../components/sections/Partners.astro';
+import Testimonials from '../../components/sections/testimonials.astro';
+import Faq from '../../components/sections/Faq.astro';
+import About from '../../components/sections/About.astro';
+import Services from '../../components/sections/Services.astro';
+import PrivacyPolicyModal from '../../components/modals/PrivacyPolicyModal.astro';
+import TermsOfServiceModal from '../../components/modals/TermsOfServiceModal.astro';
+import AvisoCookies from '../../components/AvisoCookies.astro';
+
+// Establecer idioma inglés
+const lang = 'en';
+const normalizedLang = normalizeLanguageCode(lang);
+
+// Cargar traducciones
+let homeTranslations;
+try {
+  homeTranslations = await loadTranslations(normalizedLang, 'home');
+} catch (error) {
+  // Traducciones de respaldo
+  homeTranslations = {
+    title: "Agazzi Studio",
+    subtitle: "We create digital content for your business",
+    cta: "Contact us"
+  };
+}
+---
+
+<Layout title="Agazzi Studio" lang={normalizedLang}>
+  <Hero lang={normalizedLang} />
+  <!-- <Claim lang={normalizedLang} /> -->
+  <About lang={lang} />
+  <Services lang={lang} />
+  <Faq lang={lang} />
+  <Testimonials lang={lang} />
+  <Partners lang={lang} />
+  <Contact lang={normalizedLang} />
+  <PrivacyPolicyModal lang={lang} />
+  <TermsOfServiceModal lang={lang} />
+  <AvisoCookies lang={lang} />
+</Layout>

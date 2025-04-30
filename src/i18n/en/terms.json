@@ -1,0 +1,63 @@
+{
+  "title": "Terms and Conditions of Service",
+  "sections": {
+    "parties": {
+      "title": "1. Parties and Purpose",
+      "content": "This document regulates the terms and conditions (hereinafter, \"Terms\") applicable to advertising and digital marketing services provided by Agazzi Studio, with registered office in Barcelona and Tax ID B-XXXXXXXX (hereinafter, \"the Agency\"), to individuals or legal entities (hereinafter, \"the Client\") that contract its services."
+    },
+    "scope": {
+      "title": "2. Scope of Services",
+      "content": "2.1. The Agency will provide the Client with design, planning, execution and management services for advertising campaigns, Social Media Management, content creation, email marketing, SEO/SEM and other services agreed upon in the budget.\n\n2.2. The specifications, delivery deadlines and specific deliverables will be detailed in the budget or project proposal signed by both parties."
+    },
+    "budgets": {
+      "title": "3. Budgets and Contracting",
+      "content": "3.1. All services will be formalized through the written acceptance of a budget that will include price, scope of work, deadlines and conditions.\n\n3.2. The validity of the budget will be 30 calendar days from its issuance, unless expressly agreed otherwise."
+    },
+    "payment": {
+      "title": "4. Payment Terms",
+      "content": "4.1. The Client will pay the Agency a 50% advance upon accepting the budget and before starting any work.\n\n4.2. The remaining 50% must be paid on the date of delivery of the work or according to intermediate milestones defined in the budget.\n\n4.3. Payments will be made by bank transfer to the account indicated on the invoice.\n\n4.4. In case of late payment, late payment interest will accrue according to the current legal rate plus an additional 2%."
+    },
+    "modifications": {
+      "title": "5. Modifications and Scope Review",
+      "content": "5.1. Any change or additional request not contemplated in the original budget will be considered an extra service subject to a new budget.\n\n5.2. The Agency will inform the Client of possible adjustments in deadlines and costs before starting additional work."
+    },
+    "intellectual": {
+      "title": "6. Intellectual Property",
+      "content": "6.1. All intellectual property rights of the original materials created by the Agency (designs, texts, videos, etc.) will remain in favor of the Agency until full payment for the services.\n\n6.2. Once the total price has been paid, the Agency assigns to the Client the rights of use and exploitation of the deliverable as agreed, without prejudice to always citing the Agency's authorship."
+    },
+    "confidentiality": {
+      "title": "7. Confidentiality",
+      "content": "Both parties undertake to maintain the confidentiality of all technical, commercial or strategic information exchanged during the execution of the contract."
+    },
+    "liability": {
+      "title": "8. Liability and Warranties",
+      "content": "8.1. The Agency guarantees the performance of services in accordance with good industry practices, but is not responsible for commercial or audience results that may arise.\n\n8.2. The maximum liability of the Agency for any claim may not exceed the total amount paid by the Client in the project."
+    },
+    "deadlines": {
+      "title": "9. Delivery Deadlines and Delays",
+      "content": "9.1. The Agency undertakes to respect the agreed deadlines, provided that the Client provides the necessary information and materials on time.\n\n9.2. In case of delays attributable to the Client, the deadlines will be extended by an identical period."
+    },
+    "duration": {
+      "title": "10. Duration and Termination",
+      "content": "10.1. The contract will have the necessary duration to complete the commissioned services.\n\n10.2. Either party may terminate the contract early if the other incurs a serious breach that is not remedied within 15 days after written notification."
+    },
+    "force": {
+      "title": "11. Force Majeure",
+      "content": "Neither party will be responsible for delays or breaches resulting from force majeure causes."
+    },
+    "data": {
+      "title": "12. Data Protection",
+      "content": "The Agency will not manage sensitive personal data or perform treatments that require registration in the AEPD Registry, given that the service consists of dissemination and does not collect data from the end user."
+    },
+    "law": {
+      "title": "13. Applicable Law and Jurisdiction",
+      "content": "These Terms will be governed by Spanish legislation. For any conflict, the parties submit to the Courts and Tribunals of Barcelona, expressly waiving any other jurisdiction."
+    },
+    "contact": {
+      "title": "Contact",
+      "content": "If you have any questions about these Terms and Conditions, you can contact us at:"
+    }
+  },
+  "lastUpdate": "Last updated: June 1, 2023",
+  "contactEmail": "hello@agazzistudio.com"
+}

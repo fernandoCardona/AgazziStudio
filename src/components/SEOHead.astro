@@ -1,0 +1,79 @@
+---
+// SEOHead.astro - Componente para gestionar metadatos SEO
+const { 
+  title, 
+  description, 
+  lang = 'es',
+  ogImage = '/images/og-image.jpg',
+  canonicalUrl,
+  keywords = '',
+  author = 'Agazzi Studio'
+} = Astro.props;
+
+// Descripciones específicas por idioma
+const descriptions = {
+  es: "Agazzi Studio | Gestión de contenido para sitios web y redes sociales en Barcelona y Sitges. Especialistas en desarrollo web (React, Next.js, Astro), WordPress, eCommerce, apps React Native y diseño UX/UI para soluciones digitales online y offline.",
+  en: "Agazzi Studio | Website content and social media management experts in Barcelona & Sitges. Specialists in web development (React, Next.js, Astro), WordPress, eCommerce, React Native apps, and UX/UI design for online and offline digital solutions.",
+  ca: "Agazzi Studio | Gestió de continguts per a llocs web i xarxes socials a Barcelona i Sitges. Especialistes en desenvolupament web (React, Next.js, Astro), WordPress, eCommerce, apps React Native i disseny UX/UI per a solucions digitals online i offline."
+};
+
+// Usar la descripción específica del idioma o la proporcionada como prop
+const finalDescription = description === "Agazzi Studio - Creamos contenidos digitales para tu negocio" 
+  ? descriptions[lang] || descriptions.es 
+  : description;
+
+// Determinar URL canónica
+const siteUrl = import.meta.env.SITE || 'https://agazzi-studio.com';
+const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
+
+// Configuración de hreflang
+const hreflangs = [
+  { lang: 'es', href: new URL('/', siteUrl).href },
+  { lang: 'en', href: new URL('/en', siteUrl).href },
+  { lang: 'ca', href: new URL('/ca', siteUrl).href },
+  { lang: 'x-default', href: new URL('/', siteUrl).href }
+];
+---
+
+<!-- Metadatos básicos SEO -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="description" content={finalDescription} />
+<meta name="keywords" content={keywords} />
+<meta name="author" content={author} />
+<link rel="canonical" href={canonical} />
+
+<!-- Etiquetas hreflang para idiomas alternativos -->
+{hreflangs.map(({ lang, href }) => (
+  <link rel="alternate" hreflang={lang} href={href} />
+))}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={finalDescription} />
+<meta property="og:image" content={new URL(ogImage, siteUrl).href} />
+<meta property="og:locale" content={lang === 'es' ? 'es_ES' : lang === 'ca' ? 'ca_ES' : 'en_US'} />
+<meta property="og:site_name" content="Agazzi Studio" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonical} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={finalDescription} />
+<meta property="twitter:image" content={new URL(ogImage, siteUrl).href} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="AgazziStudio.com" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Prevenir indexación en entornos de desarrollo -->
+{import.meta.env.DEV && (
+  <meta name="robots" content="noindex, nofollow" />
+)}

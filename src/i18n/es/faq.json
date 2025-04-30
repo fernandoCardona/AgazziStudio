@@ -1,0 +1,87 @@
+{
+  "title": "Preguntas frecuentes",
+  "description": "Aquí encontrarás respuestas a las preguntas más comunes sobre nuestros servicios. Si tienes alguna duda adicional, no dudes en contactarnos.",
+  "bookCallButton": "Contacta con nosotros",
+  "questions": [
+    {
+      "question": "¿Qué hace un Content Media Manager?",
+      "answer": "El Content Media Manager diseña, coordina y supervisa la estrategia de contenidos digitales de la marca: planifica el calendario editorial, crea y adapta textos, imágenes y vídeos, gestiona la distribución en canales online y realiza el mantenimiento y actualización constante de los contenidos para asegurar coherencia, calidad y engagement.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "¿Qué hace un Media Manager?",
+      "answer": "Me encargo de planificar, comprar y optimizar espacios publicitarios en medios digitales (display, social ads, vídeo, audio) para maximizar el ROI y el alcance de tus campañas.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "¿En qué plataformas suelo trabajar?",
+      "answer": "Mantenimiento y creación de contenido para Facebook/Facebook Ads, Instagram/Instagram Ads, Google Ads, LinkedIn Ads, YouTube, TikTok según tu público objetivo.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "¿Qué hace un Social Content Manager?",
+      "answer": "El Social Content Manager gestiona y mantiene los contenidos específicos para redes sociales: publica, programa y modera posts, interactúa con la comunidad, analiza métricas de engagement y ajusta la estrategia de contenido para optimizar la presencia de la marca en cada plataforma.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "¿Cómo defino la estrategia de medios?",
+      "answer": "El proceso para definir la estrategia de medios comienza con un análisis detallado de tus objetivos y audiencia. Luego, selecciono los canales óptimos que mejor se adaptan a tu público objetivo. Continúo con la configuración precisa de las campañas y finalizo con un sistema de monitorización y ajustes continuos para maximizar los resultados.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "¿Cómo mido el éxito de una campaña?",
+      "answer": "Con KPIs personalizados (CPC, CPA, CTR, ROAS) y reportes periódicos en los que revisamos resultados, aprendizajes y siguientes pasos.",
+      "category": "mediaManager"
+    },
+    {
+      "question": "¿Qué tecnologías utilizas?",
+      "answer": "Para web:Html, Css, Js Vanilla o  React, Next.js, Astro.js, y CMS como WordPress, Prestashop, Sanity o custom Backend Como Laravel o Strapi. Para apps: React Native para crear apps multiplataformas (ios, android, web), según necesidades de rendimiento y escalabilidad.",
+      "category": "development"
+    },
+    {
+      "question": "¿Cuál es tu proceso de desarrollo?",
+      "answer": "El proceso de desarrollo sigue una metodología estructurada que comienza con la definición detallada de requisitos. Continúo con el diseño de la arquitectura y la maquetación y prototipado. Luego viene la fase de desarrollo, seguida por pruebas exhaustivas y control de calidad. Finalmente, realizamos la puesta en producción asegurando una transición suave.",
+      "category": "development"
+    },
+    {
+      "question": "¿Cuánto tiempo tarda un proyecto típico?",
+      "answer": "Un sitio web corporativo estático (sin Backend o CMS) suele tardar entre 4 y 8 semanas, Un sitio web corporativo estático (con Backend o CMS) suele tardar entre 6 y 8 semanas,  una app móvil, de 2 a 4 meses, dependiendo de funcionalidades y complejidad.",
+      "category": "development"
+    },
+    {
+      "question": "¿Ofreces mantenimiento y soporte?",
+      "answer": "Sí, ofrezco planes mensuales de soporte (actualizaciones, backups, mejoras y resolución de incidencias) para que tu proyecto siempre esté al día.",
+      "category": "development"
+    },
+    {
+      "question": "¿Cómo garantizas la seguridad de la web/app?",
+      "answer": "Implemento buenas prácticas de codificación, certificados SSL, análisis de vulnerabilidades y pruebas de penetración antes de cada lanzamiento.",
+      "category": "development"
+    },
+    {
+      "question": "¿Cómo es tu proceso de diseño y UX?",
+      "answer": "El proceso de diseño y UX comienza con una profunda investigación del usuario para entender sus necesidades. Luego desarrollo wireframes y prototipos que visualizan la estructura. Continúo con el diseño visual detallado y realizo tests de usabilidad para validar la experiencia. Finalmente, implemento ajustes hasta conseguir la versión final que satisfaga completamente los objetivos del proyecto.",
+      "category": "design"
+    },
+    {
+      "question": "¿Cómo integro la identidad de marca en el diseño?",
+      "answer": "Partiendo de tu misión, valores y tono de comunicación, creo paletas de color, tipografías e íconos que refuercen tu personalidad.",
+      "category": "design"
+    },
+    {
+      "question": "¿Qué entregables incluyes?",
+      "answer": "Archivos editables (Figma/Sketch), guías de estilo, prototipos interactivos y especificaciones para desarrolladores.",
+      "category": "design"
+    },
+    {
+      "question": "¿Cuántas rondas de revisión ofreces?",
+      "answer": "Incluyo hasta 3 revisiones de diseño para asegurar que el resultado encaje al 100 % con tus expectativas.",
+      "category": "design"
+    },
+    {
+      "question": "¿Qué herramientas utilizas?",
+      "answer": "Figma, Sketch, Adobe Illustrator y herramientas de testing como Maze o Lookback para validar la experiencia de usuario.",
+      "category": "design"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "title": "Contact",
+  "mainTitle": "Rise. Shine. Repeat.",
+  "stayTuned": {
+    "title": "Stay Tuned",
+    "description": "Keep yourself updated with the latest drops, insights, and more by subscribing to our newsletter."
+  },
+  "form": {
+    "email": "Your email",
+    "submit": "Send Message"
+  },
+  "info": {
+    "title": "Contact",
+    "email": "Email",
+    "emailAddress": "aloha@agazzistudio.com",
+    "phone": "Phone",
+    "phoneNumber": "+34 661 175 496",
+    "address": "Address",
+    "addressText": "Barcelona, Spain"
+  },
+  "sitemap": {
+    "title": "Sitemap",
+    "about": "About",
+    "services": "Services",
+    "faq": "FAQ",
+    "partners": "Partners",
+    "testimonials": "Testimonials"
+  },
+  "faq": {
+    "title": "Faq's",
+    "mediaManager": "Social media management",
+    "webDevelopment": "Web & App development and ecommerce solutions",
+    "graphicDesign": "Graphic design & UX"
+  },
+  "footer": {
+    "copyright": "© Designed and developed with care by Agazzi Studio & Co.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  }
+}

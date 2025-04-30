@@ -1,0 +1,440 @@
+---
+// src/components/ServicesSection.astro
+import { loadTranslations, normalizeLanguageCode } from '../../i18n/i18n.js';
+
+const { lang = 'es', theme = 'dark' } = Astro.props;
+// Normalizar el código de idioma para consistencia
+const normalizedLang = normalizeLanguageCode(lang);
+// console.log(`Services component - Idioma normalizado: ${normalizedLang}`);
+
+// Cargar traducciones de services con manejo de errores
+let servicesTranslations = {};
+try {
+  servicesTranslations = await loadTranslations(normalizedLang, 'services');
+  // console.log('Traducciones de services cargadas:', servicesTranslations);
+} catch (error) {
+  console.error('Error loading services translations:', error);
+  // Traducciones por defecto en caso de error
+  servicesTranslations = {
+    title: "",
+    subtitle: "",
+    description: "",
+    services: {
+      category: ""
+    },
+    servicesList: []
+  };
+}
+
+// Agrupar servicios por tipo de icono para la visualización
+const servicesByIcon = {
+  lightning: servicesTranslations.servicesList?.filter(service => service.icon === 'lightning') || [],
+  diamond: servicesTranslations.servicesList?.filter(service => service.icon === 'diamond') || [],
+  search: servicesTranslations.servicesList?.filter(service => service.icon === 'search') || [],
+  screen: servicesTranslations.servicesList?.filter(service => service.icon === 'screen') || []
+};
+
+// Servicio seleccionado por defecto (primer servicio de la lista o uno vacío)
+const defaultService = servicesTranslations.servicesList?.[0] || {
+  title: "",
+  description: "",
+  icon: "lightning",
+  image: "/assets/lottie/default.json"
+};
+
+// Lottie por defecto
+const defaultLottie = defaultService.image || '/assets/lottie/default.json';
+---
+
+<section id="services" class="bg-theme text-theme-text py-16 transition-colors duration-300">
+  <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 px-4">
+    <!-- COL IZQUIERDA -->
+    <div>
+      <p class="text-gray uppercase text-sm mb-4 fade-up-element opacity-0 translate-y-10" data-delay="0.4">{servicesTranslations.services?.category || ""}</p>
+      <h2 class="SectionTitle text-7xl md:text-8xl font-display font-bold mb-4 fade-up-element opacity-0 translate-y-10 " data-delay="0.2">
+        {servicesTranslations.subtitle || ""}
+      </h2>
+      <p class="SectionSubTitle text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] mb-8 fade-up-element opacity-0 translate-y-10" data-delay="0.4">
+        {servicesTranslations.description || ""}
+      </p>
+
+      <!-- LISTA PRINCIPAL -->
+      <ul class="space-y-6 fade-up-element opacity-0 translate-y-10" data-delay="0.6">
+        {servicesByIcon.lightning.map((service, index) => (
+          <li>
+            <button 
+              class="service-btn flex items-center text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-theme-secondary hover:text-theme-text transition w-full text-left" 
+              data-service-id={`lightning-${index}`}
+              data-service-title={service.title}
+              data-service-description={service.description}
+              data-service-lottie={service.image}
+            >
+              <!-- Icono rayo -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span>{service.title}</span>
+            </button>
+          </li>
+        ))}
+        
+        {servicesByIcon.diamond.map((service, index) => (
+          <li>
+            <button 
+              class="service-btn flex items-center text-theme-secondary text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] hover:text-theme-text transition w-full text-left" 
+              data-service-id={`diamond-${index}`}
+              data-service-title={service.title}
+              data-service-description={service.description}
+              data-service-lottie={service.image}
+            >
+              <!-- Icono diamante -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.27 6.27L12 3l8.73 3.27-8.73 14.73L3.27 6.27z" />
+              </svg>
+              <span>{service.title}</span>
+            </button>
+          </li>
+        ))}
+        
+        {servicesByIcon.search.map((service, index) => (
+          <li>
+            <button 
+              class="service-btn flex items-center text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-theme-secondary hover:text-theme-text transition w-full text-left" 
+              data-service-id={`search-${index}`}
+              data-service-title={service.title}
+              data-service-description={service.description}
+              data-service-lottie={service.image}
+            >
+              <!-- Icono lupa -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <span>{service.title}</span>
+            </button>
+          </li>
+        ))}
+        
+        {servicesByIcon.screen.map((service, index) => (
+          <li>
+            <button 
+              class="service-btn flex items-center text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-theme-secondary hover:text-theme-text transition w-full text-left" 
+              data-service-id={`screen-${index}`}
+              data-service-title={service.title}
+              data-service-description={service.description}
+              data-service-lottie={service.image}
+            >
+              <!-- Icono pantalla -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="16" rx="2" ry="2" />
+              </svg>
+              <span>{service.title}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <!-- DETALLE DE SERVICIOS -->
+      <div class="mt-10 space-y-4 fade-up-element opacity-0 translate-y-10" data-delay="0.8">
+        <!-- Producto seleccionado -->
+        <div id="service-detail" class="p-5 bg-theme-secondary rounded-lg border border-theme-border">
+          <div class="flex items-center mb-2">
+            <!-- Icono herramienta -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+            </svg>
+            <span id="service-title" class="font-semibold text-theme-text text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px]">{defaultService.title}</span>
+          </div>
+          <p id="service-description" class="text-theme-secondary text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px]">
+            {defaultService.description}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL DERECHA: LOTTIE ANIMATION -->
+    <div class="flex items-center justify-center fade-up-element opacity-0 translate-y-10" data-delay="1">
+      <div class="service-lottie-container relative w-full h-full overflow-hidden">
+        <div id="lottie-animation" class="w-full h-full"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Estilos adaptables al tema */
+  :global(html.dark) .bg-theme {
+    /* background-color: #000 !important; */
+  }
+  :global(html:not(.dark)) .bg-theme {
+    /* background-color: #fff !important; */
+  }
+  
+  :global(html.dark) .text-theme-text {
+    color: #fff !important;
+  }
+  :global(html:not(.dark)) .text-theme-text {
+    color: #5b6875 !important;
+  }
+  
+  :global(html.dark) .text-theme-secondary {
+    color: #aaa !important;
+  }
+  :global(html:not(.dark)) .text-theme-secondary {
+    color: #666 !important;
+  }
+  
+  :global(html.dark) .bg-tag {
+    background-color: #333 !important;
+  }
+  :global(html:not(.dark)) .bg-tag {
+    background-color: #f0f0f0 !important;
+  }
+  
+  :global(html.dark) .border-theme-text {
+    border-color: #fff !important;
+  }
+  :global(html:not(.dark)) .border-theme-text {
+    border-color: #5b6875 !important;
+  }
+  
+  :global(html.dark) .border-theme-border {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+  :global(html:not(.dark)) .border-theme-border {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Estilos para SectionTitle */
+  h2.SectionTitle {
+    color: #5b6875;
+  }
+
+  /* En modo dark, el título cambia a morado */
+  :global(html.dark) h2.SectionTitle {
+    color: #7943f6;
+  }
+
+  /* Estilos para SectionSubTitle */
+  p.SectionSubTitle {
+    color: #5b6875;
+  }
+
+  /* En modo dark, el subtítulo permanece gris */
+  :global(html.dark) p.SectionSubTitle {
+    color: #5b6875;
+  }
+  
+  /* Estilos para la animación de lottie */
+  .service-lottie-container {
+    position: relative;
+    /* background-color: rgba(0, 0, 0, 0.05); */
+  }
+  
+  :global(html.dark) .service-lottie-container {
+    /* background-color: rgba(255, 255, 255, 0.05) !important; */
+  }
+  
+  /* Estilos para botones de servicio activos */
+  .service-btn.active {
+    color: #5b6875 !important;
+    font-weight: 600;
+  }
+  
+  /* En modo dark, el botón activo cambia a morado */
+  :global(html.dark) .service-btn.active {
+    color: #7943f6 !important;
+  }
+  
+  /* Estilos para el título del servicio seleccionado */
+  #service-title {
+    color: #5b6875;
+  }
+  
+  /* En modo dark, el título del servicio seleccionado cambia a morado */
+  :global(html.dark) #service-title {
+    color: #7943f6 !important;
+  }
+  
+  /* Estilos para el icono del servicio seleccionado */
+  .service-btn.active svg {
+    stroke: #5b6875;
+  }
+  
+  /* En modo dark, el icono del servicio seleccionado cambia a morado */
+  :global(html.dark) .service-btn.active svg {
+    stroke: #7943f6 !important;
+  }
+  
+  /* Icono en el detalle del servicio */
+  #service-detail svg {
+    stroke: #5b6875;
+  }
+  
+  /* En modo dark, el icono en el detalle del servicio cambia a morado */
+  :global(html.dark) #service-detail svg {
+    stroke: #7943f6 !important;
+  }
+
+  /* Estilos para las animaciones */
+  .fade-up-element {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .fade-up-element.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<!-- Importar la biblioteca Lottie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Elementos del DOM
+    const serviceButtons = document.querySelectorAll('.service-btn');
+    const lottieContainer = document.getElementById('lottie-animation');
+    const serviceTitle = document.getElementById('service-title');
+    const serviceDescription = document.getElementById('service-description');
+    
+    // Variable para almacenar la animación actual
+    let currentAnimation = null;
+    
+    // Función para cargar una animación Lottie
+    function loadLottieAnimation(path) {
+      // console.log("Cargando animación Lottie:", path);
+      
+      // Destruir la animación anterior si existe
+      if (currentAnimation) {
+        currentAnimation.destroy();
+      }
+      
+      // Limpiar el contenedor antes de cargar la nueva animación
+      if (lottieContainer) {
+        lottieContainer.innerHTML = '';
+      }
+      
+      // Cargar la nueva animación
+      try {
+        // Verificar si la ruta existe
+        if (!path) {
+          console.error('Ruta de animación no proporcionada');
+          path = '/assets/lottie/default.json';
+        }
+        
+        currentAnimation = lottie.loadAnimation({
+          container: lottieContainer,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: path
+        });
+        
+        // Manejar errores de carga
+        currentAnimation.addEventListener('data_failed', () => {
+          console.error('Error al cargar la animación Lottie:', path);
+          // Cargar una animación por defecto en caso de error
+          if (path !== '/assets/lottie/default.json') {
+            loadLottieAnimation('/assets/lottie/default.json');
+          }
+        });
+      } catch (error) {
+        console.error('Error al inicializar la animación Lottie:', error);
+        // Cargar una animación por defecto en caso de error
+        if (path !== '/assets/lottie/default.json') {
+          loadLottieAnimation('/assets/lottie/default.json');
+        }
+      }
+    }
+    
+    // Función para cambiar el servicio seleccionado
+    function changeService(button) {
+      // Obtener datos del servicio
+      const title = button.getAttribute('data-service-title');
+      const description = button.getAttribute('data-service-description');
+      const lottiePath = button.getAttribute('data-service-lottie');
+      
+      // console.log("Servicio seleccionado:", title);
+      // console.log("Ruta de Lottie:", lottiePath);
+      
+      // Marcar el botón como activo
+      serviceButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      
+      // Cargar la animación Lottie
+      if (lottiePath) {
+        loadLottieAnimation(lottiePath);
+      } else {
+        console.error('No se encontró la ruta de la animación para el servicio:', title);
+        loadLottieAnimation('/assets/lottie/default.json');
+      }
+      
+      // Actualizar el detalle del servicio
+      if (serviceTitle) serviceTitle.textContent = title;
+      if (serviceDescription) serviceDescription.textContent = description;
+    }
+    
+    // Asignar evento click a cada botón de servicio
+    serviceButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        changeService(button);
+      });
+    });
+    
+    // Seleccionar el primer servicio por defecto
+    if (serviceButtons.length > 0) {
+      const firstButton = serviceButtons[0];
+      firstButton.classList.add('active');
+      
+      // Cargar la primera animación
+      const firstLottiePath = firstButton.getAttribute('data-service-lottie');
+      // console.log("Animación inicial:", firstLottiePath);
+      
+      if (firstLottiePath) {
+        loadLottieAnimation(firstLottiePath);
+      }
+    }
+    
+    // Observar cambios en el tema
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class' && mutation.target === document.documentElement) {
+          // Actualizar estilos según el tema
+          const isDarkMode = document.documentElement.classList.contains('dark');
+          // console.log(`Tema cambiado: ${isDarkMode ? 'oscuro' : 'claro'}`);
+        }
+      });
+    });
+    
+    observer.observe(document.documentElement, { attributes: true });
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const element = entry.target;
+          const delay = element.dataset.delay || 0;
+          
+          setTimeout(() => {
+            element.classList.add('visible');
+          }, delay * 1000);
+          
+          observer.unobserve(element);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-up-element').forEach(element => {
+      observer.observe(element);
+    });
+  });
+</script>

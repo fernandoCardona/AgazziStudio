@@ -1,0 +1,48 @@
+---
+// SchemaOrg.astro - Componente para datos estructurados
+const { 
+  lang = 'es',
+  type = 'WebSite',
+  name = 'Agazzi Studio',
+  url,
+  image
+} = Astro.props;
+
+// Descripciones específicas por idioma para Schema.org
+const descriptions = {
+  es: "Agazzi Studio | Gestión de contenido para sitios web y redes sociales en Barcelona y Sitges. Especialistas en desarrollo web (React, Next.js, Astro), WordPress, eCommerce, apps React Native y diseño UX/UI para soluciones digitales online y offline.",
+  en: "Agazzi Studio | Website content and social media management experts in Barcelona & Sitges. Specialists in web development (React, Next.js, Astro), WordPress, eCommerce, React Native apps, and UX/UI design for online and offline digital solutions.",
+  ca: "Agazzi Studio | Gestió de continguts per a llocs web i xarxes socials a Barcelona i Sitges. Especialistes en desenvolupament web (React, Next.js, Astro), WordPress, eCommerce, apps React Native i disseny UX/UI per a solucions digitals online i offline."
+};
+
+// Determinar URL del sitio
+const siteUrl = import.meta.env.SITE || 'https://agazzi-studio.com';
+const pageUrl = url || new URL(Astro.url.pathname, siteUrl).href;
+const imageUrl = image ? new URL(image, siteUrl).href : new URL('/images/og-image.jpg', siteUrl).href;
+
+// Datos estructurados básicos
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': type,
+  name: name,
+  description: descriptions[lang] || descriptions.es,
+  url: pageUrl,
+  inLanguage: lang === 'es' ? 'es-ES' : lang === 'ca' ? 'ca-ES' : 'en-US',
+  image: imageUrl
+};
+
+// Si es una organización, añadir datos adicionales
+if (type === 'Organization') {
+  // @ts-ignore
+  schema.logo = new URL('/favicon.svg', siteUrl).href;
+  schema.contactPoint = {
+    '@type': 'ContactPoint',
+    telephone: '+ 34 661 175 496',
+    contactType: 'customer service',
+    areaServed: ['ES', 'UK'],
+    availableLanguage: ['Spanish', 'English', 'Catalan']
+  };
+}
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

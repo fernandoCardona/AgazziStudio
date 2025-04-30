@@ -1,0 +1,210 @@
+---
+import { loadTranslations, normalizeLanguageCode } from '../../i18n/i18n.js';
+
+const { lang = 'es' } = Astro.props;
+// Normalizar el código de idioma
+const normalizedLang = normalizeLanguageCode(lang);
+
+// Añadir fallback en caso de que las traducciones no se carguen correctamente
+const defaultTranslations = {
+  mainClaim: "Creamos contenidos digitales para tu negocio que conectan con tu audiencia.",
+  whatWeDo: {
+    title: "QUÉ HACEMOS",
+    description: "Desarrollamos estrategias digitales completas, desde diseño web hasta gestión de redes sociales y creación de contenido."
+  },
+  craft: {
+    title: "NUESTRO ENFOQUE",
+    description: "Combinamos creatividad y tecnología para crear experiencias digitales únicas que destacan tu marca en el mercado."
+  },
+  storyButton: "NUESTRA HISTORIA"
+};
+
+// Cargar traducciones de claim con manejo de errores
+let claimTranslations;
+try {
+  claimTranslations = await loadTranslations(normalizedLang, 'claim');
+} catch (error) {
+  claimTranslations = null;
+}
+
+// Usar traducciones cargadas o fallback si no existen
+const translations = claimTranslations || defaultTranslations;
+---
+
+<section id="claim" class="py-20 relative min-h-[60vh] flex items-center transition-colors duration-300">
+  <div class="container mx-auto px-6 md:px-8">
+    <!-- Columna izquierda: Claim principal -->
+    <div class="text-center mb-16">
+      <h2 class="w-full text-[18px] md:text-[22px] lg:text-[26px] xl:text-[32px] leading-[22px] md:leading-[26px] lg:leading-[30px] xl:leading-[36px] font-light">
+        {translations.mainClaim}
+      </h2>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    
+      <!-- Columna derecha: Cards y botón circular -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Card: What we do -->
+        <div class="claim-card p-6 rounded-lg shadow-sm">
+          <h3 class="text-xs font-bold mb-3 uppercase tracking-wider">
+            {translations.whatWeDo?.title || defaultTranslations.whatWeDo.title}
+          </h3>
+          <p class="claim-card-text text-xs leading-relaxed">
+            {translations.whatWeDo?.description || defaultTranslations.whatWeDo.description}
+          </p>
+        </div>
+
+        <!-- Card: Our craft -->
+        <div class="claim-card p-6 rounded-lg shadow-sm">
+          <h3 class="text-xs font-bold mb-3 uppercase tracking-wider">
+            {translations.craft?.title || defaultTranslations.craft.title}
+          </h3>
+          <p class="claim-card-text text-xs leading-relaxed">
+            {translations.craft?.description || defaultTranslations.craft.description}
+          </p>
+        </div>
+
+        <!-- Botón circular "Our Story" ocupa toda la fila en md -->
+        <div class="md:col-span-2 flex justify-center lg:justify-end mt-8">
+          <a href="#about" class="story-button relative w-20 h-20 rounded-full border flex items-center justify-center group">
+            <div class="absolute inset-0 rounded-full flex items-center justify-center">
+              <div class="story-text-circle">
+                <svg viewBox="0 0 100 100" class="w-full h-full">
+                  <path id="curve-claim" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent"/>
+                  <text>
+                    <textPath href="#curve-claim" class="text-[7px] uppercase tracking-widest">
+                      {translations.storyButton || defaultTranslations.storyButton} • {translations.storyButton || defaultTranslations.storyButton} •
+                    </textPath>
+                  </text>
+                </svg>
+              </div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Estilos base para la sección Claim */
+  #claim {
+    position: relative;
+    margin: 0;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  /* Animación de hover para los claim-cards */
+  .claim-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 4px;
+  }
+  .claim-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Botón circular "Our Story" */
+  .story-button {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.05);
+  }
+  .story-button:hover {
+    transform: scale(1.03);
+  }
+  
+  /* Animación de rotación para el texto circular */
+  .story-text-circle {
+    animation: rotate 15s linear infinite;
+    width: 100%;
+    height: 100%;
+  }
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Estilos para tema claro (default) */
+  :root:not(.dark) #claim {
+    background-color: white;
+    color: black;
+  }
+  
+  :root:not(.dark) .claim-card {
+    background-color: #f3f4f6;
+  }
+  
+  :root:not(.dark) .claim-card-text {
+    color: #4b5563;
+  }
+  
+  :root:not(.dark) .story-button {
+    border-color: black;
+  }
+  
+  :root:not(.dark) .story-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  :root:not(.dark) textPath {
+    fill: black;
+  }
+  
+  :root:not(.dark) svg path {
+    stroke: black;
+  }
+  
+  /* Estilos para tema oscuro */
+  :root.dark #claim {
+    background-color: black;
+    color: white;
+  }
+  
+  :root.dark .claim-card {
+    background-color: #0D0D0D;
+  }
+  
+  :root.dark .claim-card-text {
+    color: #9ca3af;
+  }
+  
+  :root.dark .story-button {
+    border-color: white;
+  }
+  
+  :root.dark .story-button:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  :root.dark textPath {
+    fill: white;
+  }
+  
+  :root.dark svg path {
+    stroke: white;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Inicializar el tema correcto al cargar
+    const isDarkTheme = document.documentElement.classList.contains('dark');
+    updateTheme(isDarkTheme ? 'dark' : 'light');
+    
+    // Escuchar cambios de tema
+    document.addEventListener('themeChanged', (event) => {
+      const theme = event.detail.theme;
+      updateTheme(theme);
+    });
+    
+    function updateTheme(theme) {
+      // No necesitamos hacer nada aquí ya que los estilos CSS
+      // manejan automáticamente los cambios de tema con las clases :root.dark
+    }
+  });
+</script>

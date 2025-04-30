@@ -1,0 +1,40 @@
+{
+  "title": "Privacy Policy",
+  "subtitle": "Information about how we handle your data",
+  "sections": {
+    "introduction": {
+      "title": "Introduction",
+      "content": "This Privacy Policy describes how your personal information is collected, used, and shared when you visit our website."
+    },
+    "dataCollection": {
+      "title": "Information We Collect",
+      "content": "We collect personal information that you voluntarily provide to us when you register, make a purchase, subscribe to our newsletter, or contact us."
+    },
+    "dataUse": {
+      "title": "How We Use Your Information",
+      "content": "We use the information we collect to provide and improve our services, process your transactions, communicate with you, and comply with our legal obligations."
+    },
+    "dataSharing": {
+      "title": "Data Sharing",
+      "content": "We may share your personal information with service providers, business partners, and when necessary to comply with the law."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "We use cookies and similar technologies to enhance your experience on our website, analyze traffic, and personalize content."
+    },
+    "rights": {
+      "title": "Your Rights",
+      "content": "Depending on your location, you may have certain rights regarding your personal information, such as the right to access, correct, or delete your data."
+    },
+    "contact": {
+      "title": "Contact",
+      "content": "If you have any questions about this Privacy Policy, you can contact us at:"
+    }
+  },
+  "contactEmail": "hello@agazzistudio.com",
+  "footer": {
+    "copyright": "© 2023 Agazzi Studio. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Els Nostres Serveis",
+  "subtitle": "Serveis experts que defineixen la nostra excel·lència",
+  "description": "Des del disseny creatiu fins a solucions tècniques, els nostres serveis defineixen l'excel·lència a la indústria.",
+  "services": {
+    "category": "Els nostres serveis"
+  },
+  "servicesList": [
+    {
+      "title": "Media Manager",
+      "description": "Planificació i optimització de campanyes en mitjans digitals per maximitzar la teva visibilitat i retorn d'inversió.",
+      "icon": "lightning",
+      "image": "/assets/lottie/media-manager.json"
+    },
+    {
+      "title": "Web Content Manager",
+      "description": "Administració i actualització del teu lloc web i perfils socials per mantenir la teva presència online sempre activa i coherent.",
+      "icon": "lightning",
+      "image": "/assets/lottie/cms.json"
+    },
+    {
+      "title": "Desenvolupaments web & Apps",
+      "description": "Creem o modifiquem les teves apps i llocs web responsius, amb tecnologies d'última generació.",
+      "icon": "diamond",
+      "image": "/assets/lottie/coding.json"
+    },
+    {
+      "title": "Ecommerce pel teu negoci",
+      "description": "Solucions de comerç electrònic integrals per gestionar productes, pagaments i enviaments de manera eficient.",
+      "icon": "diamond",
+      "image": "/assets/lottie/ecommerce.json"
+    },
+    {
+      "title": "SEO",
+      "description": "Optimització per a cercadors, millor indexació i posicionament en els resultats de cerca.",
+      "icon": "search",
+      "image": "/assets/lottie/seo.json"
+    },
+    {
+      "title": "Disseny gràfic",
+      "description": "Creació d'elements visuals (logotips, banners, material imprès) que reforcen la identitat i l'impacte de la teva marca.",
+      "icon": "screen",
+      "image": "/assets/lottie/graphic-design.json"
+    }
+  ]
+}
