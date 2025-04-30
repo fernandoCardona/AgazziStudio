@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation.astro';
 import SEOHead from '../components/SEOHead.astro';
 import SchemaOrg from '../components/SchemaOrg.astro';
 import '../styles/global.css'; // Importamos los estilos globales
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 
 export interface Props {
   title: string;
@@ -91,13 +92,7 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
     </script>
     
     <!-- Google Analytics -->
-    <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script type="text/partytown">
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
+    <GoogleAnalytics />
   </head>
   <body class="font-sans relative min-h-screen">
     <script is:inline>
@@ -263,5 +258,7 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
         });
       });
     </script>
+    
+    <!-- Eliminamos el script de tracking duplicado que estaba aquí -->
   </body>
 </html>
