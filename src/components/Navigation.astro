@@ -122,6 +122,25 @@ try {
   </div>
 </nav>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seguimiento de Navegación entre Idiomas
+    document.querySelectorAll('.language-selector a').forEach(langLink => {
+      langLink.addEventListener('click', function(e) {
+        const targetLang = this.getAttribute('data-lang');
+        
+        // Verificar que gtag esté disponible
+        if (typeof gtag === 'function') {
+          gtag('event', 'language_change', {
+            'event_category': 'navigation',
+            'event_label': targetLang
+          });
+        }
+      });
+    });
+  });
+</script>
+
 <style>
   .language-selector .absolute {
     pointer-events: none;
