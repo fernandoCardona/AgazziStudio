@@ -8,6 +8,15 @@ export default defineConfig({
   site: 'https://agazzistudio.com',
   base: '/',
   
+  // Configuración de i18n a nivel de proyecto
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en', 'ca'],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  },
+  
   // Integraciones
   integrations: [
     tailwind(),
@@ -38,6 +47,6 @@ export default defineConfig({
   
   // Configuración de build
   build: {
-    format: 'file'
+    format: 'directory'  // Cambiado de 'file' a 'directory'
   }
 });
