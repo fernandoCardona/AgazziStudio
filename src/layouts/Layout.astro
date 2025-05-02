@@ -6,7 +6,6 @@ import Navigation from '../components/Navigation.astro';
 import SEOHead from '../components/SEOHead.astro';
 import SchemaOrg from '../components/SchemaOrg.astro';
 import '../styles/global.css'; // Importamos los estilos globales
-import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 
 export interface Props {
   title: string;
@@ -38,6 +37,16 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
 <!DOCTYPE html>
 <html lang={lang}>
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script type="text/partyTown" async src="https://www.googletagmanager.com/gtag/js?id=G-H5WV4YMJGD"></script>
+    <script type="text/partyTown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H5WV4YMJGD');
+    </script>
+    
     <SEOHead 
       title={title}
       description={finalDescription}
@@ -61,6 +70,7 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="AgazziStudio.com" />
     <link rel="manifest" href="/site.webmanifest" />
+    
     
     <!-- Resto de tus etiquetas head -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -91,8 +101,7 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
       document.addEventListener('DOMContentLoaded', initTheme);
     </script>
     
-    <!-- Google Analytics -->
-    <GoogleAnalytics />
+    <!-- Google Analytics is already implemented above in the head section -->
   </head>
   <body class="font-sans relative min-h-screen">
     <script is:inline>
@@ -223,41 +232,7 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
       window.scrollTo(0, 0);
     </script>
     
-    <script is:inline>
-      // Tracking de scroll para secciones
-      document.addEventListener('DOMContentLoaded', function() {
-        // Obtener todas las secciones principales
-        const sections = document.querySelectorAll('section[id]');
-        
-        // Configurar el observador de intersección
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              // Enviar evento a GA cuando una sección es visible
-              gtag('event', 'view_section', {
-                'section_id': entry.target.id,
-                'section_name': entry.target.getAttribute('data-section-name') || entry.target.id
-              });
-            }
-          });
-        }, { threshold: 0.5 }); // Visible cuando al menos el 50% de la sección está en pantalla
-        
-        // Observar cada sección
-        sections.forEach(section => {
-          observer.observe(section);
-        });
-        
-        // Tracking de clics en enlaces importantes
-        document.querySelectorAll('a[data-track]').forEach(link => {
-          link.addEventListener('click', function() {
-            gtag('event', 'click', {
-              'event_category': 'link',
-              'event_label': this.getAttribute('data-track') || this.href
-            });
-          });
-        });
-      });
-    </script>
+
     
     <!-- Eliminamos el script de tracking duplicado que estaba aquí -->
   </body>

@@ -1,11 +1,9 @@
-export async function get() {
-  return {
-    body: `
-        User-agent: *
-        Allow: /
-
-        # Sitemap
-        Sitemap: ${new URL('sitemap-index.xml', import.meta.env.SITE).href}
-    `.trim()
-  };
+export async function GET() {
+  return new Response(`User-agent: *
+Allow: /
+Sitemap: https://agazzistudio.com/sitemap-index.xml`, {
+    headers: {
+      'Content-Type': 'text/plain'
+    }
+  });
 }

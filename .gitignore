@@ -17,7 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 .env.example
-
+README.md
+carpeta/README.md
+**/README.md
 # macOS-specific files
 .DS_Store
 

@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+// Eliminamos la importación de GoogleAnalytics ya que ahora está en el Layout
+// import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 import Hero from '../components/sections/Hero.astro';
 import Claim from '../components/sections/Claim.astro';
 import LanguagePicker from '../components/LanguagePicker.astro';
@@ -49,23 +51,23 @@ try {
 }
 ---
 
-<Layout title="Agazzi Studio" lang={normalizedLang}>
-  <Hero lang={normalizedLang} />
-
- 
-    
-    <About lang={lang} />
-    <Services lang={lang} />
-    <Faq lang={lang} />
-    <Testimonials lang={lang} />
-    <Partners lang={lang} />
-    
+<Layout title="Agazzi Studio" lang={lang}>
+  <!-- Eliminamos la inyección de GA en el head -->
   
+  <Hero lang={normalizedLang} />
+  <About lang={lang} />
+  <Services lang={lang} />
+  <Faq lang={lang} />
+  <Testimonials lang={lang} />
+  <Partners lang={lang} />
   <Contact lang={normalizedLang} />
   <PrivacyPolicyModal lang={lang} />
   <TermsOfServiceModal lang={lang} />
   <AvisoCookies lang={lang} />
+  
+  <!-- Eliminamos el script para seguimiento de secciones -->
 </Layout>
+
 <script is:inline>
   // Client-side language detection and redirection
   document.addEventListener('DOMContentLoaded', () => {
