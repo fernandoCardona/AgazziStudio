@@ -3,45 +3,27 @@
   "description": "Discover what our clients have to say about our work and experience.",
   "testimonials": [
     {
-      "name": "Jona Carter",
-      "position": "Founder at Ecobiz",
-      "text": "Every project Agazzi Studio touches turns into a perfect blend of design and purpose. They crafted packaging that reflected our eco-friendly mission while making our products stand out on the shelves.",
+      "name": "Niky",
+      "position": "CEO Niky Pinturas ",
+      "text": "Working with Agazzi Studio has been very easy and comfortable from the very beginning. They helped me give my business a more professional image and improve my presence on social media, which I didn’t really know how to manage. They are very reliable and adapt to what you need. I’m very happy with the result.",
       "stars": 5
     },
     {
-      "name": "Sofia Toms",
-      "position": "Director at Green Studios",
-      "text": "Agazzi Studio's designs speak for themselves — bold, strategic, and impactful. They took the time to understand our brand, delivering packaging concepts that resonated with our target audience and boosted our product's website.",
-      "stars": 5
+      "name": "Juan Carlos Rubio",
+      "position": "Manager Suitable Agency",
+      "text": "Meet Agazzi Studio has been an exceptional experience. Their team not only has a deep understanding of the casual fashion industry, but they also know how to translate each brand’s identity into high-impact content and a flawless website. Their creativity, professionalism, and attention to detail have elevated our digital presence, fostering genuine engagement with our audience. I would highly recommend Agazzi Studio to any brand looking to stand out in the market.",
+      "stars": 4.5
     },
     {
-      "name": "Richards Johnson",
-      "position": "Creative Director & Lead Designer",
-      "text": "Working with Agazzi Studio was a seamless experience. Their ability to merge creativity with functionality resulted in designs that not only looked stunning but also drove meaningful engagement. Highly recommended!",
+      "name": "Luis Rivero",
+      "position": "CEO Riverconsa",
+      "text": "Agazzi Studio has been a strategic decision for Riverconsa. Their team perfectly understands the importance of digital presence in the construction sector and has successfully captured our identity in a clear and effective way. Thanks to their work, our online presence conveys professionalism, trust, and strength—qualities essential to our company. I highly recommend Agazzi Studio to any business looking to position itself with effective and distinctive communication",
       "stars": 4
-    },
+    }, 
     {
-      "name": "Alex Morgan",
-      "position": "CEO of TechVision",
-      "text": "Agazzi Studio completely transformed our brand identity. Their strategic approach and attention to detail helped us stand out in a saturated market. Our conversions have increased by 45% since the redesign.",
-      "stars": 5
-    },
-    {
-      "name": "Maria Rodriguez",
-      "position": "Founder of Bella Moda",
-      "text": "Finding Agazzi Studio was the best thing that happened to my business. They perfectly understood the essence of my fashion brand and created a visual identity that resonates with my audience. The process was smooth and the results exceptional.",
-      "stars": 5
-    },
-    {
-      "name": "David Chen",
-      "position": "Marketing Director at FoodDelight",
-      "text": "Collaborating with Agazzi Studio elevated our digital presence to another level. Their understanding of the food market and ability to create engaging visual experiences has allowed us to better connect with our customers.",
-      "stars": 4
-    },
-    {
-      "name": "Emma Wilson",
-      "position": "Owner of Wellness Hub",
-      "text": "Agazzi Studio captured the essence of our wellness center and translated it into a design that conveys calm and professionalism. Since the redesign, we've seen a significant increase in new clients who specifically mention how drawn they were to our image.",
+      "name": "Fernando Cardona",
+      "position": "Full-Stack The Lion Robotics",
+      "text": "Agazzi Studio is synonymous with commitment and excellence. Their team approaches each project with a meticulous mindset, ensuring high-quality solutions in content and design. Their attention to detail and ability to capture each brand’s identity with precision showcase their professionalism and strategic vision. It’s an environment where quality and reliability are top priorities, and that is evident in every outcome.",
       "stars": 5
     }
   ]

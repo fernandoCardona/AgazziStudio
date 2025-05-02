@@ -3,46 +3,29 @@
   "description": "Descobreix el que els nostres clients tenen a dir sobre el nostre treball i experiència.",
   "testimonials": [
     {
-      "name": "Jona Carter",
-      "position": "Fundador d'Ecobiz",
-      "text": "Cada projecte que Agazzi Studio toca es converteix en una perfecta barreja de disseny i propòsit. Van crear un packaging que reflectia la nostra missió ecològica mentre feien que els nostres productes destaquessin als prestatges.",
+      "name": "Niky",
+      "position": "CEO Niky Pinturas ",
+      "text": "Treballar amb Agazzi Studio ha estat molt fàcil i còmode des del primer moment. Em van ajudar a donar una imatge més professional al meu negoci i a moure’m millor a les xarxes socials, que era una cosa que no controlava gaire. Són molt seriosos i s’adapten al que necessites. Estic molt content amb el resultat.",
       "stars": 5
     },
     {
-      "name": "Sofia Toms",
-      "position": "Directora a Green Studios",
-      "text": "Els dissenys d'Agazzi Studio parlen per si mateixos: audaços, estratègics i impactants. Es van prendre el temps per entendre la nostra marca, lliurant conceptes de packaging que van ressonar amb el nostre públic objectiu i van potenciar el lloc web del nostre producte.",
-      "stars": 5
+      "name": "Juan Carlos Rubio",
+      "position": "Manager Suitable Agency",
+      "text": "Troba Agazzi Studio ha estat una experiència excepcional. El seu equip no només entén profundament el sector de la moda casual, sinó que també sap com plasmar la identitat de cada marca a través de contingut d'alt impacte i un lloc web impecable. La seva creativitat, professionalitat i atenció als detalls han elevat la nostra presència digital, generant una connexió autèntica amb la nostra audiència. Recomanaria Agazzi Studio sense cap dubte a qualsevol marca que vulgui destacar-se en el mercat.",
+      "stars": 4.5
     },
     {
-      "name": "Richards Johnson",
-      "position": "Director Creatiu i Dissenyador Principal",
-      "text": "Treballar amb Agazzi Studio va ser una experiència perfecta. La seva capacitat per fusionar creativitat amb funcionalitat va resultar en dissenys que no només lluïen impressionants sinó que també van generar un compromís significatiu. Altament recomanat!",
+      "name": "Luis Rivero",
+      "position": "CEO Riverconsa",
+      "text": "Agazzi Studio ha estat una decisió estratègica per a Riverconsa. El seu equip entén perfectament la importància de la presència digital en el sector de la construcció i ha sabut plasmar la nostra identitat de manera clara i efectiva. Gràcies al seu treball, la nostra presència en línia transmet professionalitat, confiança i solidesa, qualitats essencials per a la nostra empresa. Recomano Agazzi Studio a qualsevol companyia que vulgui posicionar-se amb una comunicació efectiva i diferenciadora.",
       "stars": 4
-    },
+    }, 
     {
-      "name": "Alex Morgan",
-      "position": "CEO de TechVision",
-      "text": "Agazzi Studio va transformar completament la nostra identitat de marca. El seu enfocament estratègic i atenció al detall ens va ajudar a destacar en un mercat saturat. Les nostres conversions han augmentat un 45% des del redisseny.",
-      "stars": 5
-    },
-    {
-      "name": "Maria Rodríguez",
-      "position": "Fundadora de Bella Moda",
-      "text": "Trobar Agazzi Studio va ser el millor que li va passar al meu negoci. Van entendre perfectament l'essència de la meva marca de moda i van crear una identitat visual que ressona amb la meva audiència. El procés va ser fluid i els resultats, excepcionals.",
-      "stars": 5
-    },
-    {
-      "name": "David Chen",
-      "position": "Director de Màrqueting a FoodDelight",
-      "text": "La col·laboració amb Agazzi Studio va elevar la nostra presència digital a un altre nivell. La seva comprensió del mercat gastronòmic i la seva capacitat per crear experiències visuals atractives ens ha permès connectar millor amb els nostres clients.",
-      "stars": 4
-    },
-    {
-      "name": "Emma Wilson",
-      "position": "Propietària de Wellness Hub",
-      "text": "Agazzi Studio va captar l'essència del nostre centre de benestar i la va traduir en un disseny que transmet calma i professionalisme. Des del redisseny, hem vist un augment significatiu en nous clients que mencionen específicament com d'atrets es van sentir per la nostra imatge.",
+      "name": "Fernando Cardona",
+      "position": "Full-Stack The Lion Robotics",
+      "text": "Agazzi Studio és sinònim de compromís i excel·lència. El seu equip afronta cada projecte amb un enfocament meticulós, garantint solucions d’alta qualitat en contingut i disseny. L’atenció al detall i la capacitat de plasmar la identitat de cada marca amb precisió demostren el seu professionalisme i visió estratègica. És un entorn on la qualitat i la fiabilitat són prioritàries, i això es reflecteix en cada resultat.",
       "stars": 5
     }
+    
   ]
 }
