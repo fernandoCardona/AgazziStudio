@@ -20,7 +20,7 @@ const { images } = Astro.props;
 
 <!-- Cargamos Swiper desde CDN para asegurar que sea estático -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-<script is:inline src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" defer></script>
 
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {

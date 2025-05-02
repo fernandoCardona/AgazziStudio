@@ -156,26 +156,41 @@ const bookCallButton = faqTranslations?.bookCallButton || defaultTranslations.bo
         </p>
         
         <!-- Botones de categoría -->
-        <div class="flex flex-wrap gap-3 mb-8 fade-up-element opacity-0 translate-y-10" data-delay="0.8">
+        <div 
+          role="tablist" 
+          aria-label="Categorías de servicios"
+          class="flex flex-wrap gap-3 mb-8 fade-up-element opacity-0 translate-y-10" 
+          data-delay="0.8"
+        >
           <button 
             class="category-btn px-4 py-2 bg-tag text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] text-theme-text transition-all duration-300 hover:bg-theme-text hover:text-theme-bg" 
-            data-category="mediaManager"
+            role="tab"
+            id="tab-mediaManager"
+            aria-controls="panel-mediaManager"
             aria-selected="true"
+            data-category="mediaManager"
           >
             Media manager
           </button>
-          <button
+          
+          <button 
             class="category-btn px-4 py-2 bg-tag text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] text-theme-text transition-all duration-300 hover:bg-theme-text hover:text-theme-bg"
-            data-category="webAppDev"
+            role="tab"
+            id="tab-webAppDev"
+            aria-controls="panel-webAppDev"
             aria-selected="false"
+            data-category="webAppDev"
           >
             Web & App Develop
           </button>
 
           <button 
             class="category-btn px-4 py-2 bg-tag text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] text-theme-text transition-all duration-300 hover:bg-theme-text hover:text-theme-bg" 
-            data-category="graphicDesign"
+            role="tab"
+            id="tab-graphicDesign"
+            aria-controls="panel-graphicDesign"
             aria-selected="false"
+            data-category="graphicDesign"
           >
             Graphic design & UX
           </button>
@@ -191,30 +206,41 @@ const bookCallButton = faqTranslations?.bookCallButton || defaultTranslations.bo
       
       <!-- Columna derecha: Preguntas y respuestas -->
       <div class="md:w-2/3 fade-up-element opacity-0 translate-y-10" data-delay="1.4">
-        <!-- Contenedor para todas las categorías de FAQ -->
-        <div id="faq-categories-container">
+        <div id="faq-categories-container" role="tabpanel">
           <!-- Media Manager FAQs -->
-          <div class="faq-category space-y-1" data-category="mediaManager">
+          <div 
+            class="faq-category space-y-1" 
+            data-category="mediaManager"
+            role="region" 
+            aria-labelledby="tab-mediaManager"
+          >
             {faqCategories[0].questions.map((faq, index) => (
               <div class="faq-item border-t border-theme-border py-4">
                 <button 
-                  id="faq-media-manager"
+                  id={`faq-media-manager-${index}`}
                   class="faq-question w-full flex justify-between items-center text-left focus:outline-none text-theme-text"
                   aria-expanded={faq.isOpen ? "true" : "false"}
+                  aria-controls={`faq-media-manager-answer-${index}`}
+                  role="button"
                   data-index={index}
                 >
                   <span class="faq-question-title text-[18px] leading-[22px] md:text-[22px] md:leading-[26px] font-medium">{faq.question}</span>
                   <svg 
-                    class={`faq-question-title w-6 h-6 transform transition-transform duration-300 ${faq.isOpen ? 'rotate-45' : ''}`} 
+                    class={`faq-question-title w-6 h-6 transform transition-transform duration-300 ${faq.isOpen ? 'rotate-45' : ''}`}
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    role="presentation"
                   >
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
                 </button>
                 <div 
+                  id={`faq-media-manager-answer-${index}`}
                   class={`faq-answer overflow-hidden transition-all duration-300 ${faq.isOpen ? 'max-h-96 opacity-100 pt-4' : 'max-h-0 opacity-0'}`}
+                  role="region"
+                  aria-labelledby={`faq-media-manager-${index}`}
                 >
                   <p class="text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-theme-secondary">{faq.answer}</p>
                 </div>
@@ -223,27 +249,39 @@ const bookCallButton = faqTranslations?.bookCallButton || defaultTranslations.bo
           </div>
           
           <!-- Web & App Development FAQs -->
-          <div class="faq-category space-y-1 hidden" data-category="webAppDev">
+          <div 
+            class="faq-category space-y-1 hidden" 
+            data-category="webAppDev"
+            role="region" 
+            aria-labelledby="tab-webAppDev"
+          >
             {faqCategories[1].questions.map((faq, index) => (
               <div class="faq-item border-t border-theme-border py-4">
                 <button 
-                  id="faq-web-app-develop"
+                  id={`faq-web-app-${index}`}
                   class="faq-question w-full flex justify-between items-center text-left focus:outline-none text-theme-text"
                   aria-expanded={faq.isOpen ? "true" : "false"}
+                  aria-controls={`faq-web-app-answer-${index}`}
+                  role="button"
                   data-index={index}
                 >
                   <span class="faq-question-title text-[18px] leading-[22px] md:text-[22px] md:leading-[26px] font-medium">{faq.question}</span>
                   <svg 
-                    class={`w-6 h-6 transform transition-transform duration-300 ${faq.isOpen ? 'rotate-45' : ''}`} 
+                    class={`w-6 h-6 transform transition-transform duration-300 ${faq.isOpen ? 'rotate-45' : ''}`}
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    role="presentation"
                   >
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
                 </button>
                 <div 
+                  id={`faq-web-app-answer-${index}`}
                   class={`faq-answer overflow-hidden transition-all duration-300 ${faq.isOpen ? 'max-h-96 opacity-100 pt-4' : 'max-h-0 opacity-0'}`}
+                  role="region"
+                  aria-labelledby={`faq-web-app-${index}`}
                 >
                   <div class="text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] lg:text-[22px] lg:leading-[26px] text-theme-secondary" set:html={faq.answer}></div>
                 </div>
@@ -252,27 +290,39 @@ const bookCallButton = faqTranslations?.bookCallButton || defaultTranslations.bo
           </div>
           
           <!-- Graphic Design & UX FAQs -->
-          <div class="faq-category space-y-1 hidden" data-category="graphicDesign">
+          <div 
+            class="faq-category space-y-1 hidden" 
+            data-category="graphicDesign"
+            role="region" 
+            aria-labelledby="tab-graphicDesign"
+          >
             {faqCategories[2].questions.map((faq, index) => (
               <div class="faq-item border-t border-theme-border py-4">
                 <button 
-                  id="faq-graphic-design"
+                  id={`faq-design-${index}`}
                   class="faq-question w-full flex justify-between items-center text-left focus:outline-none text-theme-text"
                   aria-expanded={faq.isOpen ? "true" : "false"}
+                  aria-controls={`faq-design-answer-${index}`}
+                  role="button"
                   data-index={index}
                 >
                   <span class="faq-question-title text-[18px] leading-[22px] md:text-[22px] md:leading-[26px] font-medium">{faq.question}</span>
                   <svg 
-                    class={`w-6 h-6 transform transition-transform duration-300 ${faq.isOpen ? 'rotate-45' : ''}`} 
+                    class={`w-6 h-6 transform transition-transform duration-300 ${faq.isOpen ? 'rotate-45' : ''}`}
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    role="presentation"
                   >
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
                 </button>
                 <div 
+                  id={`faq-design-answer-${index}`}
                   class={`faq-answer overflow-hidden transition-all duration-300 ${faq.isOpen ? 'max-h-96 opacity-100 pt-4' : 'max-h-0 opacity-0'}`}
+                  role="region"
+                  aria-labelledby={`faq-design-${index}`}
                 >
                   <p class="text-[14px] leading-[18px] md:text-[18px] md:leading-[22px] text-theme-secondary">{faq.answer}</p>
                 </div>

@@ -23,7 +23,10 @@ try {
 <nav class="fixed top-0 left-0 w-full z-[8000] backdrop-blur-lg bg-transparent">
   <div class="mx-auto px-4 md:px-6 py-1 xs:py-2">
     <div class="flex justify-between items-center">
-      <a href="#home" class="text-[32px] xs:text-[38px] font-bold font-display tracking-wider">AGAZZI STUDIO</a>
+      <!-- Optimizar el logo para carga rápida -->
+      <a href="#home" class="text-[32px] xs:text-[38px] font-bold font-display tracking-wider" data-astro-cid-pux6a34n="">
+        AGAZZI STUDIO
+      </a>
       
       <!-- Menú de navegación principal -->
       <div class="hidden md:flex items-center gap-8">
@@ -83,7 +86,8 @@ try {
       </div>
 
       <!-- Menú hamburguesa -->
-      <button class="menu-toggle flex md:hidden flex-col justify-center items-center w-10 h-10 z-50">
+      <button class="menu-toggle flex md:hidden flex-col justify-center items-center w-10 h-10 z-50" aria-label="Abrir menú de navegación"
+      aria-expanded="false">
         <span class="block w-6 h-0.5 bg-white mb-1.5 transition-all"></span>
         <span class="block w-6 h-0.5 bg-white mb-1.5 transition-all"></span>
         <span class="block w-6 h-0.5 bg-white transition-all"></span>
@@ -123,21 +127,157 @@ try {
 </nav>
 
 <script>
+  // Usar requestIdleCallback para operaciones no críticas
+  const runWhenIdle = (callback) => {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(callback);
+    } else {
+      setTimeout(callback, 200);
+    }
+  };
+
+  // Inicializar la navegación cuando el DOM esté listo
   document.addEventListener('DOMContentLoaded', function() {
-    // Seguimiento de Navegación entre Idiomas
-    document.querySelectorAll('.language-selector a').forEach(langLink => {
-      langLink.addEventListener('click', function(e) {
-        const targetLang = this.getAttribute('data-lang');
-        
-        // Verificar que gtag esté disponible
-        if (typeof gtag === 'function') {
-          gtag('event', 'language_change', {
-            'event_category': 'navigation',
-            'event_label': targetLang
-          });
+    // Referencias a elementos DOM (minimizadas)
+    const languageSelector = document.querySelector('.language-selector');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    
+    // Manejar el selector de idioma - optimizado
+    if (languageSelector) {
+      const button = languageSelector.querySelector('button');
+      if (button) {
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          languageSelector.classList.toggle('active');
+        });
+      }
+      
+      // Delegación de eventos para cerrar el selector
+      document.addEventListener('click', (e) => {
+        if (languageSelector.classList.contains('active') && !languageSelector.contains(e.target)) {
+          languageSelector.classList.remove('active');
         }
+      }, { passive: true });
+    }
+
+    // Manejar el menú móvil - optimizado
+    if (menuToggle && mobileMenu) {
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+        document.body.classList.toggle('overflow-hidden');
       });
-    });
+      
+      // Delegación de eventos para el menú móvil
+      mobileMenu.addEventListener('click', (e) => {
+        const target = e.target;
+        // Cerrar menú si se hace clic en un enlace o en el botón de tema
+        if (target.tagName === 'A' || target.closest('#mobileThemeToggle')) {
+          mobileMenu.classList.remove('active');
+          menuToggle.classList.remove('active');
+          document.body.classList.remove('overflow-hidden');
+        }
+      }, { passive: true });
+    }
+    
+    // Inicializar tema
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    
+    // Configurar alternador de tema
+    const setupThemeToggle = () => {
+      const toggleTheme = () => {
+        const isDarkMode = document.documentElement.classList.contains('dark');
+        const newTheme = isDarkMode ? 'light' : 'dark';
+        
+        localStorage.setItem('theme', newTheme);
+        document.documentElement.classList.toggle('dark', newTheme === 'dark');
+        
+        // Cerrar menú móvil si está abierto
+        if (mobileMenu && mobileMenu.classList.contains('active')) {
+          mobileMenu.classList.remove('active');
+          if (menuToggle) menuToggle.classList.remove('active');
+          document.body.classList.remove('overflow-hidden');
+        }
+        
+        // Notificar cambio de tema
+        document.dispatchEvent(new CustomEvent('themeChanged', { 
+          detail: { theme: newTheme } 
+        }));
+      };
+      
+      const themeToggle = document.getElementById('themeToggle');
+      const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+      
+      if (themeToggle) themeToggle.addEventListener('click', toggleTheme, { passive: true });
+      if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme, { passive: true });
+    };
+    
+    // Ejecutar configuración de tema cuando el navegador esté inactivo
+    runWhenIdle(setupThemeToggle);
+    
+    // Optimizar la actualización de enlaces activos
+    const updateActiveLink = () => {
+      const sections = document.querySelectorAll('section[id], #contact');
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      if (!sections.length || !navLinks.length) return;
+      
+      let currentSection = '';
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // Detectar si estamos cerca del final de la página
+      const isNearBottom = scrollPosition + windowHeight >= documentHeight - 100;
+      
+      if (isNearBottom) {
+        currentSection = 'contact';
+      } else {
+        // Usar for loop en lugar de forEach para mejor rendimiento
+        for (let i = 0; i < sections.length; i++) {
+          const section = sections[i];
+          const sectionTop = section.offsetTop - 100;
+          const sectionHeight = section.offsetHeight;
+          
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSection = section.getAttribute('id');
+            break; // Salir del bucle una vez encontrada la sección
+          }
+        }
+      }
+      
+      // Actualizar clases de enlaces
+      const isDark = document.documentElement.classList.contains('dark');
+      for (let i = 0; i < navLinks.length; i++) {
+        const link = navLinks[i];
+        const section = link.getAttribute('data-section');
+        
+        if (section === currentSection) {
+          link.classList.add('active');
+          link.classList.remove('text-gray-400');
+        } else {
+          link.classList.remove('active');
+          link.classList.add('text-gray-400');
+        }
+      }
+    };
+    
+    // Usar throttle para scroll events
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateActiveLink();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+    
+    // Actualizar enlaces activos inicialmente
+    updateActiveLink();
   });
 </script>
 
@@ -313,242 +453,6 @@ try {
     background-color: rgba(240, 240, 240, 0.9);
   }
 </style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const languageSelector = document.querySelector('.language-selector');
-    const button = languageSelector ? languageSelector.querySelector('button') : null;
-    const dropdown = languageSelector ? languageSelector.querySelector('.absolute') : null;
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mobileMenu = document.querySelector('.mobile-menu');
-
-    // Manejar el selector de idioma
-    if (languageSelector && button && dropdown) {
-      button.addEventListener('click', () => {
-        languageSelector.classList.toggle('active');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (e.target instanceof Element && !languageSelector.contains(e.target)) {
-          languageSelector.classList.remove('active');
-        }
-      });
-    }
-
-    // Manejar el menú móvil
-    if (menuToggle && mobileMenu) {
-      menuToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('active');
-        menuToggle.classList.toggle('active');
-        document.body.classList.toggle('overflow-hidden');
-      });
-      
-      // Cerrar el menú móvil al hacer clic en un enlace
-      const mobileLinks = mobileMenu.querySelectorAll('a');
-      mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          mobileMenu.classList.remove('active');
-          menuToggle.classList.remove('active');
-          document.body.classList.remove('overflow-hidden');
-        });
-      });
-      
-      // Cerrar el menú móvil al hacer clic en el botón de cambio de tema
-      const mobileThemeToggle = document.getElementById('mobileThemeToggle');
-      if (mobileThemeToggle) {
-        mobileThemeToggle.addEventListener('click', () => {
-          mobileMenu.classList.remove('active');
-          menuToggle.classList.remove('active');
-          document.body.classList.remove('overflow-hidden');
-        });
-      }
-      
-      // Add event listener to ensure body scroll is restored
-      document.addEventListener('click', (e) => {
-        if (mobileMenu.classList.contains('active') && 
-            !mobileMenu.contains(e.target) && 
-            !menuToggle.contains(e.target)) {
-          mobileMenu.classList.remove('active');
-          menuToggle.classList.remove('active');
-          document.body.classList.remove('overflow-hidden');
-        }
-      });
-    }
-    
-    // Add a safety check to ensure overflow-hidden is removed when page loads
-    window.addEventListener('load', () => {
-      document.body.classList.remove('overflow-hidden');
-    });
-
-    // Función para alternar entre temas
-    function toggleTheme() {
-      // Obtener el tema actual desde el elemento HTML
-      const isDarkMode = document.documentElement.classList.contains('dark');
-      // Cambiar al tema opuesto
-      const newTheme = isDarkMode ? 'light' : 'dark';
-      
-      // Guardar preferencia en localStorage
-      localStorage.setItem('theme', newTheme);
-      
-      // Alternar clase en el elemento html
-      document.documentElement.classList.toggle('dark', newTheme === 'dark');
-      
-      // Cerrar el menú móvil si está abierto
-      const mobileMenu = document.querySelector('.mobile-menu');
-      const menuToggle = document.querySelector('.menu-toggle');
-      if (mobileMenu && mobileMenu.classList.contains('active')) {
-        mobileMenu.classList.remove('active');
-        if (menuToggle) menuToggle.classList.remove('active');
-        document.body.classList.remove('overflow-hidden');
-      }
-      
-      // Aplicar cambios específicos según el tema
-      if (newTheme === 'dark') {
-        // Cambios para tema oscuro
-        document.querySelectorAll('.menu-toggle span').forEach(span => {
-          span.style.backgroundColor = '#7943f6'; // Púrpura para tema oscuro
-        });
-        document.body.style.backgroundColor = '#000';
-        document.body.style.color = '#ffffff';
-        
-        // Actualizar enlaces de navegación
-        document.querySelectorAll('.nav-link').forEach(link => {
-          if (link.classList.contains('active')) {
-            link.style.color = 'rgba(121, 67, 246, 1)'; // Púrpura sólido para enlaces activos
-          } else {
-            link.style.color = 'rgba(121, 67, 246, 0.7)'; // Púrpura con opacidad para enlaces inactivos
-          }
-        });
-        
-        // Actualizar selector de idioma
-        const langButton = document.querySelector('.language-selector button');
-        if (langButton) langButton.style.color = 'rgba(121, 67, 246, 0.7)';
-        
-      } else {
-        // Cambios para tema claro
-        document.querySelectorAll('.menu-toggle span').forEach(span => {
-          span.style.backgroundColor = '#5b6875'; // Gris para tema claro
-        });
-        document.body.style.backgroundColor = '#ffffff';
-        document.body.style.color = '#141414';
-        
-        // Actualizar enlaces de navegación
-        document.querySelectorAll('.nav-link').forEach(link => {
-          if (link.classList.contains('active')) {
-            link.style.color = 'rgba(91, 104, 117, 1)'; // Gris sólido para enlaces activos
-          } else {
-            link.style.color = 'rgba(91, 104, 117, 0.7)'; // Gris con opacidad para enlaces inactivos
-          }
-        });
-        
-        // Actualizar selector de idioma
-        const langButton = document.querySelector('.language-selector button');
-        if (langButton) langButton.style.color = '#141414';
-      }
-      
-      // Forzar actualización de enlaces activos
-      updateActiveLink();
-      
-      // Disparar evento personalizado
-      document.dispatchEvent(new CustomEvent('themeChanged', { 
-        detail: { theme: newTheme } 
-      }));
-    }
-    
-    // Agregar event listeners a los botones de tema
-    const themeToggle = document.getElementById('themeToggle');
-    const mobileThemeToggle = document.getElementById('mobileThemeToggle');
-    
-    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
-    if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
-    
-    // Aplicar tema inicial
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-    
-    // Actualizar navegación activa al desplazarse
-    const sections = document.querySelectorAll('section[id], #contact');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    function updateActiveLink() {
-      let currentSection = '';
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      
-      // Detectar si estamos cerca del final de la página
-      const isNearBottom = scrollPosition + windowHeight >= documentHeight - 100;
-      
-      // Si estamos cerca del final, activar la sección de contacto
-      if (isNearBottom) {
-        currentSection = 'contact';
-      } else {
-        // Comportamiento normal para otras secciones
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop - 100;
-          const sectionHeight = section.offsetHeight;
-          
-          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            currentSection = section.getAttribute('id');
-          }
-        });
-      }
-      
-      navLinks.forEach(link => {
-        const section = link.getAttribute('data-section');
-        const isDark = document.documentElement.classList.contains('dark');
-        
-        if (section === currentSection) {
-          link.classList.remove('text-gray-400');
-          link.classList.add('active'); // Añadir clase active para CSS
-          
-          // Apply the correct active color based on theme
-          if (isDark) {
-            link.classList.add('text-white', 'font-medium');
-          } else {
-            link.style.color = '#5b6875';
-            link.classList.add('font-medium');
-          }
-        } else {
-          link.classList.remove('active'); // Remover clase active
-          
-          if (isDark) {
-            link.classList.remove('text-white', 'font-medium');
-            link.classList.add('text-gray-400');
-          } else {
-            link.style.color = 'rgba(91, 104, 117, 0.7)'; // #5b6875 with opacity
-            link.classList.remove('font-medium');
-          }
-        }
-      });
-    }
-    
-    window.addEventListener('scroll', updateActiveLink);
-    updateActiveLink();
-    
-    // Desplazamiento suave al hacer clic en enlaces
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-          // Ensure overflow-hidden is removed before scrolling
-          document.body.classList.remove('overflow-hidden');
-          
-          window.scrollTo({
-            top: targetElement.offsetTop - 80,
-            behavior: 'smooth'
-          });
-          
-          history.pushState(null, null, targetId);
-        }
-      });
-    });
-  });
-</script>
 
 <style>
   .nav-link {

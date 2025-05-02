@@ -285,10 +285,58 @@ const defaultLottie = defaultService.image || '/assets/lottie/default.json';
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* 1. Asegura que el SVG o el canvas de Lottie escale al 100% */
+#lottie-animation,
+#lottie-animation svg,
+#lottie-animation canvas {
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+/* 2. Transiciones de fade-in/fade-out */
+#lottie-animation {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* Clase para ocultar con fade */
+#lottie-animation.fading-out {
+  opacity: 0;
+}
+
+/* Clase para mostrar con fade */
+#lottie-animation.fading-in {
+  opacity: 1;
+}
+
+/* 3. Mascara para difuminar bordes */
+/* Usa mask-image (y -webkit-mask para compatibilidad) */
+.service-lottie-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.service-lottie-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* gradientes en los dos ejes para un borde suave */
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-composite: intersect; /* para navegadores modernos */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-composite: destination-in;
+}
 </style>
 
-<!-- Importar la biblioteca Lottie -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<!-- Importar la biblioteca Lottie 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>-->
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -300,79 +348,239 @@ const defaultLottie = defaultService.image || '/assets/lottie/default.json';
     
     // Variable para almacenar la animación actual
     let currentAnimation = null;
+    let lottieLoaded = false;
+    
+    // Función para cargar la biblioteca Lottie bajo demanda
+    function loadLottieLibrary() {
+  // Si ya está cargado, devolvemos inmediatamente la instancia
+  if (window.lottie) {
+    return Promise.resolve(window.lottie);
+  }
+
+  // Si ya hay una carga en curso, reutilizamos la misma promesa
+  if (loadLottieLibrary._loadingPromise) {
+    return loadLottieLibrary._loadingPromise;
+  }
+
+  // Creamos y guardamos la promesa de carga
+  loadLottieLibrary._loadingPromise = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js';
+    script.async = true;
+
+    script.onload = () => {
+      if (window.lottie) {
+        resolve(window.lottie);
+      } else {
+        reject(new Error('Lottie cargado, pero window.lottie no está definido'));
+      }
+    };
+
+    script.onerror = () => {
+      reject(new Error('Error al cargar el script de lottie-web'));
+    };
+
+    // Añadimos al <head> para que no bloquee el renderizado del body
+    document.head.appendChild(script);
+  });
+
+  return loadLottieLibrary._loadingPromise;
+}
+
     
     // Función para cargar una animación Lottie
-    function loadLottieAnimation(path) {
-      // console.log("Cargando animación Lottie:", path);
+    // async function loadLottieAnimation(path) {
+    //   // Asegurarse de que la biblioteca Lottie esté cargada
+    //   if (!lottieLoaded) {
+    //     try {
+    //       await loadLottieLibrary();
+    //     } catch (error) {
+    //       console.error('Error al cargar la biblioteca Lottie:', error);
+    //       return;
+    //     }
+    //   }
       
-      // Destruir la animación anterior si existe
-      if (currentAnimation) {
-        currentAnimation.destroy();
-      }
+    //   // Destruir la animación anterior si existe
+    //   if (currentAnimation) {
+    //     currentAnimation.destroy();
+    //   }
       
-      // Limpiar el contenedor antes de cargar la nueva animación
-      if (lottieContainer) {
-        lottieContainer.innerHTML = '';
-      }
+    //   // Limpiar el contenedor antes de cargar la nueva animación
+    //   if (lottieContainer) {
+    //     lottieContainer.innerHTML = '';
+    //   }
       
-      // Cargar la nueva animación
-      try {
-        // Verificar si la ruta existe
-        if (!path) {
-          console.error('Ruta de animación no proporcionada');
-          path = '/assets/lottie/default.json';
-        }
+    //   // Cargar la nueva animación
+    //   try {
+    //     // Verificar si la ruta existe
+    //     if (!path) {
+    //       console.error('Ruta de animación no proporcionada');
+    //       path = '/assets/lottie/default.json';
+    //     }
         
-        currentAnimation = lottie.loadAnimation({
-          container: lottieContainer,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          path: path
-        });
+    //     currentAnimation = lottie.loadAnimation({
+    //       container: lottieContainer,
+    //       renderer: 'svg',
+    //       loop: true,
+    //       autoplay: true,
+    //       path: path,
+    //       rendererSettings: {
+    //         progressiveLoad: true,
+    //         preserveAspectRatio: 'xMidYMid slice'
+    //       }
+    //     });
         
-        // Manejar errores de carga
-        currentAnimation.addEventListener('data_failed', () => {
-          console.error('Error al cargar la animación Lottie:', path);
-          // Cargar una animación por defecto en caso de error
-          if (path !== '/assets/lottie/default.json') {
-            loadLottieAnimation('/assets/lottie/default.json');
-          }
-        });
-      } catch (error) {
-        console.error('Error al inicializar la animación Lottie:', error);
-        // Cargar una animación por defecto en caso de error
-        if (path !== '/assets/lottie/default.json') {
-          loadLottieAnimation('/assets/lottie/default.json');
-        }
+    //     // Manejar errores de carga
+    //     currentAnimation.addEventListener('data_failed', () => {
+    //       console.error('Error al cargar la animación Lottie:', path);
+    //       // Cargar una animación por defecto en caso de error
+    //       if (path !== '/assets/lottie/default.json') {
+    //         loadLottieAnimation('/assets/lottie/default.json');
+    //       }
+    //     });
+    //   } catch (error) {
+    //     console.error('Error al inicializar la animación Lottie:', error);
+    //     // Cargar una animación por defecto en caso de error
+    //     if (path !== '/assets/lottie/default.json') {
+    //       loadLottieAnimation('/assets/lottie/default.json');
+    //     }
+    //   }
+    // }
+    async function loadLottieAnimation(path) {
+  // Asegúrate de que la librería esté cargada
+  await loadLottieLibrary().catch(err => {
+    console.error('Error cargando Lottie:', err);
+    return Promise.reject(err);
+  });
+
+  const container = document.getElementById('lottie-animation');
+  if (!container) return;
+
+  // 1) Fade-out de la animación actual
+  container.classList.remove('fading-in');
+  container.classList.add('fading-out');
+
+  // Espera a que termine la transición
+  await new Promise(r => {
+    const onEnd = e => {
+      if (e.propertyName === 'opacity') {
+        container.removeEventListener('transitionend', onEnd);
+        r();
       }
+    };
+    container.addEventListener('transitionend', onEnd);
+  });
+
+  // 2) Destruye la animación vieja
+  if (currentAnimation) {
+    currentAnimation.destroy();
+    currentAnimation = null;
+  }
+  container.innerHTML = '';
+
+  // 3) Crea la nueva animación
+  currentAnimation = window.lottie.loadAnimation({
+    container,
+    renderer: 'svg',             // o 'canvas' si prefieres
+    loop: true,
+    autoplay: true,
+    path,
+    rendererSettings: {
+      progressiveLoad: true,
+      preserveAspectRatio: 'xMidYMid slice'
     }
+  });
+
+  // 4) Cuando Lottie esté lista, hacemos fade-in
+  currentAnimation.addEventListener('DOMLoaded', () => {
+    container.classList.remove('fading-out');
+    container.classList.add('fading-in');
+  });
+
+  // Reintento por si falla
+  currentAnimation.addEventListener('data_failed', () => {
+    console.error('Error cargando animación:', path);
+    if (path !== '/assets/lottie/default.json') {
+      loadLottieAnimation('/assets/lottie/default.json');
+    }
+  });
+}
+
     
     // Función para cambiar el servicio seleccionado
+    // function changeService(button) {
+    //   // Obtener datos del servicio
+    //   const title = button.getAttribute('data-service-title');
+    //   const description = button.getAttribute('data-service-description');
+    //   const lottiePath = button.getAttribute('data-service-lottie');
+      
+    //   // Marcar el botón como activo
+    //   serviceButtons.forEach(btn => btn.classList.remove('active'));
+    //   button.classList.add('active');
+      
+    //   // Cargar la animación Lottie
+    //   if (lottiePath) {
+    //     loadLottieAnimation(lottiePath);
+    //   } else {
+    //     console.error('No se encontró la ruta de la animación para el servicio:', title);
+    //     loadLottieAnimation('/assets/lottie/default.json');
+    //   }
+      
+    //   // Actualizar el detalle del servicio
+    //   if (serviceTitle) serviceTitle.textContent = title;
+    //   if (serviceDescription) serviceDescription.textContent = description;
+    // }
+
     function changeService(button) {
-      // Obtener datos del servicio
-      const title = button.getAttribute('data-service-title');
-      const description = button.getAttribute('data-service-description');
-      const lottiePath = button.getAttribute('data-service-lottie');
-      
-      // console.log("Servicio seleccionado:", title);
-      // console.log("Ruta de Lottie:", lottiePath);
-      
-      // Marcar el botón como activo
-      serviceButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-      
-      // Cargar la animación Lottie
-      if (lottiePath) {
-        loadLottieAnimation(lottiePath);
-      } else {
-        console.error('No se encontró la ruta de la animación para el servicio:', title);
-        loadLottieAnimation('/assets/lottie/default.json');
-      }
-      
-      // Actualizar el detalle del servicio
-      if (serviceTitle) serviceTitle.textContent = title;
-      if (serviceDescription) serviceDescription.textContent = description;
+  // Obtener datos del servicio
+  const title = button.getAttribute('data-service-title');
+  const description = button.getAttribute('data-service-description');
+  const lottiePath = button.getAttribute('data-service-lottie');
+
+  // Marcar el botón como activo
+  serviceButtons.forEach(btn => btn.classList.remove('active'));
+  button.classList.add('active');
+
+  // Actualizar el detalle del servicio
+  if (serviceTitle) serviceTitle.textContent = title;
+  if (serviceDescription) serviceDescription.textContent = description;
+
+  // Cargar la animación Lottie con fade-out/fade-in
+  if (lottiePath) {
+    loadLottieAnimation(lottiePath);
+  } else {
+    console.error('No se encontró la ruta de la animación para el servicio:', title);
+    loadLottieAnimation('/assets/lottie/default.json');
+  }
+}
+
+    
+    // Usar IntersectionObserver para cargar Lottie solo cuando sea visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Seleccionar el primer servicio por defecto
+          if (serviceButtons.length > 0) {
+            const firstButton = serviceButtons[0];
+            firstButton.classList.add('active');
+            
+            // Cargar la primera animación
+            const firstLottiePath = firstButton.getAttribute('data-service-lottie');
+            
+            if (firstLottiePath) {
+              loadLottieAnimation(firstLottiePath);
+            }
+          }
+          
+          // Dejar de observar una vez que se ha cargado
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    // Observar el contenedor de Lottie
+    if (lottieContainer) {
+      observer.observe(lottieContainer);
     }
     
     // Asignar evento click a cada botón de servicio
@@ -381,33 +589,6 @@ const defaultLottie = defaultService.image || '/assets/lottie/default.json';
         changeService(button);
       });
     });
-    
-    // Seleccionar el primer servicio por defecto
-    if (serviceButtons.length > 0) {
-      const firstButton = serviceButtons[0];
-      firstButton.classList.add('active');
-      
-      // Cargar la primera animación
-      const firstLottiePath = firstButton.getAttribute('data-service-lottie');
-      // console.log("Animación inicial:", firstLottiePath);
-      
-      if (firstLottiePath) {
-        loadLottieAnimation(firstLottiePath);
-      }
-    }
-    
-    // Observar cambios en el tema
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'class' && mutation.target === document.documentElement) {
-          // Actualizar estilos según el tema
-          const isDarkMode = document.documentElement.classList.contains('dark');
-          // console.log(`Tema cambiado: ${isDarkMode ? 'oscuro' : 'claro'}`);
-        }
-      });
-    });
-    
-    observer.observe(document.documentElement, { attributes: true });
   });
 </script>
 <script>

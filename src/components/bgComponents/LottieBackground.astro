@@ -29,51 +29,60 @@ const uniqueId = id || `lottie-bg-${Math.random().toString(36).substring(2, 9)}`
 </style>
 
 <!-- Importar la biblioteca Lottie igual que en Services -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" async></script>
 
 <script define:vars={{ uniqueId, lottiePath }}>
   document.addEventListener('DOMContentLoaded', () => {
-    // Elementos del DOM
     const lottieContainer = document.getElementById(uniqueId);
-    
-    // Variable para almacenar la animación
-    let animation = null;
-    
-    if (lottieContainer) {
-      // console.log(`Contenedor Lottie encontrado (${uniqueId}), cargando animación...`);
-      
-      try {
-        // Cargar la animación Lottie
-        animation = lottie.loadAnimation({
-          container: lottieContainer,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          path: lottiePath,
-          rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice',
-            clearCanvas: false,
-            progressiveLoad: true,
-            hideOnTransparent: true
-          }
-        });
-        
-        // console.log(`Animación Lottie cargada correctamente en ${uniqueId}`);
-        
-        // Manejar errores de carga
-        animation.addEventListener('data_failed', () => {
-          console.error(`Error al cargar la animación Lottie en ${uniqueId}:`, lottiePath);
-        });
-        
-        // Ajustar la animación cuando cambia el tamaño de la ventana
-        window.addEventListener('resize', () => {
-          animation.resize();
-        });
-      } catch (error) {
-        console.error(`Error al inicializar la animación Lottie en ${uniqueId}:`, error);
-      }
-    } else {
+    if (!lottieContainer) {
       console.error(`Contenedor Lottie no encontrado: ${uniqueId}`);
+      return;
     }
+
+    // Observador para cargar la animación justo cuando se va a ver
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        // Import dinámico de lottie-web
+        import('https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js')
+          .then(({ default: lottie }) => {
+            // Inicializa en canvas en lugar de SVG
+            const animation = lottie.loadAnimation({
+              container: lottieContainer,
+              renderer: 'canvas',
+              loop: true,
+              autoplay: true,
+              path: lottiePath,
+              rendererSettings: {
+                clearCanvas: true,
+                progressiveLoad: true,
+                hideOnTransparent: true
+              }
+            });
+
+            animation.addEventListener('data_failed', () => {
+              console.error(`Error al cargar la animación Lottie en ${uniqueId}:`, lottiePath);
+            });
+
+            // Ajusta el tamaño si cambias de ventana
+            window.addEventListener('resize', () => {
+              animation.resize();
+            });
+          })
+          .catch(err => {
+            console.error(`Error cargando lottie-web para ${uniqueId}:`, err);
+          });
+
+        // Ya no hace falta seguir observando
+        obs.unobserve(lottieContainer);
+      });
+    }, {
+      // Empieza a cargar cuando falte 200px para entrar en viewport
+      rootMargin: '0px 0px 200px 0px',
+      threshold: 0.1
+    });
+
+    observer.observe(lottieContainer);
   });
 </script>

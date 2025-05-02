@@ -73,10 +73,13 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
     
     
     <!-- Resto de tus etiquetas head -->
+    <!-- Optimizar carga de fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Six+Caps&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Six+Caps&display=swap" rel="stylesheet">
+    
+    <!-- Cargar fuentes con display=swap -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Six+Caps&display=swap" rel="stylesheet" media="print" onload="this.media='all'" fetchpriority="low">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Six+Caps&display=swap" rel="stylesheet" media="print" onload="this.media='all'" fetchpriority="low">
     
     <script is:inline>
       // Theme initialization script
@@ -102,6 +105,16 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
     </script>
     
     <!-- Google Analytics is already implemented above in the head section -->
+    <!-- CSS crítico para el encabezado -->
+    <style>
+      /* Estilos críticos para el logo y la navegación */
+      .font-display {
+        font-family: 'Six Caps', sans-serif;
+        font-display: swap;
+      }
+      
+      /* Otros estilos críticos para el encabezado */
+    </style>
   </head>
   <body class="font-sans relative min-h-screen">
     <script is:inline>
@@ -179,46 +192,135 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
       <slot />
     </main>
 
-    <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" defer></script>
+    <!-- Eliminar scripts duplicados de smooth scroll -->
     <script is:inline>
-      // Smooth scroll para todos los enlaces internos
       document.addEventListener('DOMContentLoaded', () => {
+        // Función unificada de smooth scroll
+        const handleSmoothScroll = (targetId) => {
+          const targetElement = document.querySelector(targetId);
+          if (!targetElement) return;
+          
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          history.pushState(null, null, targetId);
+        };
+    
+        // Event listeners
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-          anchor.addEventListener('click', function (e) {
+          anchor.addEventListener('click', (e) => {
             e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (!targetId || targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (!targetElement) return;
-            
-            // Scroll suave a la sección
-            window.scrollTo({
-              top: targetElement.offsetTop - 80, // Ajuste para el header fijo
-              behavior: 'smooth'
-            });
-            
-            // Actualizar la URL sin recargar la página
-            history.pushState(null, null, targetId);
+            const targetId = anchor.getAttribute('href');
+            if (targetId && targetId !== '#') handleSmoothScroll(targetId);
           });
         });
-        
-        // Manejar la navegación inicial si hay un hash en la URL
+    
+        // Manejar hash inicial
         if (window.location.hash) {
-          const targetElement = document.querySelector(window.location.hash);
-          if (targetElement) {
-            setTimeout(() => {
-              window.scrollTo({
-                top: targetElement.offsetTop - 80,
-                behavior: 'smooth'
-              });
-            }, 100);
-          }
+          setTimeout(() => handleSmoothScroll(window.location.hash), 100);
         }
       });
     </script>
     
+    <!-- Optimizar carga de GSAP y Lottie -->
+    <!-- <script>
+      window.addEventListener('load', () => {
+        // Función para cargar scripts de manera segura
+        const loadScript = (url, condition = true) => {
+          return new Promise((resolve, reject) => {
+            if (!condition) {
+              resolve(false);
+              return;
+            }
+            
+            const script = document.createElement('script');
+            script.src = url;
+            script.async = true;
+            script.onload = () => resolve(true);
+            script.onerror = () => reject(new Error(`Failed to load script: ${url}`));
+            document.head.appendChild(script);
+          });
+        };
+        
+        // Cargar scripts cuando el navegador esté inactivo
+        const loadScriptsWhenIdle = async () => {
+          try {
+            // Cargar GSAP solo si hay elementos que lo necesitan
+            const gsapNeeded = document.querySelector('[data-gsap]');
+            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', gsapNeeded);
+            
+            // Cargar Lottie solo si hay elementos que lo necesitan
+            const lottieNeeded = document.querySelector('[data-lottie]');
+            await loadScript('https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js', lottieNeeded);
+            
+            console.log('Scripts cargados correctamente');
+          } catch (error) {
+            console.error('Error al cargar scripts:', error);
+          }
+        };
+        
+        // Usar requestIdleCallback si está disponible, o setTimeout como fallback
+        if (window.requestIdleCallback) {
+          requestIdleCallback(() => loadScriptsWhenIdle());
+        } else {
+          setTimeout(loadScriptsWhenIdle, 1);
+        }
+      });
+    </script> -->
+    <!-- Optimizar carga de GSAP (ESM) y Lottie (UMD) -->
+<script>
+  window.addEventListener('load', () => {
+    // Helper para cargar UMD scripts
+    const loadScript = (url, condition = true) => {
+      return new Promise((resolve, reject) => {
+        if (!condition) return resolve(false);
+        const script = document.createElement('script');
+        script.src = url;
+        script.async = true;
+        script.onload  = () => resolve(true);
+        script.onerror = () => reject(new Error(`Failed to load script: ${url}`));
+        document.head.appendChild(script);
+      });
+    };
+
+    // Función principal
+    const loadThirdPartiesWhenIdle = async () => {
+      try {
+        // 1) GSAP — sólo si hay al menos un elemento [data-gsap]
+        if (document.querySelector('[data-gsap]')) {
+          // Import dinámico de la versión ESM de GSAP
+          const { gsap } = await import(
+            'https://cdn.jsdelivr.net/npm/gsap@3.12.2/esm/gsap.min.js'
+          );
+          // Registrar en global para que tu código que usa window.gsap siga funcionando
+          window.gsap = gsap;
+          console.log('GSAP (ESM) cargado correctamente');
+        }
+
+        // 2) Lottie — sólo si hay al menos un elemento [data-lottie]
+        if (document.querySelector('[data-lottie]')) {
+          await loadScript(
+            'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js'
+          );
+          console.log('Lottie cargado correctamente');
+        }
+
+      } catch (error) {
+        console.error('Error al cargar librerías de terceros:', error);
+      }
+    };
+
+    // Disparamos cuando el navegador esté inactivo (fallback a setTimeout)
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadThirdPartiesWhenIdle);
+    } else {
+      setTimeout(loadThirdPartiesWhenIdle, 1);
+    }
+  });
+</script>
+
     <script is:inline>
       // Script para resetear la posición de scroll al recargar la página
       window.onload = function() {
@@ -234,6 +336,114 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
     
 
     
-    <script is:inline src="/scripts/analytics-events.js"></script>
+    <!-- Cargar analytics de manera diferida -->
+    <script defer>
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          // Cargar Google Tag Manager
+          const gtmScript = document.createElement('script');
+          gtmScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-H5WV4YMJGD';
+          gtmScript.async = true;
+          document.head.appendChild(gtmScript);
+        }, 3000); // Retrasar 3 segundos después de la carga
+      });
+    </script>
+    <script is:inline src="/scripts/analytics-events.js" defer></script>
   </body>
 </html>
+
+
+<!-- Cargar scripts de manera optimizada -->
+<script>
+  // Cargar GSAP de manera segura
+  window.addEventListener('load', () => {
+    const loadGSAP = async () => {
+      try {
+        // Crear un script element
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+        script.async = true;
+        
+        // Esperar a que el script se cargue
+        await new Promise((resolve, reject) => {
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+
+        // Inicializar GSAP después de que se haya cargado
+        if (window.gsap) {
+          // Aquí puedes inicializar tus animaciones GSAP
+          // console.log('GSAP cargado correctamente');
+        }
+      } catch (error) {
+        console.error('Error al cargar GSAP:', error);
+      }
+    };
+
+    // Usar requestIdleCallback para cargar GSAP cuando el navegador esté inactivo
+    if (window.requestIdleCallback) {
+      requestIdleCallback(() => loadGSAP());
+    } else {
+      setTimeout(loadGSAP, 1);
+    }
+  });
+</script>
+<script>
+  window.addEventListener('load', () => {
+    const loadScripts = async () => {
+      // 1) GSAP como ESM (no UMD)
+      if (document.querySelector('[data-gsap]')) {
+        try {
+          const { gsap } = await import('https://cdn.skypack.dev/gsap@3.12.2');
+          window.gsap = gsap;
+          console.log('GSAP (ESM) cargado');
+        } catch (e) {
+          console.error('Error cargando GSAP ESM:', e);
+        }
+      }
+
+      // 2) Lottie como ESM
+      if (document.querySelector('[data-lottie]')) {
+        try {
+          const lottieModule = await import('https://cdn.skypack.dev/lottie-web');
+          window.lottie = lottieModule.default || lottieModule;
+          console.log('Lottie (ESM) cargado');
+        } catch (e) {
+          console.error('Error cargando Lottie ESM:', e);
+        }
+      }
+    };
+
+    // Dispara en idle o tras 1 ms
+    const idle = window.requestIdleCallback || (fn => setTimeout(fn, 1));
+    idle(loadScripts);
+  });
+</script>
+
+<script>
+  // Configurar Intersection Observer para lazy loading de imágenes
+  document.addEventListener('DOMContentLoaded', () => {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          const src = img.getAttribute('data-src');
+          if (src) {
+            img.src = src;
+            img.removeAttribute('data-src');
+            observer.unobserve(img);
+          }
+        }
+      });
+    }, {
+      rootMargin: '50px 0px',
+      threshold: 0.01
+    });
+
+    // Observar todas las imágenes con data-src
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      imageObserver.observe(img);
+    });
+  });
+</script>
