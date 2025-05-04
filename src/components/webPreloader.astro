@@ -9,6 +9,17 @@ const subtitles = {
   en: "Content, technology and design to lead tomorrow.",
   ca: "Contingut, tecnologia i disseny per liderar el demà."
 };
+
+// Obtener el idioma actual de la URL
+const currentPath = Astro.url.pathname;
+let currentLang = 'es'; // Idioma predeterminado
+
+// Detectar idioma de la URL
+if (currentPath.startsWith('/en')) {
+  currentLang = 'en';
+} else if (currentPath.startsWith('/ca')) {
+  currentLang = 'ca';
+}
 ---
 
 <!-- Splitting CSS -->
@@ -59,14 +70,30 @@ const subtitles = {
 
 <script src="https://unpkg.com/splitting/dist/splitting.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-<script is:client define:vars={{ subtitles }}>
+<script is:client define:vars={{ subtitles, currentLang }}>
   document.addEventListener('DOMContentLoaded', () => {
-    // Detectar el idioma del navegador
-    const userLang = navigator.language || navigator.userLanguage;
-    const langCode = userLang.split('-')[0]; // Obtener solo el código de idioma principal (es, en, ca)
+    // Primero, intentamos obtener el idioma de la URL actual
+    let langCode = currentLang; // Usar el idioma detectado en el servidor
     
-    // Seleccionar el texto según el idioma o usar español por defecto
-    const subtitleText = subtitles[langCode] || subtitles.es;
+    // Si no hay idioma en la URL, verificamos localStorage
+    if (!langCode || langCode === 'es') {
+      const savedLang = localStorage.getItem('selectedLanguage');
+      if (savedLang) {
+        langCode = savedLang;
+      } else {
+        // Como último recurso, usamos el idioma del navegador
+        const userLang = navigator.language || navigator.userLanguage;
+        langCode = userLang.split('-')[0]; // Obtener solo el código de idioma principal (es, en, ca)
+      }
+    }
+    
+    // Asegurarnos de que el idioma sea uno de los soportados, o usar español por defecto
+    if (!subtitles[langCode]) {
+      langCode = 'es';
+    }
+    
+    // Seleccionar el texto según el idioma
+    const subtitleText = subtitles[langCode];
     
     // Generar el HTML para el subtítulo con el texto del idioma correspondiente
     const subtitleContainer = document.getElementById('subtitle-container');
@@ -212,7 +239,14 @@ const subtitles = {
         }
       }, 0.3);
       
-    }, 5000); // Mantenemos en 4.5 segundos para pruebas
+    }, 5000); // Mantenemos en 5 segundos
+    
+    // Escuchar cambios de idioma para futuras cargas
+    window.addEventListener('languageChanged', (event) => {
+      if (event.detail && event.detail.lang) {
+        localStorage.setItem('selectedLanguage', event.detail.lang);
+      }
+    });
   });
 </script>
 

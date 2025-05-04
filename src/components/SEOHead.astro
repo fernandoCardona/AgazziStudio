@@ -4,7 +4,7 @@ const {
   title, 
   description, 
   lang = 'es',
-  ogImage = '/images/og-image.jpg',
+  ogImage = '/assets/images/og-image.png',
   canonicalUrl,
   keywords = '',
   author = 'Agazzi Studio'
@@ -23,7 +23,7 @@ const finalDescription = description === "Agazzi Studio - Creamos contenidos dig
   : description;
 
 // Determinar URL canónica
-const siteUrl = import.meta.env.SITE || 'https://agazzi-studio.com';
+const siteUrl = import.meta.env.SITE || 'https://www.agazzistudio.com';
 const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
 
 // Configuración de hreflang

@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation.astro';
 import SEOHead from '../components/SEOHead.astro';
 import SchemaOrg from '../components/SchemaOrg.astro';
 import '../styles/global.css'; // Importamos los estilos globales
+import JsonLd from '../components/JsonLd.astro';
 
 export interface Props {
   title: string;
@@ -22,6 +23,7 @@ const defaultDescriptions = {
   ca: "Agazzi Studio | Gestió de continguts per a llocs web i xarxes socials a Barcelona i Sitges. Especialistes en desenvolupament web (React, Next.js, Astro), WordPress, eCommerce, apps React Native i disseny UX/UI per a solucions digitals online i offline."
 };
 
+
 const { 
   title, 
   description, 
@@ -37,6 +39,14 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
 <!DOCTYPE html>
 <html lang={lang}>
   <head>
+    <JsonLd 
+    name="Agazzi Studio"
+    description={finalDescription}
+    sameAs={[
+      "https://www.instagram.com/agazzi",
+      // "https://www.linkedin.com/company/agazzi"
+    ]}
+  />
     <!-- Google tag (gtag.js) -->
     <script type="text/partyTown" async src="https://www.googletagmanager.com/gtag/js?id=G-H5WV4YMJGD"></script>
     <script type="text/partyTown">
@@ -80,7 +90,10 @@ const finalDescription = description || defaultDescriptions[lang] || defaultDesc
     <!-- Cargar fuentes con display=swap -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Six+Caps&display=swap" rel="stylesheet" media="print" onload="this.media='all'" fetchpriority="low">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Six+Caps&display=swap" rel="stylesheet" media="print" onload="this.media='all'" fetchpriority="low">
+    <title>Agazzi Studio</title>
     
+
+     
     <script is:inline>
       // Theme initialization script
       function initTheme() {

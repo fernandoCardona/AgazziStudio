@@ -16,9 +16,9 @@ const descriptions = {
 };
 
 // Determinar URL del sitio
-const siteUrl = import.meta.env.SITE || 'https://agazzi-studio.com';
+const siteUrl = import.meta.env.SITE || 'https://www.agazzistudio.com';
 const pageUrl = url || new URL(Astro.url.pathname, siteUrl).href;
-const imageUrl = image ? new URL(image, siteUrl).href : new URL('/images/og-image.jpg', siteUrl).href;
+const imageUrl = image ? new URL(image, siteUrl).href : new URL('//assets/images/AgazziStudioLogoLow.png', siteUrl).href;
 
 // Datos estructurados básicos
 const schema = {

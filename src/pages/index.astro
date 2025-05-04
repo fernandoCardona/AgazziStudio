@@ -76,12 +76,12 @@ try {
       // Get browser language
       const browserLang = navigator.language.split('-')[0];
       
-      // Check if browser language is supported and not already the default
+      // Solo redirigir si el idioma es inglés o catalán
+      // El español se mantiene como predeterminado
       if (browserLang === 'en' || browserLang === 'ca') {
-        // Redirect to the appropriate language version
-        window.location.pathname = `/${browserLang}`;
+        window.location.href = `/${browserLang}`;
       }
-      // If language is 'es' or unsupported, stay on the default page
+      // Si es español o cualquier otro idioma, mantener en la ruta predeterminada
     }
   });
 </script>
