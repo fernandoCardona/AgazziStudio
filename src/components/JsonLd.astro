@@ -1,0 +1,46 @@
+---
+// Definición de la interfaz para las propiedades
+export interface Props {
+  type?: string;
+  name?: string;
+  url?: string;
+  logo?: string;
+  sameAs?: string[];
+  description?: string;
+}
+
+// Valores predeterminados
+const siteUrl = "https://www.agazzistudio.com";
+const logoUrl = `${siteUrl}/assets/images/AgazziStudioLogoLow.png`;
+
+// Recibir propiedades con valores predeterminados
+const { 
+  type = "Organization", 
+  name = "Agazzi Studio", 
+  url = siteUrl, 
+  logo = logoUrl,
+  sameAs = [
+    "https://www.instagram.com/agazzistudio",
+    // "https://www.linkedin.com/in/tuusuario"
+  ],
+  description = ""
+} = Astro.props;
+
+// Construir el objeto JSON-LD
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": type,
+  "name": name,
+  "url": url,
+  "logo": logo,
+  "sameAs": sameAs
+};
+
+// Añadir descripción solo si está presente
+if (description) {
+  jsonLd.description = description;
+}
+---
+
+<!-- Renderizar el JSON-LD como script en el head -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
